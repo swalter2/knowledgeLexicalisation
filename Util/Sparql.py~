@@ -1,0 +1,320 @@
+import urllib
+import re
+from SPARQLWrapper import SPARQLWrapper, JSON
+class Connection():
+    
+    endpoint = None
+    
+    def __init__(self):
+        'Initialisation'
+        global endpoint
+        #endpoint = "http://greententacle.techfak.uni-bielefeld.de:5171/sparql"
+        #endpoint = "http://dbpedia.org/sparql"
+        endpoint = "http://purpurtentacle.techfak.uni-bielefeld.de:8890/sparql"
+        
+        #endpoint = "http://live.dbpedia.org/sparql"
+        
+        #new endpoint:
+        #endpoint = "http://vtentacle.techfak.uni-bielefeld.de:443/sparql/"
+
+    def wget_url(self,url): 
+        'opens a url and safe the content'
+        result=""  
+        try:
+            page = urllib.urlopen(url)
+            result=page.read()
+            page.close()
+        except Exception:
+            return 0
+        return result
+            
+            
+        
+    def fFileExist(self,psFilePath):
+        'checks, if a file exists. Returns 1 if file exist and 0 if not'
+   
+        try:
+            oFile = open(psFilePath,'r')
+        except Exception:
+            return 0
+        else:
+            oFile.close()
+            return 1
+   
+    
+    def createServerRequest(self, query):
+        'changes a normal SPARQL query to the syntax of the dbpedia-frontend'
+        replace = str.replace
+        query=replace(query,"\\","");
+        query=replace(query,"\b","");
+        query=replace(query,"\f","");
+        query=replace(query,"\r","");
+        query=replace(query,"\t","");
+        query=replace(query,"&lt;","<");
+        query=replace(query,"%gt;",">");
+        query=replace(query,"&amp;","&");
+        query=replace(query,"#","%23");
+        query=replace(query," ","+");
+        query=replace(query,"/","%2F");
+        query=replace(query,":","%3A");
+        query=replace(query,"?","%3F");
+        query=replace(query,"$","%24");
+        query=replace(query,">","%3E");
+        query=replace(query,"<","%3C");
+        query=replace(query,"\"","%22");
+        query=replace(query,"\n","%0D%0A%09");
+        query=replace(query,"%%0D%0A%09","%09");
+        query=replace(query,"=","%3D");
+        query=replace(query,"@","%40");
+        query=replace(query,"&","%26");
+        query=replace(query,"(","%28");
+        query=replace(query,")","%29");
+        query=replace(query,"%3E%0D%0A%25","%3E");
+        return query;
+    
+    
+    def cleanAnswerURI(self,string):
+        answer = []
+        #print "string: "+string
+        string_array = string.split("<tr>")
+        for s in string_array:
+            m_obj = re.search(r".*<td>(.*)</td>.*", s)
+            if m_obj:
+                #the general class thing is not needed, therfore:
+                #also we are only working on dbpedia, so dbpedia has to be part of the result
+                if "owl#Thing" not in m_obj.group(1)and "dbpedia" in m_obj.group(1) and "ontology" in m_obj.group(1):
+                    answer.append(m_obj.group(1))
+        return answer
+    
+    
+        
+    def cleanAnswer(self,string):
+        if "Virtuoso 37000 Error" in string:
+            return None
+        else:
+            replace = str.replace
+            #print "string : "+string
+            string=replace(string,"<th>s</th>","")
+            string=replace(string,"<th>p</th>","")
+            string=replace(string,"<table class=\"sparql\" border=\"1\">","")
+            string=replace(string,"<tr>","")
+            string=replace(string,"</tr>","")
+            string=replace(string,"\n", "")
+            string=replace(string,"</td>        <td>","</td><td>")
+            string=replace(string,"<td>", "")
+            string=replace(string,"@en</td>  </table>","")
+            string=replace(string," \"","")
+            string=replace(string,"\"","")
+           # 
+            while "  " in string:
+                string=string.replace("  "," ")
+                
+            blub = string.split("@en</td>")
+            array = []
+            for s in blub:
+                if "table" not in s :
+                    if s[:1] == " ":
+                        s = s[1:]
+                    array.append(s)
+                    #print "s: "+s
+            
+            if len(array) == 0:
+                array.append("None")
+            return array
+        
+    
+    def cleanAnswerDouble(self, string):
+        string = string.replace("\n","")
+        #print string
+        result_array = []
+        array = string.split("</tr>  <tr>")
+        #print str(len(array))
+        for s in array:
+            while "  " in s:
+                s = s.replace("  "," ")
+            #print s
+            m_obj = re.search(r".*<td>(.*)</td> <td>(.*)</td>.*", s)
+            if m_obj:
+                string1 =  m_obj.group(1)
+                string2 =  m_obj.group(2)
+                
+                m_obj1 = re.search(r"\"(.*)\"@.*", string1)
+                if m_obj1:
+                    string1 = m_obj1.group(1) 
+                    
+                m_obj2 = re.search(r"\"(.*)\"@.*", string2)
+                if m_obj2:
+                    string2 = m_obj2.group(1)
+                    
+                result_array.append(string1)
+                result_array.append(string2)
+                #print string1
+                #print string2
+                    
+                
+                #print "\n\n"
+            #print m_obj.group(1)
+        return result_array
+        
+    def getEntities(self,string):
+        'gets all entities for a given class. Class has to be given in form of an dbpedia uri'
+        query=endpoint+ "?default-graph-uri=&query="+self.createServerRequest("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT DISTINCT ?s WHERE {?y rdf:type <"+string+">. ?y rdfs:label ?s. FILTER (lang(?s) = 'en') }")+"%0D%0A&format=text%2Fhtml&debug=on";
+        #print query
+        return self.cleanAnswer(self.wget_url(query))
+    
+        
+#PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT ?s ?z WHERE {?y <http://dbpedia.org/ontology/spouse> ?x. ?y rdfs:label ?s. FILTER (lang(?s) = 'en') . ?x rdfs:label ?z. FILTER (lang(?z) = 'en') }'
+    
+    def newsparql(self,uri):
+    
+        sparql = SPARQLWrapper(endpoint)
+        
+        #uri = "http://dbpedia.org/ontology/spouse"
+        
+        #sparql.setQuery("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT COUNT(?z) WHERE {?y <"+uri+"> ?x.?x rdfs:label ?z. FILTER (lang(?z) = 'en')}")
+        array = []
+        
+        sparql.setQuery("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT ?s ?z WHERE {?y <"+uri+"> ?x. ?y rdfs:label ?s. FILTER (lang(?s) = 'en') . ?x rdfs:label ?z. FILTER (lang(?z) = 'en')}LIMIT 25000")
+        sparql.setReturnFormat(JSON)
+        results = sparql.query().convert()
+        
+        for result in results["results"]["bindings"]:
+            try:
+                string1 = str(result["s"]["value"])
+                string2 = str(result["z"]["value"])
+                array.append(string1)
+                array.append(string2)
+            except:
+                pass
+            #else:
+            #    pass
+        
+        
+        if len(array)==0:
+            array = []
+            sparql.setQuery("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT ?s ?x WHERE {?y <"+uri+"> ?x. ?y rdfs:label ?s. FILTER (lang(?s) = 'en') .}LIMIT 25000")
+            sparql.setReturnFormat(JSON)
+            results = sparql.query().convert()
+                
+            for result in results["results"]["bindings"]:
+                try:
+                    
+                    ###########################################
+                    #
+                    #
+                    #TODO: eigene Methode fuer posprocessing. 1.0 zu 1=0 machen
+                    #
+                    #
+                    ###########################################
+                    string1 = str(result["s"]["value"])
+                    string2 = str(result["x"]["value"])
+                    if string2.endswith(".0"):
+                        string2 = string2.replace(".0", "")
+                    array.append(string1)
+                    array.append(string2)
+                except:
+                    pass
+
+        return array
+    
+    def getPairsOfGivenProperties(self,uri):
+        print "in getPairs"
+        return self.newsparql(uri)
+        #first tries to get all labels for all x and y
+        
+        #if self.askObjectProperty(uri) == True:
+        query = endpoint+ "?default-graph-uri=&query="+self.createServerRequest("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT ?s ?z WHERE {?y <"+uri+"> ?x. ?y rdfs:label ?s. FILTER (lang(?s) = 'en') . ?x rdfs:label ?z. FILTER (lang(?z) = 'en') }LIMIT 5000")+"%0D%0A&format=text%2Fhtml&debug=on";#&timeout=
+        array = self.cleanAnswerDouble(self.wget_url(query))
+        if len(array) != 0:
+            return array
+    
+        else:
+            query = endpoint+ "?default-graph-uri=&query="+self.createServerRequest("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT ?s ?x WHERE {?y <"+uri+"> ?x. ?y rdfs:label ?s. FILTER (lang(?s) = 'en') . }LIMIT 5000")+"%0D%0A&format=text%2Fhtml&debug=on"; #&timeout=
+            array = self.cleanAnswerDouble(self.wget_url(query))
+            if len(array) != 0:
+                return array
+    
+            else:
+                return [] 
+            
+        
+    def return_class_of_resource(self,uri):
+        #TODO: sometimes there is still a : in front of the uri, still do not know why
+        uri = uri.replace(":http:","http:")
+        
+        query = endpoint+ "?default-graph-uri=&query="+self.createServerRequest("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT DISTINCT ?x WHERE {<"+uri+"> rdf:type ?x.}")+"%0D%0A&format=text%2Fhtml&debug=on&timeout=";
+        #print query
+        #print uri
+        return self.cleanAnswerURI(self.wget_url(query))
+    
+    
+    
+    
+        
+    def getURIPairsOfGivenProperties(self,string):
+        query = endpoint+ "?default-graph-uri=&query="+self.createServerRequest("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT DISTINCT ?x ?y WHERE {?y <"+string+"> ?x.}")+"%0D%0A&format=text%2Fhtml&debug=on&timeout=";
+        return self.cleanAnswerDouble(self.wget_url(query))
+    
+    
+    def askObjectProperty(self,uri):
+        sparql = SPARQLWrapper(endpoint)
+        sparql.setQuery("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX owl: <http://www.w3.org/2002/07/owl#>  ASK WHERE {<"+uri+"> rdf:type owl:ObjectProperty}")
+        sparql.setReturnFormat(JSON)
+        results = sparql.query().convert()
+        #print results
+        for result in results:
+            try:
+                string = results[result]
+                print string
+                raw_input("bool")
+                if string == "False" or string == "True":
+                    return string.lower()
+
+            except:
+                pass
+        return "false"
+    
+    
+    
+    
+    
+    
+    def askClassProperty(self,uri):
+        sparql = SPARQLWrapper(endpoint)
+        sparql.setQuery("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX owl: <http://www.w3.org/2002/07/owl#>  ASK WHERE {<"+uri+"> rdf:type owl:Class}")
+        sparql.setReturnFormat(JSON)
+        results = sparql.query().convert()
+        #print results
+        for result in results:
+            try:
+                string = str(results[result])
+                if "False" in string  or "True" in string:
+                    return string.lower()
+
+
+            except:
+                pass
+        return "false"
+
+    
+    
+    def getLabel(self,uri):
+        'returns for a given property uri the "official" name from the server '
+
+        sparql = SPARQLWrapper(endpoint)
+        sparql.setQuery(" PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT ?label WHERE { <"+uri+"> rdfs:label ?label. FILTER (lang(?label) = 'en') } ")
+        sparql.setReturnFormat(JSON)
+        results = sparql.query().convert()
+        label = ""
+        for result in results["results"]["bindings"]:
+            try:
+                print result
+                label= (result["label"]["value"])
+                if "(" in label:
+                    label = label.split("(")[0]
+                    if label.endswith(" "):
+                        label = str(label[:-1])
+            except:
+                pass
+
+        return [label]
