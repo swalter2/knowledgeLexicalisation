@@ -1,0 +1,226 @@
+#Used PyLucene Implementation: http://www.apache.org/dist/lucene/pylucene/pylucene-3.6.0-2-src.tar.gz
+
+import lucene
+from lucene import \
+    SimpleFSDirectory, System, File, \
+    Document, Field, StandardAnalyzer, IndexWriter, IndexSearcher, Version, QueryParser
+import IndexUtils
+from time import time
+import re
+
+class LuceneIndex():
+    analyzer = None
+    searcher = None
+    replace = None
+    
+    def __init__(self, path_to_index):
+        global analyzer
+        global searcher
+        
+        lucene.initVM()
+        dir = SimpleFSDirectory(File(path_to_index))
+        analyzer = StandardAnalyzer(Version.LUCENE_35)
+        searcher = IndexSearcher(dir)
+        global replace
+        replace = str.replace
+    
+
+    #def search_and_save(self,path_file,entity_list):
+    #    'takes list of phrases for searching the index. results will be saved in the file given by path_file'
+    #    
+    #    f=open(path_file,"w")
+     #   hm={}
+     #   for item in entity_list:
+     #       result_list=self.search(item)
+     #       
+     #       #use dictionary to make sure, each sentence contains only once in the document
+     #       #also only sentences with more than 5 words are accepted
+     #       for result_item in result_list:
+     #           array = result_item.split(" ")
+     #           if len(array)>4 :
+     #               hm[result_item]=""
+     #           #save only sentences with more then three words
+     #   
+     #   for key in hm:
+     #       f.write(key+"\n")
+     #   f.close()
+        
+    #def search_and_return(self,entity_list):
+    #    'takes list of phrases for searching the index. results will be returned'
+    #    split = str.split
+    #    hm={}
+    #    for item in entity_list:
+    #        result_list=self.search(item)
+    #        
+    #        #use dictionary to make sure, each sentence contains only once in the document
+    #        #also only sentences with more than 5 words are accepted
+    #        for result_item in result_list:
+    #            array = split(result_item," ")
+    #            if len(array)>4 :
+    #                hm[result_item]=""
+    #            #save only sentences with more then three words
+    #    result=[]
+    #    for key in hm:
+    #        result.append(key)
+    #    
+    #    return result
+                
+                
+    #def search_phrase_and_return(self,string):
+    #    'takes a single  phrases for searching the index. results will be returned'#
+
+#        hm={}
+#        result_list=self.search(string)
+#        split = str.split
+#            
+#        #use dictionary to make sure, each sentence contains only once in the document
+#        #also only sentences with more than 5 words are accepted
+#        print "got results"
+#        for result_item in result_list:
+#            array = split(result_item," ")
+#            if len(array)>4 :
+#                hm[result_item]=""
+#        #save only sentences with more then three words
+#        result=[]
+#        print "got all documents"
+#        for key in hm:
+#            result.append(key)
+#        
+#        print "return " + str(len(result))+ " number of unique sentences"
+#        return result
+#                
+#                
+        
+        #RegexQuery query = new RegexQuery( newTerm(regex));
+#       return searcher.search(query).length();
+#    def search_regex(self, string):#
+
+ #       query = QueryParser(Version.LUCENE_35, "title", analyzer).parse(string)
+ #       print query
+ #       MAX = 100000
+ #       hits = searcher.search(query, MAX)#
+
+  #      print "Found %d document(s) that matched query '%s':" % (hits.totalHits, query)
+  #      
+  #      list = []
+  #      f=file("/home/swalter/Software/WorkingDirMaltParser/Obama.txt","w")
+  #      for hit in hits.scoreDocs:
+  #          
+  #          #print hit.score
+  #          doc = searcher.doc(hit.doc)
+  #          f.write(doc.get("title").encode("utf-8")+"\n\n")
+  #          if hit.score > 3:
+  #              
+  #              #print hit.score, doc.get("title").encode("utf-8")
+  #          #if hit.score<0.8 :
+  #          #    print hit.score, doc.get("title").encode("utf-8")
+  #          #doc = searcher.doc(hit.doc)
+  #              list.append(doc.get("title").encode("utf-8"))
+  #      f.close()
+  #      return list
+    
+    
+
+    def clean_string(self, string):
+        if string.startswith(" "):
+            string = string[1:]
+        array = re.findall(r'[\w\s]+',string)
+        string = ""
+        for item in array:
+            string+=item
+            
+        string = replace(string.lower(),"not","")
+        string = replace(string.lower(),"or","")
+        string = replace(string.lower(),"and","")
+        
+        
+        string = replace(string,"  "," ")
+        string = replace(string," ", " AND ")
+        string = replace(string,"AND  AND","AND")
+        if string.startswith(" AND "):
+            string = string[5:]
+        if string.endswith(" "):
+            string = string[:-1]
+        if string.endswith("AND"):
+            string = string[:-3]
+            
+        #raw_input(string)
+        return string
+
+    def search(self, string , rank):
+        #t1 = time()
+        
+        string = self.clean_string(string)
+        #print "LuceneString "+string
+        
+        try:
+            query = QueryParser(Version.LUCENE_35, "title", analyzer).parse(string)
+            MAX = 1000
+            hits = searcher.search(query, MAX)
+    
+            #print "Found %d document(s) that matched query '%s':" % (hits.totalHits, query)
+            
+            list = []
+            for hit in hits.scoreDocs:
+                #print str(hit.score)
+                if hit.score > rank:
+                    doc = searcher.doc(hit.doc)
+                    list.append(doc.get("title").encode("utf-8"))
+                    #list.append(doc.get("title"))
+                    #if (time-t1)>0.01 :
+                    #    return list
+            return list
+        except:
+            print("Fail in START"+string+"DONE")
+    
+   # def search(self, string):
+   #     
+   #     return IndexUtils.search(string, searcher, analyzer)
+   # 
+   #     string = self.clean_string(string)
+   #     query = QueryParser(Version.LUCENE_35, "title", analyzer).parse(string)
+   #     MAX = 100000
+   #     hits = searcher.search(query, MAX)#
+#
+#        #print "Found %d document(s) that matched query '%s':" % (hits.totalHits, query)
+#        
+#        list = []
+#        #print str(hits.scoreDocs)
+#        for hit in hits.scoreDocs:
+#            doc = searcher.doc(hit.doc)
+#            list.append(doc.get("title").encode("utf-8"))
+#        return list
+        
+    def index(self):
+        'indexes files, in the moment specified to '
+        lucene.initVM()
+        indexDir = "/windows/C/JulyLuceneIndex2"
+        dir = SimpleFSDirectory(File(indexDir))
+        analyzer = StandardAnalyzer(Version.LUCENE_35)
+        writer = IndexWriter(dir, analyzer, True, IndexWriter.MaxFieldLength(512))
+        file_name = "/windows/C/WikipediaDump/tmpwiki.tmp"
+            
+            
+        f = open(file_name,"r")
+        #hm={}
+        #for line in f:
+        #    line=line.replace("\n","")
+        #    hm[line]=""
+        # 
+        anzahl=0
+        for line in f:
+            anzahl+=1
+            line = line.replace("\n","")
+            if anzahl%10000==0:
+                print anzahl
+            doc = Document()
+            doc.add(Field("title", line, Field.Store.YES, Field.Index.ANALYZED))
+            writer.addDocument(doc)
+        writer.close() 
+        f.close()
+        
+        print anzahl
+        print "done"
+
+    
+        
