@@ -96,7 +96,7 @@ def create_lexico_array(hm,uri,NumberOfPatterns):
     #Note: the NumberOfPatterns in the function call is later replaced by a procent value, depending on the number of patterns included into the system
     
     config = ConfigParser.ConfigParser()
-    config.read('settings.ini')
+    config.read('config.conf')
     procentOfPatterns = config.getfloat("entries", "PatternProcent")
     lexico_array = []
     sparql = Sparql.Connection()
@@ -194,75 +194,6 @@ def create_lexico_array(hm,uri,NumberOfPatterns):
     tmp_array.append(1)
     lexico_array.append(tmp_array)
     
-        #print "added"
-
-
-#                lexico_array.append(tmp_array) 
-#    #check if verb, noun or adj is given.
-#    tag,tag_array = WordnetFunctions.return_Informations(label)
-#    ##### For test use only the label as an entry##########
-#    #tag_array = [label]
-#    frame = None
-#    partOfSpeech = None
-#    
-#    if tag == "VERB":
-#        frame = "TransitiveFrame"
-#        partOfSpeech = "verb"
-#        counter = 0
-#        for item in tag_array:
-#            counter += 1
-#            entry = LexiconGenerator.TransitiveFrame(item, uri, {})
-#            tmp_array = []
-#            tmp_array.append(entry)
-#            tmp_array.append("Verb reated by Wordnet")
-#            tmp_array.append(1)
-#            if counter < 4:
-#                lexico_array.append(tmp_array) 
-#    else:
-#        counter = 0
-#        for item in tag_array:
-#            counter += 1
-#            entry = LexiconGenerator.NounPPFrame(item, uri, {})
-#            tmp_array = []
-#            tmp_array.append(entry)
-#            tmp_array.append("Noun created by Wordnet")
-#            tmp_array.append(1)
-#            lexico_array.append(tmp_array)
-#            if counter < 4:
-#                lexico_array.append(tmp_array) 
-            
-#    elif tag == "NOUN":
-#        frame = "NounPPFrame"
-#        partOfSpeech = "noun"
-#    elif tag == "ADJ":
-#        frame = "AdjectivePPFrame"
-#        partOfSpeech = "adjective"
-#    elif tag == "NONE":
-#        frame = "NounPPFrame"
-#        partOfSpeech = "noun"
-#    
-#    for item in tag_array:
-#        tmp_array = []
-#        pattern ="0 x _ NNP NNP _ 1 nn _ _  1 "+item.lower().replace(" ","")+" _ NN NN _ 2 nn _ _  2 y _ NNP NNP _ 3 pobj _ _"
-#        entry = ":"+item.lower().replace(" ","")+" a lemon:LexicalEntry ; "
-#        entry +="\nlemon:canonicalForm [ lemon:writtenRep \""+item.lower()+"\"@en ] ;\n"
-#        entry +="lemon:synBehavior [ rdf:type lexinfo:"+frame+" ;\n"
-#        entry +="isocat:copulativeArg :xargument ;\n"
-#        entry +="isocat:possessiveAdjunct :yargument ;\n"
-#        entry +="] ;\n"
-#        entry +="lemon:sense [ lemon:reference <"+uri+"> ;\n"
-#        entry +="lemon:subjOfProp :xargument ;\n"
-#        entry +="lemon:objOfProp :yargument ; ] ;\n"
-#        entry +="lexinfo:partOfSpeech lexinfo:"+partOfSpeech+" ."
-#        tmp_array.append(entry)
-#        tmp_array.append(pattern)
-#        tmp_array.append(1)
-#        #print
-#        #print
-#        lexico_array.append(tmp_array) 
-#   
-   
-
         
     return lexico_array , pattern_once
 
