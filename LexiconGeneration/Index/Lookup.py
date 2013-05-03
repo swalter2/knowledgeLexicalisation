@@ -99,6 +99,8 @@ def lookupSortAndParse(term_list,index,live_index, m_parser, flag,uri):
             term = item[0]
             x = item[1]
             y = item[2]
+            x = x.encode("ascii","ignore")
+            y = y.encode("ascii","ignore")
             result = []
             if x != y:
                 result= index.search(term,1)
