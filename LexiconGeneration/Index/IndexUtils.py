@@ -1,3 +1,8 @@
+"""
+File with some suporting functions for the index,
+might want to delete this file and spread functions to other files
+"""
+
 import lucene
 import nltk
 from lucene import \
@@ -12,8 +17,9 @@ from LexiconGeneration import  Parsed_Item
 
 
 def searchOne(line,searcher,analyzer, replace):
-    'returns array of sentences in new data type'
-    #print "line: "+line
+    """
+    searches Index for a given line/search_term, and returns array of sentences as Parsed_Items
+    """
     string = clean_stringTest(line, replace)
     query = QueryParser(Version.LUCENE_35, "title", analyzer).parse(string)
     MAX = 1
@@ -23,9 +29,7 @@ def searchOne(line,searcher,analyzer, replace):
         hm_tmp = {}
         for hit in hits.scoreDocs:
             doc = searcher.doc(hit.doc)
-            #sentence1 = doc.get("title").encode("utf-8")
             sentence1 = doc.get("title").encode("utf-8")
-            #print "returned sentence: "+sentence1
             hm_tmp[sentence1] = ""
         for key in hm_tmp:
             sentence_tmp = sentence_wrapper(key)
@@ -33,13 +37,13 @@ def searchOne(line,searcher,analyzer, replace):
     except:
         print "Unexpected error:", sys.exc_info()[0]
         print "in Index Util in getting the documents from lucene and converting them to the new data type\n\n"
-        #raw_input("wait")
         
     return result_list
 
 def searchWithoutWrapper(line,searcher,analyzer, replace):
-    'returns array of sentences in new data type'
-    #print "line: "+line
+    """
+    searches Index for a given line/search_term, and returns array of sentences in plain form
+    """
     string = clean_stringTest(line, replace)
     query = QueryParser(Version.LUCENE_35, "title", analyzer).parse(string)
     MAX = 1
@@ -49,7 +53,6 @@ def searchWithoutWrapper(line,searcher,analyzer, replace):
         hm_tmp = {}
         for hit in hits.scoreDocs:
             doc = searcher.doc(hit.doc)
-            #sentence1 = doc.get("title").encode("utf-8")
             sentence1 = doc.get("title").encode("utf-8")
             result_list.append(sentence1)
     except:
@@ -61,6 +64,9 @@ def searchWithoutWrapper(line,searcher,analyzer, replace):
 
 
 def clean_string(string):
+    """
+    Another clean function
+    """
     replace = str.replace
     if string.startswith(" "):
         string = string[1:]
@@ -87,10 +93,10 @@ def clean_string(string):
     
 
 def clean_stringTest(string,replace):
-    #TODO: Check after paper, why this does not work!!!!
-    
-    #print "in clean stringTest"
-    #return clean_string(string)
+    """
+    Still a slow test function, which cleans up the input sentence, to avoid errors in the Lucene index uplook
+    """
+
 
     if string[0:1] == " ":
         string = string[1:]
@@ -123,11 +129,7 @@ def clean_stringTest(string,replace):
     string = replace(string,"~", "")
     string = replace(string,"*", "")
     string = replace(string,"?", "")
-    
-    #TODO: the following three lines create an error....
-    #string = replace(string.lower(),"not","")
-    #string = replace(string.lower(),"or","")
-    #string = replace(string.lower(),"and","")
+
     
     string = replace(string," ", " AND ")
     
@@ -143,6 +145,9 @@ def clean_stringTest(string,replace):
     
 
 def does_line_exist(line, searcher, analyzer, replace):
+    """
+    Checks, if line in a given Index exists and returns True or False
+    """
     hits = None
     try:
         query_string = clean_stringTest(line, replace)
@@ -150,10 +155,6 @@ def does_line_exist(line, searcher, analyzer, replace):
         MAX = 10
         hits = searcher.search(query, MAX)
     except Exception:
-        #print "Unexpected error in does line exists in Index Utils:", sys.exc_info()[0]
-        #print "query_string: "+"START"+query_string+"DONE"
-        #print 
-        #print
         return None
     if len(hits.scoreDocs)>0:
         return True
@@ -162,10 +163,15 @@ def does_line_exist(line, searcher, analyzer, replace):
     
     
 def tokenize(string):
-        'tokenizes a sentence and returns token'
-        return nltk.word_tokenize(string)
+    """
+    tokenizes a sentence and returns token
+    """
+    return nltk.word_tokenize(string)
     
 def sentence_wrapper(sentence):
+    """
+    Gets a plain parsed(!!) sentence in the CONLL format and generates an array of Parsed_items
+    """
     array = []
     if "  " in sentence:
         working_array = sentence.split("  ")
@@ -177,11 +183,16 @@ def sentence_wrapper(sentence):
     return array
 
 def getItemAtr(item):
+    """
+    returns values from a given Parsed_Item
+    """
     return item.__getattr__("pos0")+" "+item.__getattr__("pos1")+" "+item.__getattr__("pos2")+" "+item.__getattr__("pos3")+" "+item.__getattr__("pos4")+" "+item.__getattr__("pos5")+" "+item.__getattr__("pos6")+" "+item.__getattr__("pos7")+" "+item.__getattr__("pos8")+" "+item.__getattr__("pos9")+"  "
 
 
 def reverse_sentence_wrapper(sentence_array):
-    
+    """
+    gets an array of Parsed_Items and generates a plain sentence out of it
+    """
     slist = [getItemAtr(item) for item in sentence_array]
     sentence = "".join(slist)
     sentence = sentence[:len(sentence)-2]

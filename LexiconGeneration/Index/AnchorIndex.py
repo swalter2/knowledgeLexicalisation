@@ -1,33 +1,25 @@
-#Used PyLucene Implementation: http://www.apache.org/dist/lucene/pylucene/pylucene-3.6.0-2-src.tar.gz
+"""
+Used PyLucene Implementation: http://www.apache.org/dist/lucene/pylucene/pylucene-3.6.0-2-src.tar.gz
+"""
 
 import lucene
 from lucene import \
 SimpleFSDirectory, System, File, \
     Document, Field, StandardAnalyzer, IndexWriter, IndexSearcher, Version, QueryParser
-#import IndexUtils
-#from time import time
 import re, glob
 
-
-#####################################
-#####################################
-##
-## anchor
-## anchor_uri 
-## dbpedia_uri
-## number
-##
-##
-##
-#####################################
-#####################################
-
 class LuceneIndex():
+    """
+    Stores the Anchors text created from Wikipedia
+    """
     analyzer = None
     searcher = None
     replace = None
     
     def __init__(self, path_to_index):
+        """
+        Initialization
+        """
         global analyzer
         global searcher
         
@@ -42,15 +34,15 @@ class LuceneIndex():
     
 
     def clean_string(self, string):
+        """
+        Cleans string and creates Lucene query
+        """
         if string.startswith(" "):
             string = string[1:]
         array = re.findall(r'[\w\s]+',string)
         string = ""
         for item in array:
             string+=item
-
-        
-        
         string = replace(string,"  "," ")
         string = replace(string," ", " AND ")
         string = replace(string,"AND  AND","AND")
@@ -65,22 +57,18 @@ class LuceneIndex():
         return string
 
     def searchForAnchor(self, string):
+        """
+        searches for anchor text, given a label and returns the anchor itself, the anchor-uri, the corresponding of the head dbpedia-uri 
+        and the number of frequency, how often this anchor text occourred in the english Wikipedia.
+        """
 
         string = self.clean_string(string)
-        
-        #string = string.replace("AND","OR")
-
-       # print "search term: "+string
         try:
             query = QueryParser(Version.LUCENE_35, "anchor", analyzer).parse(string)
             MAX = 10000
-            #print "Query: "+str(query)
             result = []
             hits = searcher.search(query, MAX)
-            #print len(hits.scoreDocs)
             for hit in hits.scoreDocs:
-                #print str(hit.score)
-                #if hit.score > 2:
                 doc = searcher.doc(hit.doc)
                 result.append([doc.get("anchor").encode("utf-8"), doc.get("anchor_uri").encode("utf-8"), doc.get("dbpedia_uri").encode("utf-8"), doc.get("number").encode("utf-8")])
             return result
@@ -89,6 +77,10 @@ class LuceneIndex():
             return []
             
     def searchExactAnchor(self, string):
+        """
+        searches for anchor text, given a label (exact label match, not partial label match) and returns the anchor itself, the anchor-uri, the corresponding of the head dbpedia-uri 
+        and the number of frequency, how often this anchor text occourred in the english Wikipedia.
+        """
         string_old = string
         string = self.clean_string(string)
         try:
@@ -108,6 +100,10 @@ class LuceneIndex():
             
             
     def searchForDbpediaURI(self, uri):
+        """
+        Returns all anchor texts, which are related to the given DBpedia URI.
+        Also returns for each anchor text the corresponding URI and the number of how often the anchor appears on the english Wikipedia
+        """
         uri_old = uri
         uri = uri.replace("http://dbpedia.org/resource/","")
 
@@ -135,6 +131,9 @@ class LuceneIndex():
             return []
             
     def searchForDbpediaURIreturnAnchor(self, uri):
+        """
+        Returns only all anchor texts, which are related to the given DBpedia URI.
+        """
 
         uri = uri.replace("http://dbpedia.org/resource/","")
 
@@ -160,7 +159,7 @@ class LuceneIndex():
     
     
     def index(self,path_to_index,path_files):
-        'indexes files, in the moment specified to '
+        'indexes anchor texts from a given folder'
         #lucene.initVM()
         indexDir = path_to_index
         directory_index = SimpleFSDirectory(File(indexDir))
@@ -168,15 +167,18 @@ class LuceneIndex():
         writer = IndexWriter(directory_index, analyzer, True, IndexWriter.MaxFieldLength(512))
         listOfPathes = []
         listOfPathes.extend(glob.glob(path_files+"*.txt"))
-        anzahl = 0
+        counter = 0
         for path_to_file in listOfPathes:
             print path_to_file
             f = open(path_to_file,"r")
             for line in f:
                 entry = line.split("\t")
-                anzahl+=1
-                if anzahl%500000==0:
-                    print anzahl
+                counter+=1
+                """
+                optimizes index after a certain amount of added documents
+                """
+                if counter%500000==0:
+                    print counter
                     writer.optimize()
                 doc = Document()
                 #print entry[0]
@@ -190,7 +192,7 @@ class LuceneIndex():
             f.close()
             
         writer.close()
-        print anzahl
+        print counter
         print "done"
 
 
