@@ -97,7 +97,6 @@ def run(uri,path,parse_flag):
     lemonEntriesHm = {}
 
     web_string = "<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=ISO-8859-1\"><title>Pattern overview</title></head><body><h2>Pattern overview</h2>"
-   #web_string += "<p><a href=\""+"../../LemonLexiconDbpedia/lemon_lexica.rdf\"> LemonLexica </a></p>"
    
    
    
@@ -184,7 +183,6 @@ def write_lexicon(original_path,lemonEntriesHm):
         except:
             #pass
             print "error with entry: "+key
-            #raw_input("wait")
 
     if lexicon.endswith(";\n"):
         lexicon = lexicon[:-2]
@@ -209,7 +207,6 @@ def write_lexicon(original_path,lemonEntriesHm):
         except:
             #pass
             print "error with entry: "+key
-            #raw_input("wait")
     
     f_out.write(lexicon)
     f_out.close()
@@ -220,7 +217,6 @@ def write_lexicon(original_path,lemonEntriesHm):
    
 def createEntryTerm(entry):
     try:
-        #print str(entry)
         compare_item = str(entry).split(";")[0]
         compare_item = compare_item.lower()
         compare_item = compare_item.replace("a lemon:lexicalentry","")
@@ -243,9 +239,9 @@ def main():
     _init_()
     print "type quit to enter the program"
     parse_flag = False
-    path = raw_input("Please enter a path where the Lexicon should be saved.")
+    path = raw_input("Please enter a path where the Lexicon should be saved:  ")
     while True:
-        input = raw_input("Please enter a valid DBpedia URI:")
+        input = raw_input("Please enter a valid DBpedia URI:  ")
         if input == "quit":
             print 
             print "Bye Bye!"

@@ -110,6 +110,5 @@ class Parser():
 class Tagger():
     'Pos Tagger'
     def tag(self,token):
-        #tokenized = nltk.word_tokenize(text)
         tagged = nltk.pos_tag(token)
         return tagged

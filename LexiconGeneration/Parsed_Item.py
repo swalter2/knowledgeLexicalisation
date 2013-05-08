@@ -1,3 +1,6 @@
+"""
+Class for parsed sentences in the CONLL format, which makes it easier, to access different coloms of the CONLL format
+"""
 class ParsedItem():
     pos0 = ""
     pos1 = ""
@@ -13,15 +16,10 @@ class ParsedItem():
     
     def __init__(self,i0,i1,i2,i3,i4,i5,i6,i7,i8,i9):
         self.pos0 = i0;
-        #print self.pos0
         self.pos1 = i1;
-        #print self.pos1
         self.pos2 = i2;
-        #print self.pos2
         self.pos3 = i3;
-        #print self.pos3
         self.pos4 = i4;
-        #print self.pos4
         self.pos5 = i5;
         self.pos6 = i6;
         self.pos7 = i7;

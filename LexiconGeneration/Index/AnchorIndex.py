@@ -78,8 +78,8 @@ class LuceneIndex():
             
     def searchExactAnchor(self, string):
         """
-        searches for anchor text, given a label (exact label match, not partial label match) and returns the anchor itself, the anchor-uri, the corresponding of the head dbpedia-uri 
-        and the number of frequency, how often this anchor text occourred in the english Wikipedia.
+        searches for anchor text, given a label (exact label match, not partial label match) and returns the anchor itself, the anchor-uri, the corresponding of the head DBpedia-uri 
+        and the number of frequency, how often this anchor text occurred in the english Wikipedia.
         """
         string_old = string
         string = self.clean_string(string)
@@ -113,7 +113,6 @@ class LuceneIndex():
             uri+=item
         
         try:
-            #query = QueryParser(Version.LUCENE_35, "dbpedia_uri", analyzer).parse(uri)
             qp = QueryParser(Version.LUCENE_35, "dbpedia_uri", analyzer)
             qp.setDefaultOperator(qp.Operator.AND)
             query = qp.parse(uri)
@@ -130,6 +129,44 @@ class LuceneIndex():
             print("Fail in uri: "+uri)
             return []
             
+    def searchForDbpediaURImax(self, uri, number):
+        """
+        Returns maximal the number of anchor texts, which are related to the given DBpedia URI.
+        Also returns for each anchor text the corresponding URI and the number of how often the anchor appears on the English Wikipedia
+        """
+        uri_old = uri
+        uri = uri.replace("http://dbpedia.org/resource/","")
+
+        array = re.findall(r'[\w\s]+',uri)
+        uri = ""
+        for item in array:
+            uri+=item
+        
+        try:
+            qp = QueryParser(Version.LUCENE_35, "dbpedia_uri", analyzer)
+            qp.setDefaultOperator(qp.Operator.AND)
+            query = qp.parse(uri)
+            MAX = 10000
+            result = []
+            hits = searcher.search(query, MAX)
+            for hit in hits.scoreDocs:
+                doc = searcher.doc(hit.doc)
+                dbpedia_uri = doc["dbpedia_uri"].encode("utf-8")
+                if dbpedia_uri == uri_old:
+                    result.append([doc["anchor"].encode("utf-8"), doc["anchor_uri"].encode("utf-8"), dbpedia_uri, doc["number"].encode("utf-8")])
+            
+            result = sorted(result, key = itemgetter(1), reverse=True)
+            if len(result) > number:
+                return result[0:number]
+        
+            else:
+                return result
+            
+            return result
+        except:
+            print("Fail in uri: "+uri)
+            return []
+        
     def searchForDbpediaURIreturnAnchor(self, uri):
         """
         Returns only all anchor texts, which are related to the given DBpedia URI.
@@ -181,7 +218,6 @@ class LuceneIndex():
                     print counter
                     writer.optimize()
                 doc = Document()
-                #print entry[0]
                 doc.add(Field("anchor", entry[0], Field.Store.YES, Field.Index.ANALYZED))
                 doc.add(Field("anchor_uri", entry[1], Field.Store.YES, Field.Index.ANALYZED))
                 doc.add(Field("dbpedia_uri", entry[2], Field.Store.YES, Field.Index.ANALYZED))

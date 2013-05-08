@@ -4,16 +4,12 @@ def clean_x_y(x,y):
     return x , y
 
 def clean_string(token):
-    if "\xe2" in token: #print "########"
-        #print "\xe2"
-        #print "########"
+    if "\xe2" in token: 
+
         token = ""
-    if "\xc3" in token: #print "########"
-        #print "Found \xc3"
-        #print "########"
+    if "\xc3" in token:
+
         token = ""
-    # if "June" in token:
-    #     token=""
     token = token.replace(" .", " ")
     token = token.replace("&", " ")
     token = token.replace("\" ", " ")

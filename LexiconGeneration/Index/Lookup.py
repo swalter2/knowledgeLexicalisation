@@ -130,7 +130,7 @@ def lookupSortAndParse(term_list,index,live_index, m_parser, flag,uri):
             
         except Exception:
             print "Unexpected error:", sys.exc_info()[0]
-            print ("Error in finding term: "+str(item))
+            #print ("Error in finding term: "+str(item))
      
     print "found "+str(len(hm))+" combination of pairs and sentences"
         

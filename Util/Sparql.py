@@ -2,9 +2,12 @@ import urllib
 import re
 from SPARQLWrapper import SPARQLWrapper, JSON
 class Connection():
+    """
+    SPARQL class which provides the connection between system and SPARQL-endpoint
+    """
     
-    #endpoint = "http://vtentacle.techfak.uni-bielefeld.de:443/sparql/"
-    endpoint = "http://dbpedia.org/sparql/"
+    endpoint = "http://vtentacle.techfak.uni-bielefeld.de:443/sparql/"
+    #endpoint = "http://dbpedia.org/sparql/"
     sparql = SPARQLWrapper(endpoint)
     
     def __init__(self):
@@ -24,79 +27,44 @@ class Connection():
             return 1
    
     
-    
-    
-#    def cleanAnswerURI(self,string):
-#        answer = []
-#        #print "string: "+string
-#        string_array = string.split("<tr>")
-#        for s in string_array:
-#            m_obj = re.search(r".*<td>(.*)</td>.*", s)
-#            if m_obj:
-#                #the general class thing is not needed, therfore:
-#                #also we are only working on dbpedia, so dbpedia has to be part of the result
-#                if "owl#Thing" not in m_obj.group(1)and "dbpedia" in m_obj.group(1) and "ontology" in m_obj.group(1):
-#                    answer.append(m_obj.group(1))
-#        return answer
-    
-
-    
-#    def cleanAnswerDouble(self, string):
-#        string = string.replace("\n","")
-#        #print string
-#        result_array = []
-#        array = string.split("</tr>  <tr>")
-#        #print str(len(array))
-#        for s in array:
-#            while "  " in s:
-#                s = s.replace("  "," ")
-#            #print s
-#            m_obj = re.search(r".*<td>(.*)</td> <td>(.*)</td>.*", s)
-#            if m_obj:
-#                string1 =  m_obj.group(1)
-#                string2 =  m_obj.group(2)
-#                
-#                m_obj1 = re.search(r"\"(.*)\"@.*", string1)
-#                if m_obj1:
-#                    string1 = m_obj1.group(1) 
-#                    
-#                m_obj2 = re.search(r"\"(.*)\"@.*", string2)
-#                if m_obj2:
-#                    string2 = m_obj2.group(1)
-#                    
-#                result_array.append(string1)
-#                result_array.append(string2)
-#                #print string1
-#                #print string2
-#                    
-#                
-#                #print "\n\n"
-#            #print m_obj.group(1)
-#        return result_array
         
 
-    def newsparql(self,uri):
+    #def newsparql(self,uri):
+    def getPairsOfGivenProperties(self,uri):
+        """
+        returns all entities of a given properties in one array.
+        Barack Obama
+        Michele Obama
+        .
+        .
+        .
+        So that always two entries are representing the two entries from a property
+        """
         array = []
-        
+        """
+        This function, if both entities are string based.
+        Also only the English label is returned yet.
+        """
         self.sparql.setQuery("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT DISTINCT ?s ?z WHERE {?y <"+uri+"> ?x. ?y rdfs:label ?s. FILTER (lang(?s) = 'en') . ?x rdfs:label ?z. FILTER (lang(?z) = 'en')}")
         self.sparql.setReturnFormat(JSON)
         results = self.sparql.query().convert()
         
         for result in results["results"]["bindings"]:
             try:
-#                string1 = str(result["s"]["value"])
-#                string2 = str(result["z"]["value"])
                 string1 = result["s"]["value"]
                 string2 = result["z"]["value"]
                 array.append(string1)
                 array.append(string2)
             except:
                 pass
-            #else:
-            #    pass
+
         
         
         if len(array)==0:
+            """
+            In case one have for example a DatatypeProperty, only on the left side there is a label, on the right side, there is some other value.
+            It is sorted like above.
+            """
             array = []
             self.sparql.setQuery("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT DISTINCT ?s ?x WHERE {?y <"+uri+"> ?x. ?y rdfs:label ?s. FILTER (lang(?s) = 'en') .}")
             self.sparql.setReturnFormat(JSON)
@@ -104,16 +72,6 @@ class Connection():
                 
             for result in results["results"]["bindings"]:
                 try:
-                    
-                    ###########################################
-                    #
-                    #
-                    #TODO: eigene Methode fuer posprocessing. 1.0 zu 1=0 machen
-                    #
-                    #
-                    ###########################################
-#                    string1 = str(result["s"]["value"])
-#                    string2 = str(result["x"]["value"])
                     string1 = result["s"]["value"]
                     string2 = result["x"]["value"]
                     if string2.endswith(".0"):
@@ -125,13 +83,22 @@ class Connection():
         print "getPairs Done"
         return array
     
-    def getPairsOfGivenProperties(self,uri):
-        print "in getPairs"
-        return self.newsparql(uri)
+#    def getPairsOfGivenProperties(self,uri):
+#        print "in getPairs"
+#        return self.newsparql(uri)
 
-#            
+            
         
     def return_class_of_resource(self,uri):
+        """
+        Returns all classes, a resource is linked to.
+        For example Start Trek Nemesis is part of the classes:
+        http://www.w3.org/2002/07/owl#Thing
+        http://de.dbpedia.org/ontology/Work
+        http://schema.org/CreativeWork
+        http://de.dbpedia.org/ontology/Film
+        http://schema.org/Movie
+        """
         self.sparql.setQuery("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT DISTINCT ?x WHERE {<"+uri+"> rdf:type ?x.}")
         self.sparql.setReturnFormat(JSON)
         results = self.sparql.query().convert()
@@ -147,7 +114,9 @@ class Connection():
         return g_class
 
     def askObjectProperty(self,uri):
-        #sparql = SPARQLWrapper(endpoint)
+        """
+        Checks, if a given property is from the type ObjectProperty
+        """
         self.sparql.setQuery("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX owl: <http://www.w3.org/2002/07/owl#>  ASK WHERE {<"+uri+"> rdf:type owl:ObjectProperty}")
         self.sparql.setReturnFormat(JSON)
         results = self.sparql.query().convert()
@@ -166,6 +135,9 @@ class Connection():
         return False
     
     def askForRange(self,uri):
+        """
+        returns the range of a given property
+        """
         try:
             self.sparql.setQuery("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> select distinct ?x where {<"+uri+"> rdfs:range ?x}")
             self.sparql.setReturnFormat(JSON)
@@ -179,7 +151,9 @@ class Connection():
     
     
     def askClassProperty(self,uri):
-        #sparql = SPARQLWrapper(endpoint)
+        """
+        Checks, if a given property is from the type class
+        """
         self.sparql.setQuery("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX owl: <http://www.w3.org/2002/07/owl#>  ASK WHERE {<"+uri+"> rdf:type owl:Class}")
         self.sparql.setReturnFormat(JSON)
         results = self.sparql.query().convert()
@@ -200,7 +174,9 @@ class Connection():
     
     
     def getLabel(self,uri):
-        'returns for a given property uri the "official" name from the server '
+        """
+        returns the label for a given property
+        """
 
         self.sparql.setQuery(" PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT ?label WHERE { <"+uri+"> rdfs:label ?label. FILTER (lang(?label) = 'en') } ")
         self.sparql.setReturnFormat(JSON)

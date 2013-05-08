@@ -1,6 +1,6 @@
 import sys, re
 from Util import Sparql, CleanUp
-import LgUtil, PatternFinder
+import PatternUtil, PatternFinder
 from Index import IndexUtils, Lookup
 import LexiconGenerator
 from nltk.stem.wordnet import WordNetLemmatizer
@@ -36,6 +36,25 @@ def createTermsForObjectProperty(PropertyEntities, anchor_index):
     y = None 
     term = None 
     term_list = []
+    
+    """
+    Use additional 
+    """
+    if len(PropertyEntities)/2 > 20000:
+        result = []
+        for item in range(0,len(PropertyEntities),2):
+            x = PropertyEntities[item]
+            y = PropertyEntities[item+1]
+            x = x.encode("ascii","ignore")
+            y = y.encode("ascii","ignore")
+            if "(" in x:
+                x = x.split("(")[0]
+            if "(" in y:
+                y = y.split("(")[0]
+            result.append([x+" "+y,x,y])
+        return result
+    
+    
     for item in range(0,len(PropertyEntities),2):
         
         x = None
@@ -47,7 +66,7 @@ def createTermsForObjectProperty(PropertyEntities, anchor_index):
         y = y.encode("ascii","ignore")
         if y != None and x != None:
             """
-            works in the moment only for the dbpedia ontology, as the anchor index is on the moment only mapped to DBpedia URIs but extracted from Wikipedia
+            works in the moment only for the DBpedia ontology, as the anchor index is on the moment only mapped to DBpedia URIs but extracted from Wikipedia
             therefore it should provide for every ontology an improvement
             """
             x_uri = "http://dbpedia.org/resource/"+x.replace(" ","_")
@@ -59,12 +78,12 @@ def createTermsForObjectProperty(PropertyEntities, anchor_index):
             x_list = [x]
             y_list = [y]
             
-            tmp = anchor_index.searchForDbpediaURI(x_uri)
+            tmp = anchor_index.searchForDbpediaURImax(x_uri,10)
             if len(tmp)!= 0:
                 for entry in tmp:
                     x_list.append(entry[0])
             tmp = []
-            tmp = anchor_index.searchForDbpediaURI(y_uri)
+            tmp = anchor_index.searchForDbpediaURImax(y_uri,10)
             if len(tmp)!= 0:
                 for entry in tmp:
                     y_list.append(entry[0])
@@ -130,7 +149,7 @@ def createDateList(y):
 
 def createTermsForDataTypeProperty(uri, PropertyEntities, anchor_index):
     """
-    This dunction is for Datatype properties onlz.
+    This function is for Datatype properties only.
     Given are the entities (subject/object) from a property, where the object is only represented by numbers.
     To increase the number of sentences which are found in the corpus, for the subject alternative representation are tried to extract from the anchor index.
     The index containing all anchor text from Wikipedia, mapped to DBpedia URIs was created before.
@@ -139,7 +158,7 @@ def createTermsForDataTypeProperty(uri, PropertyEntities, anchor_index):
     """
     sparql=Sparql.Connection()
     """
-    The range of the URI to be determined, because for different ranges, different aproaches are needed.
+    The range of the URI to be determined, because for different ranges, different approaches are needed.
     """
     uri_range = sparql.askForRange(uri)
     """
@@ -147,7 +166,18 @@ def createTermsForDataTypeProperty(uri, PropertyEntities, anchor_index):
     it can not be determined, which procedure is needed to increase the number of subject/object pairs.
     """
     if uri_range == None:
-        return PropertyEntities
+        result = []
+        for item in range(0,len(PropertyEntities),2):
+            x = PropertyEntities[item]
+            y = PropertyEntities[item+1]
+            x = x.encode("ascii","ignore")
+            y = y.encode("ascii","ignore")
+            if "(" in x:
+                x = x.split("(")[0]
+            if "(" in y:
+                y = y.split("(")[0]
+            result.append([x+" "+y,x,y])
+        return result
 #    print "the range of the URI is: "+str(uri_range)
     term_hm = {}
     x = None
@@ -157,8 +187,10 @@ def createTermsForDataTypeProperty(uri, PropertyEntities, anchor_index):
         
         x = None
         y = None 
-        x = str(PropertyEntities[item])
-        y = str(PropertyEntities[item+1])
+        x = PropertyEntities[item]
+        y = PropertyEntities[item+1]
+        x = x.encode("ascii","ignore")
+        y = y.encode("ascii","ignore")
         if y != None and x != None:
             """
             As the anchor index is based on the DBpedia Ontology, the DBpedia URIs are used to finde similar entries in the index.
@@ -170,7 +202,7 @@ def createTermsForDataTypeProperty(uri, PropertyEntities, anchor_index):
             x_list = [x]
             y_list = [y]
             
-            tmp = anchor_index.searchForDbpediaURI(x_uri)
+            tmp = anchor_index.searchForDbpediaURImax(x_uri,10)
             if len(tmp)!= 0:
                 for entry in tmp:
                     x_list.append(entry[0])
@@ -364,7 +396,7 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
     hm , overall_pattern_numer = createPatternFile(uri, path, name, hm)
     
     
-    lexico_array, tmp_pattern_once = LgUtil.create_lexico_array(hm,uri,1)
+    lexico_array, tmp_pattern_once = PatternUtil.create_lexico_array(hm,uri,1)
     pattern_once += tmp_pattern_once
     
     
@@ -408,7 +440,7 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
 
     web_string = "<table><tr><td style=\"width: 50%;\"> "
     try:
-        web_string += LgUtil.create_html_table(lexico_array,hm_res_sentences,path,name,1)
+        web_string += PatternUtil.create_html_table(lexico_array,hm_res_sentences,path,name,1)
     except:
         web_string += "No entry for the property "+uri+" could be created"
     web_string += "</td><td> "

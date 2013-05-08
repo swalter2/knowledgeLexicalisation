@@ -1,3 +1,7 @@
+"""
+In this file, the pattern between two entities (x,y) are extracted from a given, parsed sentence.
+"""
+
 tmp_number = None
 
 
@@ -5,7 +9,13 @@ tmp_number = None
 
 
 def find_pattern_between_x_and_y(x,y,parsed_sentence):
-    #######Always Fast, if the normal algorithm should be used!!!!!!#######
+    """
+    Finds the pattern between two entities x and y.
+    Has a baseline approach, where everything is taken between the two entities, regardless how the dependency tree is.
+    To use this approach, set baseline to True.
+    In the second, more accurate approach, the direct connection between two entities, given the dependency path, is extracted as pattern. 
+    """
+    #######Always False, if the normal algorithm should be used!!!!!!#######
     baseline = False
     ######################################################################
     x_original = x
@@ -52,6 +62,9 @@ def find_pattern_between_x_and_y(x,y,parsed_sentence):
     if number_x < number_y:
        
         if baseline:
+            """
+            To make sure, it is clear, if the baseline approach is used.
+            """
             print"###############################"
             print"###############################"
             print "Baseline activated"
@@ -64,6 +77,9 @@ def find_pattern_between_x_and_y(x,y,parsed_sentence):
         
     elif number_y < number_x :
         if baseline:
+            """
+            To make sure, it is clear, if the baseline approach is used.
+            """
             print"###############################"
             print"###############################"
             print "Baseline activated"
@@ -79,6 +95,9 @@ def find_pattern_between_x_and_y(x,y,parsed_sentence):
             
             
 def pathfinding(x,dep_x,y,dep_y,parsed_sentence):
+    """
+    Find the direct path between two entities, given a dependency path
+    """
     #y and y_dep are the ones, which occur first in the sentence
     
     #There could be the case, that x and y are direct connected through one other word
@@ -224,65 +243,73 @@ def pathfinding(x,dep_x,y,dep_y,parsed_sentence):
 
 
 
-    
-def create_pattern(x,y,item_list):
+"""
+For English only, add other functions for other languages
+"""    
+def create_pattern(x,y,path):
+    """
+    creates from the given path, pattern.
+    Has some constrain, the pattern/path has to match, otherwise, no pattern is generated.
+    Nevertheless this constraints only work for the English Corpus yet and also has to be updated.
+    For all other languages, create own create_pattern function with own constrains
+    """
     #constrain one and two
-    #if len(item_list)<3 or len(item_list) > 8:
-    if len(item_list)<3 or len(item_list) > 10:
+    #if len(path)<3 or len(path) > 8:
+    if len(path)<3 or len(path) > 10:
         return None
     
     pattern = ""
     number_counter = 0
     
     #constraint 4, dont allow a pattern with lenght three and only a prep between x and y
-    if len(item_list) == 3:
+    if len(path) == 3:
         
-        if item_list[1].__getattr__("pos7").lower() == "prep":
+        if path[1].__getattr__("pos7").lower() == "prep":
             return None
-        if item_list[1].__getattr__("pos3").lower() == "cd":
+        if path[1].__getattr__("pos3").lower() == "cd":
             return None
-        if "num" in item_list[1].__getattr__("pos7").lower():
+        if "num" in path[1].__getattr__("pos7").lower():
             return None
         
         ####for Test######
-        if item_list[1].__getattr__("pos3").lower() == "nn":
+        if path[1].__getattr__("pos3").lower() == "nn":
             return None
         #################
         
-#        if item_list[1].__getattr__("pos7").lower() == "number":
+#        if path[1].__getattr__("pos7").lower() == "number":
 #            return None
-#        if item_list[1].__getattr__("pos7").lower() == "num":
+#        if path[1].__getattr__("pos7").lower() == "num":
 #            return None
 
 
         #constraint 5: same if there is only a to between x and y or an in
-        #print item_list[1].__getattr__("pos4")
-        if item_list[1].__getattr__("pos4").lower() == "in" or item_list[1].__getattr__("pos4").lower() == "to":
+        #print path[1].__getattr__("pos4")
+        if path[1].__getattr__("pos4").lower() == "in" or path[1].__getattr__("pos4").lower() == "to":
             return None
     
     #constraint 6: dont allow such pattern: 0 x _ nnp nnp _ 1 pobj _ _  1 from _ in in _ 2 prep _ _  2 to _ to to _ 3 dep _ _  3 y _ nnp nnp _ 4 pobj _ _  4
-    if len(item_list) == 4:
-        if item_list[1].__getattr__("pos4").lower() == "in" and item_list[2].__getattr__("pos4").lower() == "to":
+    if len(path) == 4:
+        if path[1].__getattr__("pos4").lower() == "in" and path[2].__getattr__("pos4").lower() == "to":
             return None
-        if item_list[1].__getattr__("pos4").lower() == "in" and item_list[2].__getattr__("pos4").lower() == "in":
+        if path[1].__getattr__("pos4").lower() == "in" and path[2].__getattr__("pos4").lower() == "in":
             return None
-        if item_list[1].__getattr__("pos4").lower() == "to" and item_list[2].__getattr__("pos4").lower() == "in":
+        if path[1].__getattr__("pos4").lower() == "to" and path[2].__getattr__("pos4").lower() == "in":
             return None
-        if item_list[1].__getattr__("pos7").lower() == "tmod" and "num" in item_list[2].__getattr__("pos7").lower():
+        if path[1].__getattr__("pos7").lower() == "tmod" and "num" in path[2].__getattr__("pos7").lower():
             return None
-        if item_list[1].__getattr__("pos3").lower() == "nnp" and "num" in item_list[2].__getattr__("pos7").lower():
+        if path[1].__getattr__("pos3").lower() == "nnp" and "num" in path[2].__getattr__("pos7").lower():
             return None
         ####for Test######
-        if item_list[1].__getattr__("pos3").lower() == "nn" and item_list[2].__getattr__("pos3").lower() == "nn":
+        if path[1].__getattr__("pos3").lower() == "nn" and path[2].__getattr__("pos3").lower() == "nn":
             return None
-        if item_list[1].__getattr__("pos3").lower() == "cc" and item_list[2].__getattr__("pos3").lower() == "nn":
+        if path[1].__getattr__("pos3").lower() == "cc" and path[2].__getattr__("pos3").lower() == "nn":
             return None
-        if item_list[1].__getattr__("pos3").lower() == "nn" and item_list[2].__getattr__("pos3").lower() == "cc":
+        if path[1].__getattr__("pos3").lower() == "nn" and path[2].__getattr__("pos3").lower() == "cc":
             return None
         #################
        
     
-    for item in item_list:
+    for item in path:
         pattern += item.__return_as_string__()+"  "
         number1 = str(item.__getattr__("pos0"))
         number2 = str(item.__getattr__("pos6"))
@@ -319,12 +346,9 @@ def create_pattern(x,y,item_list):
         pattern__new += new_string+"  "
     if pattern__new.endswith("  "):
         pattern__new = pattern__new[:-2]
-    #print "pattern: "+pattern
-    #print "pattern: "+pattern__new
+
     
     if pattern__new.count(" x ") != 1 or pattern__new.count(" y ") != 1 or "0 " not in pattern__new:
         return None
-    #if " x " not in pattern__new or " y " not in pattern__new or "0 " not in pattern__new:
-        #return None
     
     return pattern__new
