@@ -5,10 +5,10 @@ from Util import Sparql
 from LexiconGeneration import LexiconGenerator
 from LexiconGeneration import Approach1
 
-from LexiconGeneration.Parser import MaltParser
+#from LexiconGeneration.Parser import MaltParser
 from LexiconGeneration.Index import Index, LiveIndex, AnchorIndex
 
-m_parser = None
+#m_parser = None
 index = None
 parsed_sentence_index = None
 anchor_index = None
@@ -22,6 +22,7 @@ def _init_():
     """
     print "start initialisation"
     global m_parser
+    
     global index
     global parsed_sentence_index
 
@@ -29,32 +30,34 @@ def _init_():
     config = ConfigParser.ConfigParser()
     config.read('config.conf')
 
-
-    working_Dir = config.get('parser', 'working_Dir')
     
-    
-    
-    #pretrained model in format mco
-    mco_File = config.get('parser', 'mco_file')
-    
-    maltparser_Jar = config.get('parser', 'maltparser_Jar')
-    
-    path_to_index = config.get('index', 'wikipedia_index');
-
-    
-    
-    #Set true if you want to use the official Version from NLTK or False if you want to use the Malt.py in this Folder
-    official_Malt_Parser=config.get('parser', 'official_Malt_Parser');
-    os.environ["MALTPARSERHOME"] = config.get('parser', 'parser_dir')
+    #Set paths to the correct target language
+    path_to_index = ""
+    path_to_parsed_sentences_index = ""
+    if config.get('system_language', 'language') == "English":
+        path_to_index = config.get('index', 'wikipedia_index_english');
+        path_to_parsed_sentences_index = config.get('index', 'wikipedia_live_index_english')
         
-    m_parser=MaltParser.Parser(working_Dir, mco_File, maltparser_Jar,official_Malt_Parser)
+#        #English Maltparser
+#        working_Dir = config.get('parser', 'working_Dir')
+#        #pretrained English model in format mco
+#        mco_File = config.get('parser', 'mco_file')
+#        maltparser_Jar = config.get('parser', 'maltparser_Jar')
+#        #Set true if you want to use the official Version from NLTK or False if you want to use the Malt.py in this Folder
+#        official_Malt_Parser=config.get('parser', 'official_Malt_Parser');
+#        os.environ["MALTPARSERHOME"] = config.get('parser', 'parser_dir')
+#        m_parser=MaltParser.Parser(working_Dir, mco_File, maltparser_Jar,official_Malt_Parser)
+    
+    elif config.get('system_language', 'language') == "German":
+        path_to_index = config.get('index', 'wikipedia_index_german');
+        path_to_parsed_sentences_index = config.get('index', 'wikipedia_live_index_german')
+        
+    #create Indexes
     index = Index.LuceneIndex(path_to_index)
-    
-    
-    
-    parsed_sentence_index = LiveIndex.LiveIndex(config.get('index', 'wikipedia_live_index'))
+    parsed_sentence_index = LiveIndex.LiveIndex(path_to_parsed_sentences_index)
     
     global anchor_index
+    #in the moment extracted from the English Wikipedia, has to be adapted for each language
     anchor_index = AnchorIndex.LuceneIndex(config.get('index', 'anchor_index'))
     
     print "initialisation done"
@@ -111,7 +114,7 @@ def run(uri,path,parse_flag):
        for entry in entryArray:
            lemonEntriesHm[entry] = ""
     else:
-        string, tmp_hm = Approach1.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,m_parser,anchor_index)
+        string, tmp_hm = Approach1.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index)
         for key in tmp_hm:
            lemonEntriesHm[key] = ""
 
@@ -238,7 +241,7 @@ def main():
     """
     _init_()
     print "type quit to enter the program"
-    parse_flag = False
+    parse_flag = True
     path = raw_input("Please enter a path where the Lexicon should be saved:  ")
     while True:
         input = raw_input("Please enter a valid DBpedia URI:  ")

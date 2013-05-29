@@ -1,5 +1,5 @@
 import sys, os
-
+from Parser.Parser import Sentence_Parser
 
 import IndexUtils, ConfigParser
 
@@ -76,7 +76,7 @@ def load_file_return_list_of_sentences(file_path):
 
 
 
-def lookupSortAndParse(term_list,index,live_index, m_parser, flag,uri):
+def lookupSortAndParse(term_list,index,live_index, flag,uri):
     """
     Retrieves a set of Entities, the corresponding DBpedia URI, the index with the English corpus and the index of the parsed sentences.
     First all sentences are retrieved from the corpus index, where the sentences match to a entity pair.
@@ -90,6 +90,7 @@ def lookupSortAndParse(term_list,index,live_index, m_parser, flag,uri):
     config.read('settings.ini')
     procentOfDataset = config.getint("entries", "ProcentOfCorpus")
 
+    parser = Sentence_Parser()
     not_in_index = []
     hm = {}
     tolerance_procent = 15
@@ -176,7 +177,8 @@ def lookupSortAndParse(term_list,index,live_index, m_parser, flag,uri):
     """    
     if len(parse_list)>tolerance:
         if len(parse_list) < 10000:
-            m_parser.parses_list_of_sentences(parse_list, sfile)
+#            m_parser.parses_list_of_sentences(parse_list, sfile)
+            parser.parse(parse_list, sfile)
             parsed_sentences = load_file_return_list_of_sentences(sfile)
             to_add = []
             for i in range(0,len(parsed_sentences)):
@@ -194,7 +196,8 @@ def lookupSortAndParse(term_list,index,live_index, m_parser, flag,uri):
                 p_counter += 1
                 new_list.append(s)
                 if (p_counter%10000 == 0):
-                    m_parser.parses_list_of_sentences(new_list, sfile)
+#                    m_parser.parses_list_of_sentences(new_list, sfile)
+                    parser.parse(parse_list, sfile)
                     new_list = []
                     parsed_sentences = load_file_return_list_of_sentences(sfile)
                     to_add = []
@@ -206,7 +209,8 @@ def lookupSortAndParse(term_list,index,live_index, m_parser, flag,uri):
                     parsed_sentences = []
                     to_add = []
 
-            m_parser.parses_list_of_sentences(new_list, sfile)
+#            m_parser.parses_list_of_sentences(new_list, sfile)
+            parser.parse(parse_list, sfile)
             new_list = []
             parsed_sentences = load_file_return_list_of_sentences(sfile)
             to_add = []

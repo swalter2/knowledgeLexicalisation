@@ -303,7 +303,7 @@ def createPatternFile(uri, path, name, hm):
     f.close()
     return hm, overall_pattern_numer
 
-def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,m_parser, anchor_index, ontology_prefix = None ):   
+def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index, anchor_index, ontology_prefix = None ):   
 
     lmtzr = WordNetLemmatizer()
     global deBug 
@@ -329,22 +329,23 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
 
     if flag == True:
         term_list = []
+        print "Gets entities for "+uri+" from the SPARQL endpoint"
         PropertyEntities = sparql.getPairsOfGivenProperties(uri)
-        print str(len(PropertyEntities)/2)+" number of pairs"
+        print str(len(PropertyEntities)/2)+" number of entity pairs found"
         if sparql.askObjectProperty(uri) == True:
-            print "in Object Case"
+            print "Object property given"
             term_list = createTermsForObjectProperty(PropertyEntities,anchor_index)
-            Lookup.lookupSortAndParse(term_list,index,live_index,m_parser,flag,uri)
+            Lookup.lookupSortAndParse(term_list,index,live_index,flag,uri)
     
         else:
             #here add function for DataProperty
-            print "in Property Case"
+            print "Datatype property given"
             term_list = createTermsForDataTypeProperty(uri,PropertyEntities,anchor_index)
-            Lookup.lookupSortAndParse(term_list,index,live_index,m_parser,flag,uri)
+            Lookup.lookupSortAndParse(term_list,index,live_index,flag,uri)
 
 
     x_y_array = live_index.searchForXY(uri)
-    print "Number of x y pairs:"+str(len(x_y_array))
+    print "Number of entity pairs returned from the index:"+str(len(x_y_array))
     for entry1 in x_y_array:
         x = entry1[0]
         y = entry1[1]
