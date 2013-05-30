@@ -5,7 +5,7 @@ tool to create lemon lexicons out of natural language sentences, using a top-dow
 
 
 
-For the programm an english wikipedia corpus, index with pylucene 3.5 is needed.
+For this system an English Wikipedia corpus, indexed with pylucene 3.5 is needed.
 This corpus/index can be (already prepared) found here:
 
 https://www.dropbox.com/sh/ea2ivzmn9y1fs7m/8C944h2bzp
