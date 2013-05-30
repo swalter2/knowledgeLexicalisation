@@ -88,7 +88,8 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
     """
     config = ConfigParser.ConfigParser()
     config.read('settings.ini')
-    procentOfDataset = config.getint("entries", "ProcentOfCorpus")
+#    procentOfDataset = config.getint("entries", "ProcentOfCorpus")
+    procentOfDataset = 100
 
     parser = Sentence_Parser()
     not_in_index = []

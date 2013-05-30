@@ -1,5 +1,5 @@
 #in this class, the correct parser, depending on the target language, is chosen/created and a function parse is created, which is always called from the Lookup function
-import ConfigParser, MaltParser
+import ConfigParser, MaltParser, ParzuParser
 
 class Sentence_Parser():
     language = ""
@@ -24,11 +24,13 @@ class Sentence_Parser():
             self.malt_parser = MaltParser.Parser(working_Dir, mco_File, maltparser_Jar,official_Malt_Parser)
             
         if self.language == "German":
-            pass
+            self.parzu_parser = ParzuParser.Parser(config.get('parser', 'parzu'))
     
     
     def parse(self,sentence_list,path_to_save):
         if self.language == "English":
             self.malt_parser.parses_list_of_sentences(sentence_list, path_to_save)
+        if self.language == "German":
+            self.parzu_parser.parse(sentence_list, path_to_save)
     
     
