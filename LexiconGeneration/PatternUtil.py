@@ -97,7 +97,7 @@ def create_html_table(lexico_array,hm_res_sentences,path,name,version):
 def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
     lmtzr = WordNetLemmatizer()
     #Note: the NumberOfPatterns in the function call is later replaced by a procent value, depending on the number of patterns included into the system
-    
+    print "Number of patterns: "+str(len(hm))
     config = ConfigParser.ConfigParser()
     config.read('config.conf')
     procentOfPatterns = config.getfloat("entries", "PatternProcent")

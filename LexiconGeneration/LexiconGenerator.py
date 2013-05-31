@@ -6,20 +6,8 @@ from Util import Levenshtein
 import Sparql
 from Util import WordnetFunctions as wn
 
-def createLexiconEntry(pattern,uri,Wiktionary, term = None):
-    """
-    As input this function retrieves a pattern, a URI and a Wiktionary (which is not used in the moment).
-    For the pattern now it is determined, in which form of lemon lexicon entry it is transformed, using POS tag and parser informations.
-    The pattern here is still in the CONLL format.
-    In the moment this function is limited to AdjectivePredicateFrame, TransitiveFrame, NounPossisiveFrame, NounPPFrame
-    """
-    lmtzr = WordNetLemmatizer()
 
-
-    if pattern[len(pattern)-2:] == "  ":
-        pattern = pattern[:len(pattern)-2:]
-
-    
+def englishMapping(pattern,uri):
     marker = {}
     term = ""
     for item in pattern.split("  "):
@@ -56,6 +44,71 @@ def createLexiconEntry(pattern,uri,Wiktionary, term = None):
             return [NounPossisiveFrame(entry_term,uri)]
         else:
             return [NounPPFrame(entry_term,uri,marker)]
+        
+
+def germanMapping(pattern,uri):
+    marker = {}
+    term = ""
+    for item in pattern.split("  "):
+            
+        if "pp" in item.split(" ")[7].lower() and item.split(" ")[1]!="x" and item.split(" ")[1]!="y":
+            marker[item.split(" ")[1]]=""
+            
+        elif item.split(" ")[1]!="x" and item.split(" ")[1]!="y" and  item.split(" ")[1]!="war" and item.split(" ")[1]!="sein" and  item.split(" ")[1]!="waren":
+                term += item+"  "
+    if term.endswith("  "):
+        term = term[:-2]
+                
+ 
+    entry_term = ""
+    if "  " in term:
+        for x in term.split("  "):
+            entry_term += x.split(" ")[1]+" "
+        if entry_term.endswith(" "):
+            entry_term = entry_term[:-1]
+    else:
+        entry_term = term.split(" ")[1]
+        
+    print ("German entry_term",entry_term) 
+    if " vb" in term:
+        if marker.has_key("to") or "vbn" in term  or "vbg" in term  or "vbd" in term  or marker.has_key("on"):
+            lemma = lmtzr.lemmatize(entry_term,"v")
+            return [AdjectivePredicateFrame(entry_term,uri, marker),TransitiveFrame(lemma, uri,marker)]
+        else:
+            return [TransitiveFrame(entry_term, uri,marker)]
+            
+        print
+    else:
+        if marker.has_key("of"):  
+            return [NounPossisiveFrame(entry_term,uri)]
+        else:
+            return [NounPPFrame(entry_term,uri,marker)]
+        
+        
+        
+def createLexiconEntry(pattern,uri,Wiktionary, term = None):
+    """
+    As input this function retrieves a pattern, a URI and a Wiktionary (which is not used in the moment).
+    For the pattern now it is determined, in which form of lemon lexicon entry it is transformed, using POS tag and parser informations.
+    The pattern here is still in the CONLL format.
+    In the moment this function is limited to AdjectivePredicateFrame, TransitiveFrame, NounPossisiveFrame, NounPPFrame
+    """
+    lmtzr = WordNetLemmatizer()
+
+    print "In lexicon generation"
+    if pattern[len(pattern)-2:] == "  ":
+        pattern = pattern[:len(pattern)-2:]
+
+    config = ConfigParser.ConfigParser()
+    config.read('config.conf')
+    if config.get('system_language', 'language') == "English":
+        return englishMapping(pattern,uri)
+    elif config.get('system_language', 'language') == "German":
+        return germanMapping
+    else:
+        return None
+        
+    
 
 
 

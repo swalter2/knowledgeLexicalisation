@@ -1,7 +1,6 @@
 """
 In this file, the pattern between two entities (x,y) are extracted from a given, parsed sentence.
 """
-
 tmp_number = None
 
 
@@ -242,22 +241,55 @@ def pathfinding(x,dep_x,y,dep_y,parsed_sentence):
     return create_pattern(x,y,result)
 
 
+def normalize_pattern(x,y,path):
+    pattern = ""
+    for item in path:
+        pattern += item.__return_as_string__()+"  "
+        number1 = str(item.__getattr__("pos0"))
+        number2 = str(item.__getattr__("pos6"))
+        pattern = pattern.replace(number1+" ",str(number_counter)+" ")
+        pattern = pattern.replace(number2+" ",str(number_counter+1)+" ")
+        number_counter+=1
+        #constraint 3 if x or why are parsed as nn, return none, this is only in englis the case
+        if item.__getattr__("pos1").lower() == x.lower() and item.__getattr__("pos7").lower() == "nn":
+            return None
+        if item.__getattr__("pos1").lower() == y.lower() and item.__getattr__("pos7").lower() == "nn":
+            return None
+
+    
+
+    if pattern.endswith("  "):
+        pattern = pattern[:-2]
+    
+    pattern = pattern.lower()
+    pattern__new = ""
+    for p in pattern.split("  "):
+        counter = 0
+        new_string = ""
+        for p1 in p.split(" "):
+            if counter == 1:
+                p1 = p1.replace(x.lower(),"x")
+                p1 = p1.replace(y.lower(),"y")
+                new_string+=p1+" "
+            else:
+                new_string += p1 +" "
+            counter +=1
+        if new_string.endswith(" "):
+            new_string = new_string[:-1]
+        
+        pattern__new += new_string+"  "
+    if pattern__new.endswith("  "):
+        pattern__new = pattern__new[:-2]
+
+    
+    if pattern__new.count(" x ") != 1 or pattern__new.count(" y ") != 1 or "0 " not in pattern__new:
+        return None
+    return pattern_new
 
 """
 For English only, add other functions for other languages
 """    
-def create_pattern(x,y,path):
-    """
-    creates from the given path, pattern.
-    Has some constrain, the pattern/path has to match, otherwise, no pattern is generated.
-    Nevertheless this constraints only work for the English Corpus yet and also has to be updated.
-    For all other languages, create own create_pattern function with own constrains
-    """
-    #constrain one and two
-    #if len(path)<3 or len(path) > 8:
-    if len(path)<3 or len(path) > 10:
-        return None
-    
+def english_constraints(x,y,path):
     pattern = ""
     number_counter = 0
     
@@ -307,48 +339,37 @@ def create_pattern(x,y,path):
         if path[1].__getattr__("pos3").lower() == "nn" and path[2].__getattr__("pos3").lower() == "cc":
             return None
         #################
-       
     
-    for item in path:
-        pattern += item.__return_as_string__()+"  "
-        number1 = str(item.__getattr__("pos0"))
-        number2 = str(item.__getattr__("pos6"))
-        pattern = pattern.replace(number1+" ",str(number_counter)+" ")
-        pattern = pattern.replace(number2+" ",str(number_counter+1)+" ")
-        number_counter+=1
-        #constraint 3 if x or why are parsed as nn, return none
-        if item.__getattr__("pos1").lower() == x.lower() and item.__getattr__("pos7").lower() == "nn":
+    return normalize_pattern(x,y,path)
+
+def german_constraints(x,y,path):
+    #kon in STTS is the same as cc in standard POS-tag in English
+    if len(path) == 3:
+        if path[1].__getattr__("pos7").lower() == "kon":
             return None
-        if item.__getattr__("pos1").lower() == y.lower() and item.__getattr__("pos7").lower() == "nn":
-            return None
+    return normalize_pattern(x,y,path)
 
-    
 
-    if pattern.endswith("  "):
-        pattern = pattern[:-2]
-    
-    pattern = pattern.lower()
-    pattern__new = ""
-    for p in pattern.split("  "):
-        counter = 0
-        new_string = ""
-        for p1 in p.split(" "):
-            if counter == 1:
-                p1 = p1.replace(x.lower(),"x")
-                p1 = p1.replace(y.lower(),"y")
-                new_string+=p1+" "
-            else:
-                new_string += p1 +" "
-            counter +=1
-        if new_string.endswith(" "):
-            new_string = new_string[:-1]
-        
-        pattern__new += new_string+"  "
-    if pattern__new.endswith("  "):
-        pattern__new = pattern__new[:-2]
 
-    
-    if pattern__new.count(" x ") != 1 or pattern__new.count(" y ") != 1 or "0 " not in pattern__new:
+def create_pattern(x,y,path):
+    """
+    creates from the given path, pattern.
+    Has some constrain, the pattern/path has to match, otherwise, no pattern is generated.
+    Nevertheless this constraints only work for the English Corpus yet and also has to be updated.
+    For all other languages, create own create_pattern function with own constrains
+    """
+    #constrain one and two
+    #if len(path)<3 or len(path) > 8:
+    pattern = ""
+    if len(path)<3 or len(path) > 10:
+        return None
+    config = ConfigParser.ConfigParser()
+    config.read('config.conf')
+    if config.get('system_language', 'language') == "English":
+        return english_constraints(x,y,path)
+    elif config.get('system_language', 'language') == "German":
+        return german_constraints(x,y,path)
+    else:
         return None
     
-    return pattern__new
+    
