@@ -103,10 +103,22 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
             y = item[2]
             x = x.encode("ascii","ignore")
             y = y.encode("ascii","ignore")
+#            print ("x",x)
+#            print ("y",y)
             result = []
             if x != y:
                 result= index.search(term,1)
-            
+                tmp = result
+                result = []
+                for t in tmp:
+                    #To Deal with German Umlaute
+                    t = t.replace("\xc3\xa4","ae")
+                    t = t.replace("\xc3\x9f","ss")
+                    t = t.replace("\xc3\xbc","ue")
+                    t = t.replace("\xc3\xb6","oe")
+                    result.append(t)
+                        
+            print str(len(result))+" number of sentences found in Corpus"
             for line in result:
                 found_x = True
                 found_y = True
@@ -124,6 +136,19 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
                     
                 else:
                     found_y = False
+
+                if found_x == True and found_y == False:
+                    if " " in y:
+                        searchY = y.split(" ")[0]
+                        if searchY != x:
+                            line = line.replace(" "+searchY+" ",replacementY.capitalize())
+                        found_y = True
+                if found_x == False and found_y == True:
+                    if " " in x:
+                        searchX = x.split(" ")[0]
+                        if searchX != y:
+                            line = line.replace(" "+searchX+" ",replacementX.capitalize())
+                        found_x = True
                         
                 if found_x == True and found_y == True:
                     #Use each line only for one x-y pair
@@ -135,6 +160,10 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
             #print ("Error in finding term: "+str(item))
      
     print "found "+str(len(hm))+" combination of pairs and sentences"
+    #German Umlaute
+#    for key in hm:
+#        print (key.replace("\xc3\xa4","ae").replace("\xc3\x9f","ss").replace("\xc3\xbc","ue"),hm[key])
+#    print
         
     if len(hm) > 0:
         tolerance = (len(hm)+0.0)/100*tolerance_procent

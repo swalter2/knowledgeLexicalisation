@@ -1,4 +1,4 @@
-import LexiconGenerator
+import LexiconGenerator, StandardLexiconEntries
 import os, sys, ConfigParser
 from Index import IndexUtils
 from Util import Sparql, WordnetFunctions
@@ -93,7 +93,7 @@ def create_html_table(lexico_array,hm_res_sentences,path,name,version):
     web_string += "</TABLE>"
     return web_string
 
-def create_lexico_array(hm,uri,NumberOfPatterns):
+def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
     lmtzr = WordNetLemmatizer()
     #Note: the NumberOfPatterns in the function call is later replaced by a procent value, depending on the number of patterns included into the system
     
@@ -142,54 +142,63 @@ def create_lexico_array(hm,uri,NumberOfPatterns):
         else:
             pattern_once += 1
    
-    label = sparql.getLabel(uri)[0]
-    print "label: "+label
-    if "(" in label:
-        label = label.split("(")[0]
-    if label.endswith(" "):
-        label = label[:-1]
-        
-    """
-    Create some standard lexical entries, on base of the label of the property
-    """
-    entry = LexiconGenerator.NounPPFrame(label, uri, {})
-    tmp_array = []
-    tmp_array.append(entry)
-    tmp_array.append("Noun created by Guessing")
-    tmp_array.append(1)
-    lexico_array.append(tmp_array)
-    
-    entry = LexiconGenerator.AdjectivePPFrame(label, uri, {})
-    tmp_array = []
-    tmp_array.append(entry)
-    tmp_array.append("Adjective created by Guessing")
-    tmp_array.append(1)
-    lexico_array.append(tmp_array)
-    
-    entry = LexiconGenerator.NounPossisiveFrameWithoutMarker(label, uri)
-    #print entry
-    tmp_array = []
-    tmp_array.append(entry)
-    tmp_array.append("NounPossisive created by guessing")
-    tmp_array.append(1)
-    lexico_array.append(tmp_array)
+    tmp_entries = StandardLexiconEntries.createEntries(uri,en_de_lexicon)
+    for x in tmp_entries:
+        tmp_array = []
+        tmp_array.append(x)
+        tmp_array.append("Created by Guessing")
+        tmp_array.append(1)
+        lexico_array.append(tmp_array)
 
-    
-    lemma = lmtzr.lemmatize(label,"v")
 
-    entry = LexiconGenerator.TransitiveFrame(lemma, uri, {})
-    tmp_array = []
-    tmp_array.append(entry)
-    tmp_array.append("Verb created by Wordnet")
-    tmp_array.append(1)
-    lexico_array.append(tmp_array)
-    
-    entry = LexiconGenerator.TransitiveFrame(label, uri, {})
-    tmp_array = []
-    tmp_array.append(entry)
-    tmp_array.append("Verb created by Wordnet")
-    tmp_array.append(1)
-    lexico_array.append(tmp_array)
+#    label = sparql.getLabel(uri)[0]
+#    print "label: "+label
+#    if "(" in label:
+#        label = label.split("(")[0]
+#    if label.endswith(" "):
+#        label = label[:-1]
+#        
+#    """
+#    Create some standard lexical entries, on base of the label of the property
+#    """
+#    entry = LexiconGenerator.NounPPFrame(label, uri, {})
+#    tmp_array = []
+#    tmp_array.append(entry)
+#    tmp_array.append("Noun created by Guessing")
+#    tmp_array.append(1)
+#    lexico_array.append(tmp_array)
+#    
+#    entry = LexiconGenerator.AdjectivePPFrame(label, uri, {})
+#    tmp_array = []
+#    tmp_array.append(entry)
+#    tmp_array.append("Adjective created by Guessing")
+#    tmp_array.append(1)
+#    lexico_array.append(tmp_array)
+#    
+#    entry = LexiconGenerator.NounPossisiveFrameWithoutMarker(label, uri)
+#    #print entry
+#    tmp_array = []
+#    tmp_array.append(entry)
+#    tmp_array.append("NounPossisive created by guessing")
+#    tmp_array.append(1)
+#    lexico_array.append(tmp_array)
+#
+#    
+#    lemma = lmtzr.lemmatize(label,"v")
+#
+#    entry = LexiconGenerator.TransitiveFrame(lemma, uri, {})
+#    tmp_array = []
+#    tmp_array.append(entry)
+#    tmp_array.append("Verb created by Wordnet")
+#    tmp_array.append(1)
+#    lexico_array.append(tmp_array)
+#    
+#    entry = LexiconGenerator.TransitiveFrame(label, uri, {})
+#    tmp_array = []
+#    tmp_array.append(entry)
+#    tmp_array.append("Verb created by Wordnet")
+#    tmp_array.append(1)
+#    lexico_array.append(tmp_array)
     
         
     return lexico_array , pattern_once

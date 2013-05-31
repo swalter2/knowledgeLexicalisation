@@ -1,10 +1,11 @@
 import sys, re
-from Util import Sparql, CleanUp
+from Util import CleanUp
 import PatternUtil, PatternFinder
 from Index import IndexUtils, Lookup
-import LexiconGenerator
+import LexiconGenerator, StandardLexiconEntries
 from nltk.stem.wordnet import WordNetLemmatizer
 import math
+import Sparql
 
 
 
@@ -303,13 +304,14 @@ def createPatternFile(uri, path, name, hm):
     f.close()
     return hm, overall_pattern_numer
 
-def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index, anchor_index, ontology_prefix = None ):   
+def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index, anchor_index,en_de_lexicon, ontology_prefix = None ):   
 
     lmtzr = WordNetLemmatizer()
     global deBug 
     deBug = debug
     if ontology_prefix == None:
         name = (uri.replace("http://dbpedia.org/ontology/","")).replace("/","")
+        name = (uri.replace("http://dbpedia.org/property/","")).replace("/","")
     else:
         name = (uri.replace(ontology_prefix,"")).replace("/","")
     sparql=Sparql.Connection()
@@ -331,6 +333,7 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
         term_list = []
         print "Gets entities for "+uri+" from the SPARQL endpoint"
         PropertyEntities = sparql.getPairsOfGivenProperties(uri)
+#        PropertyEntities = ["Barack Obama","Michelle Obama"]
         print str(len(PropertyEntities)/2)+" number of entity pairs found"
         if sparql.askObjectProperty(uri) == True:
             print "Object property given"
@@ -397,7 +400,7 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
     hm , overall_pattern_numer = createPatternFile(uri, path, name, hm)
     
     
-    lexico_array, tmp_pattern_once = PatternUtil.create_lexico_array(hm,uri,1)
+    lexico_array, tmp_pattern_once = PatternUtil.create_lexico_array(hm,uri,1,en_de_lexicon)
     pattern_once += tmp_pattern_once
     
     
@@ -414,28 +417,31 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
     ##################################
     ##################################
     if total_number_sentence == 0 or len(lemonEntriesHm) == 0:
-        label = sparql.getLabel(uri)
-        if "(" in label:
-            label = label.split("(")[0]
-        try:
-            entry = LexiconGenerator.NounPPFrame(label, uri, {})
-            lemonEntriesHm.append(entry)
-            entry = LexiconGenerator.NounPossisiveFrameWithoutMarker(label, uri)
-            lemonEntriesHm.append(entry)
-            entry = LexiconGenerator.AdjectivePPFrame(label, uri, {})
-            lemonEntriesHm.append(entry)
-        
-            #print "added"
-            
-            lemma = lmtzr.lemmatize(label,"v")
-            if lemma != label:
-                entry = LexiconGenerator.TransitiveFrame(lemma, uri, {})
-                lemonEntriesHm.append(entry)
-            else:
-                entry = LexiconGenerator.TransitiveFrame(label, uri, {})
-                lemonEntriesHm.append(entry)
-        except:
-            pass
+        tmp_entry = StandardLexiconEntries.createEntries(uri,en_de_lexicon)
+        for x in tmp_entry:
+            lemonEntriesHm[x]=""
+#        label = sparql.getLabel(uri)
+#        if "(" in label:
+#            label = label.split("(")[0]
+#        try:
+#            entry = LexiconGenerator.NounPPFrame(label, uri, {})
+#            lemonEntriesHm.append(entry)
+#            entry = LexiconGenerator.NounPossisiveFrameWithoutMarker(label, uri)
+#            lemonEntriesHm.append(entry)
+#            entry = LexiconGenerator.AdjectivePPFrame(label, uri, {})
+#            lemonEntriesHm.append(entry)
+#        
+#            #print "added"
+#            
+#            lemma = lmtzr.lemmatize(label,"v")
+#            if lemma != label:
+#                entry = LexiconGenerator.TransitiveFrame(lemma, uri, {})
+#                lemonEntriesHm.append(entry)
+#            else:
+#                entry = LexiconGenerator.TransitiveFrame(label, uri, {})
+#                lemonEntriesHm.append(entry)
+#        except:
+#            pass
 
         
 
