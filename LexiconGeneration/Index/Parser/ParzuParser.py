@@ -1,6 +1,5 @@
 import os
 from nltk.tokenize import word_tokenize
-import treetaggerwrapper
 
 
 #Maybe have a look at

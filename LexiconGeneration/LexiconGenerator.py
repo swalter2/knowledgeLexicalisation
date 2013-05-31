@@ -2,7 +2,8 @@
 Generates lemon lexicon entries out of given patterns
 """
 from nltk.stem.wordnet import WordNetLemmatizer
-from Util import Levenshtein, Sparql
+from Util import Levenshtein
+import Sparql
 from Util import WordnetFunctions as wn
 
 def createLexiconEntry(pattern,uri,Wiktionary, term = None):

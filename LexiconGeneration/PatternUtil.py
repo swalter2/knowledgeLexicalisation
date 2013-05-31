@@ -1,7 +1,8 @@
 import LexiconGenerator, StandardLexiconEntries
 import os, sys, ConfigParser
 from Index import IndexUtils
-from Util import Sparql, WordnetFunctions
+from Util import  WordnetFunctions
+import Sparql
 from nltk.stem.wordnet import WordNetLemmatizer
 
 

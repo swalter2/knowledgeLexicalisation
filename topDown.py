@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import os, re, sys, ConfigParser
 from time import time
-from Util import Sparql
+from LexiconGeneration import Sparql
 from LexiconGeneration import LexiconGenerator
 from LexiconGeneration import Approach1
 from Evaluation import lexiconEvaluation
