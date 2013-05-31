@@ -1,0 +1,42 @@
+{{=( )=}}
+SELECT ?frame ?subject ?directObject ?indirectObject ?prepositionalObject ?prepositionalAdjunct ?possessiveAdjunct WHERE {  
+
+ <{{uri}}> <http://www.monnet-project.eu/lemon#synBehavior> ?blank .
+ ?blank a ?frame . 
+
+ OPTIONAL {
+  (#subject)
+  { ?blank (&subject) ?subject . } (^last)UNION(/last)
+  (/subject)
+ } 
+
+ OPTIONAL { 
+  (#directObject)
+  { ?blank (&directObject) ?directObject . } (^last)UNION(/last)
+  (/directObject)
+ }
+
+ OPTIONAL { 
+  (#indirectObject)
+  { ?blank (&indirectObject) ?indirectObject . } (^last)UNION(/last)
+  (/indirectObject)
+ }
+
+ OPTIONAL { 
+  (#prepositionalObject)
+  { ?blank (&prepositionalObject) ?prepositionalObject . } (^last)UNION(/last)
+  (/prepositionalObject)
+ }
+
+ OPTIONAL { 
+  (#prepositionalAdjunct)
+  { ?blank (&prepositionalAdjunct) ?prepositionalAdjunct . } (^last)UNION(/last)
+  (/prepositionalAdjunct)
+ }
+
+ OPTIONAL { 
+  (#possessiveAdjunct)
+  { ?blank (&possessiveAdjunct) ?possessiveAdjunct . } (^last)UNION(/last)
+  (/possessiveAdjunct)
+ }
+}

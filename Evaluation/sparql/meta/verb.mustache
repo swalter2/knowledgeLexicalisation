@@ -1,0 +1,49 @@
+{{=( )=}}
+SELECT ?present ?past ?participle ?gerund WHERE { 
+
+  { <{{uri}}> <http://www.monnet-project.eu/lemon#canonicalForm> ?form1 . } 
+  UNION 
+  { <{{uri}}> <http://www.monnet-project.eu/lemon#otherForm> ?form1 . } 
+ 
+  (#tense_present)
+  { ?form1 (&tense_present) . } (^last)UNION(/last) 
+  (/tense_present)
+
+  ?form1 <http://www.monnet-project.eu/lemon#writtenRep> ?present . 
+
+
+  { <{{uri}}> <http://www.monnet-project.eu/lemon#canonicalForm> ?form2 . } 
+  UNION 
+  { <{{uri}}> <http://www.monnet-project.eu/lemon#otherForm> ?form2 . } 
+
+  (#tense_past)
+  { ?form1 (&tense_past) . } (^last)UNION(/last) 
+  (/tense_past)
+
+  ?form2 <http://www.monnet-project.eu/lemon#writtenRep> ?past . 
+
+
+  { <{{uri}}> <http://www.monnet-project.eu/lemon#canonicalForm> ?form3 . } 
+  UNION 
+  { <{{uri}}> <http://www.monnet-project.eu/lemon#otherForm> ?form3 . } 
+ 
+   (#verbFormMood_participle)
+   { ?form3 (&verbFormMood_participle) . } (^last)UNION(/last)
+   (/verbFormMood_participle) 
+   (#aspect_perfective)
+   { ?form3 (&aspect_perfective) . } (^last)UNION(/last) 
+   (/aspect_perfective)
+
+  ?form3 <http://www.monnet-project.eu/lemon#writtenRep> ?participle . 
+
+
+  { <{{uri}}> <http://www.monnet-project.eu/lemon#canonicalForm> ?form4 . } 
+  UNION 
+  { <{{uri}}> <http://www.monnet-project.eu/lemon#otherForm> ?form4 . } 
+
+  (#verbFormMood_gerundive)
+  { ?form4 (&aspect_gerundive) . } (^last)UNION(/last) 
+  (/verbFormMood_gerundive)
+
+  ?form4 <http://www.monnet-project.eu/lemon#writtenRep> ?gerund . 
+}

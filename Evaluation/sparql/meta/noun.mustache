@@ -1,0 +1,24 @@
+{{=( )=}}
+SELECT ?singular ?plural WHERE { 
+ 
+   { <{{uri}}> <http://www.monnet-project.eu/lemon#canonicalForm> ?form1 . }
+   UNION
+   { <{{uri}}> <http://www.monnet-project.eu/lemon#otherForm> ?form1 . } 
+
+   (#number_singular)
+   { ?form1 (&number_singular) . } (^last)UNION(/last) 
+   (/number_singular)
+ 
+   ?form1 <http://www.monnet-project.eu/lemon#writtenRep> ?singular . 
+
+ 
+   { <{{uri}}> <http://www.monnet-project.eu/lemon#canonicalForm> ?form2 . } 
+   UNION 
+   { <{{uri}}> <http://www.monnet-project.eu/lemon#otherForm> ?form2 . } 
+
+   (#number_plural)
+   { ?form2 (&number_plural) . } (^last)UNION(/last) 
+   (/number_plural)
+ 
+   ?form2 <http://www.monnet-project.eu/lemon#writtenRep> ?plural . 
+}

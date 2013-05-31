@@ -1,0 +1,18 @@
+
+abstract {{domain}} = Core ** {
+
+ fun
+   
+  {{#classes}}
+   {{.}} : Kind; 
+  {{/classes}}
+
+  {{#properties}}
+   {{reference}} : Relation {{domain}} {{range}};
+  {{/properties}}
+
+  {{#entities}}
+   {{reference}} : Entity {{type}};   
+  {{/entities}}
+
+}

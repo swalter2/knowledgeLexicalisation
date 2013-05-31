@@ -1,0 +1,8 @@
+
+lin
+   cl = mkCl $syn.subject.name (mkVP ${name}_V) 
+   vp = mkVP ${name}_V 
+
+oper
+   ${name}_V : V;
+   ${name}_V = mkV $forms;

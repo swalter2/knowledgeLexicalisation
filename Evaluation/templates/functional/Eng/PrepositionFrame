@@ -1,0 +1,7 @@
+
+lin
+   adv = Syntax${lang}.mkAdv ${name}_Prep $syn.prepositionalObject.name
+
+oper 
+   ${name}_Prep : Prep;
+   ${name}_Prep = mkPrep $forms;

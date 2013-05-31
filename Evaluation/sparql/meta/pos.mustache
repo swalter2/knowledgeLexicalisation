@@ -1,0 +1,6 @@
+{{=( )=}}
+SELECT ?pos WHERE { 
+ (#pos)
+ { <{{uri}}> (&pos) ?pos . } (^last)UNION(/last)
+ (/pos)
+}

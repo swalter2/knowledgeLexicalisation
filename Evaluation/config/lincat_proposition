@@ -1,0 +1,7 @@
+vp : VP
+cl : Cl
+passive : Cl
+passive_by : Cl
+object_slash : ClSlash
+noun_pp : CN 
+adv : Adv

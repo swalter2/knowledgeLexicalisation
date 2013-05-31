@@ -1,0 +1,22 @@
+##
+#set $aux = Template(file="templates/aux/lins.tmpl")
+##
+#set $vp_lins = $aux.get_lins($advs,'mkVP','(mkVP '+$name+'_V)')
+##
+#set $cl = $aux.build_lins($vp_lins,'mkCl ' + $syn.subject.name + ' ')
+#set $vp = $aux.build_lins($vp_lins,'')
+##
+
+lin
+  cl = $cl
+  vp = $vp
+## passive, object_slash, 
+
+oper
+   ${name}_V : V;
+   ${name}_V = mkV $forms;
+
+#for $m in $ms
+   ${m['short']}_Prep : Prep;
+   ${m['short']}_Prep = mkPrep "$m.long";
+#end for

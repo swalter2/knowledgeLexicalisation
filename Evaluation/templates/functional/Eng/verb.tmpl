@@ -1,0 +1,37 @@
+#set global $ref  = $ref
+#set global $name = $canonicalForm.replace(' ','')
+##
+#set $present    = $getVar('present',   None)
+#set $past       = $getVar('past',      None)
+#set $participle = $getVar('participle',None)
+#set $gerund     = $getVar('gerund',    None)
+##
+#if $present
+#if $past
+#if $participle
+#set global $forms = c'"$present" "$past" "$participle"'
+#else 
+$set global $forms = c'"$present" "$past"'
+#end if
+#else
+#set global $forms = c'"$present"'
+#end if
+#else 
+#set global $forms = c'"$canonicalForm"'
+#end if
+##
+##
+#for $syn in $synBehaviors
+#set global $syn = $syn
+##
+#include "templates/aux/collect_prepositionalArgs.tmpl"
+##
+#if $syn.has_key('frame') and $syn.frame != 'Frame'
+#set $path = ("templates/"+$lang+"/"+$syn.frame).encode('ascii')
+#else
+#set $path = ("templates/"+$lang+"/VerbFrame").encode('ascii')
+#end if
+#include $path
+##
+#end for
+##

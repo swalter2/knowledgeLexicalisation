@@ -1,0 +1,55 @@
+#set $extends = $getVar('extends',None)
+
+abstract $name = #slurp
+#if $extends
+$extends ** #slurp
+#end if
+{
+
+#if not $extends
+ cat 
+
+   Kind;
+   Class Kind;
+   Description Kind;
+   Quantifier;
+   Proposition;
+#end if
+
+ fun
+
+#if not $extends
+   The, Some, All, Generic : Quantifier;
+   mkDescription : (k : Kind) -> Quantifier -> Class k -> Description k;
+#end if
+
+  #for $pre in $predefined
+   $pre.name : Kind;
+  #end for
+   
+  #for $c in $categories
+   $c.type : Kind; 
+  #end for
+
+  #for $c in $categories
+   #if $c.has_key('name')
+   $c.name : Class $c.type; 
+   #end if
+  #end for
+
+  #for $p in $functions
+   $p.name : #slurp
+#for $a in $p.argumentTypes
+Description $a -> #slurp
+#end for
+#if $p.resultType == 'Default'
+Proposition;
+#else
+$p.resultType;
+#end if
+  #end for
+
+  #for $e in $entities
+   $e.name : Description $e.type;   
+  #end for
+}
