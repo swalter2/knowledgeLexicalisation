@@ -172,6 +172,8 @@ def sentence_wrapper(sentence):
     """
     Gets a plain parsed(!!) sentence in the CONLL format and generates an array of Parsed_items
     """
+    #The Mapltparser produces COMLL format with two spaces between each line, the CONLL format from the ParZu parser on the other hand produces a CONLL format with THREE spaces!
+    sentence = sentence.replace("   ","  ")
     array = []
     if "  " in sentence:
         working_array = sentence.split("  ")
@@ -180,6 +182,7 @@ def sentence_wrapper(sentence):
                 pArray = item.split(" ")
                 pItem = Parsed_Item.ParsedItem(pArray[0],pArray[1],pArray[2],pArray[3],pArray[4],pArray[5],pArray[6],pArray[7],pArray[8], pArray[9])
                 array.append(pItem)
+    #print "now return array"
     return array
 
 def getItemAtr(item):

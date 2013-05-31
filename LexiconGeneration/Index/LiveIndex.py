@@ -180,6 +180,9 @@ class LiveIndex():
             return False
         except:
             print("Fail (does line exists) in x:"+x+" y:"+y)
+            print "Unexpected error:", sys.exc_info()[0]
+            print
+
     
     
     
@@ -213,6 +216,10 @@ class LiveIndex():
             return result_list
         except:
             print("Fail (search XYPair) in x:"+x+" y:"+y)
+            print "Unexpected error:", sys.exc_info()[0]
+            print
+
+            
         return []
     
     
@@ -241,13 +248,14 @@ class LiveIndex():
             hits = searcher.search(query, MAX)
             for hit in hits.scoreDocs:
                 doc = searcher.doc(hit.doc)
-                dbpedia_uri = doc["URI"].encode("utf-8")
+                dbpedia_uri = doc["URI"]
                 if dbpedia_uri == uri_old:
                     result.append([IndexUtils.sentence_wrapper(doc["Sentence"]), doc["X"], doc["Y"],dbpedia_uri])
             return result
         except:
             print("Fail in uri: "+uri)
-            return []
+            print "Unexpected error:", sys.exc_info()[0]
+            return result
         
     def searchForXY(self, uri):
         print "in searchForDbpediaURI" 

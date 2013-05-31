@@ -43,7 +43,13 @@ def generateEnDeLexicon():
             german = german.lower()
             
             for x in english.split(";"):
-                lexicon[x.lower()] = german.split(";")
+                if x.startswith(" "):
+                    x = x[1:]
+                if x.endswith(" "):
+                    x = x[:-1]
+                if " (" in x:
+                    x = x.split(" (")[0]
+                lexicon[x.lower()] = german.split(" ; ")
             
     return lexicon
         
