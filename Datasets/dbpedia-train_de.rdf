@@ -8,6 +8,21 @@
 <lemon:Lexicon rdf:about="temp:lexicon__de">
 	<lemon:language>de</lemon:language>
 	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Muskel_15468">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Muskel_15468/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/Muscle"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Muskel_15468/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Muskel</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
 		<lemon:LexicalEntry rdf:about="unknown:entry#arbeiten_97014">
 			<lemon:sense>
 				<lemon:LexicalSense rdf:about="unknown:entry#arbeiten_97014/sense">

@@ -36,10 +36,16 @@ def generateEnDeLexicon():
                 
             if "|" in english:
                 english = english.split("|")[0]
-                
+            if "[" in german:
+                german = german.split("[")[0]
+            if "(" in german:
+                german = german.split("(")[0]
             german = german.replace("{f}","")
             german = german.replace("{m}","")
             german = german.replace("{n}","")
+            german = german.replace("  "," ")
+            if german.endswith(" "):
+                german = german[:-1]
             german = german.lower()
             
             for x in english.split(";"):
@@ -127,7 +133,7 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag):
         tmp_hm = {}
        
         if sparql.askClassProperty(uri) == True:
-           entryArray = LexiconGenerator.createClassEntry(uri)
+           entryArray = LexiconGenerator.createClassEntry(uri,en_de_lexicon)
            for entry in entryArray:
                lemonEntriesHm[entry] = ""
         else:
@@ -197,7 +203,7 @@ def run(uri,path,parse_flag):
     tmp_hm = {}
    
     if sparql.askClassProperty(uri) == True:
-       entryArray = LexiconGenerator.createClassEntry(uri)
+       entryArray = LexiconGenerator.createClassEntry(uri,en_de_lexicon)
        for entry in entryArray:
            lemonEntriesHm[entry] = ""
     else:

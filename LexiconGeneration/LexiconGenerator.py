@@ -5,6 +5,7 @@ from nltk.stem.wordnet import WordNetLemmatizer
 from Util import Levenshtein
 import Sparql
 from Util import WordnetFunctions as wn
+import StandardLexiconEntries
 
 
 def englishMapping(pattern,uri):
@@ -112,23 +113,24 @@ def createLexiconEntry(pattern,uri,Wiktionary, term = None):
 
 
 
-def createClassEntry(uri):
+def createClassEntry(uri,en_de_lexicon):
     """
     Creates a standard class entry for a given URI.
     As label for the entry, the label from the URI is taken (sparql.getLabel)
     """
+    
     sparql = Sparql.Connection()
     label = sparql.getLabel(uri)[0]
     result_array = []
     array = wn.return_synsetsNoun(label)
-    
     for entry in array:
-        entry = entry.replace("_"," ")
-        lexEntry = ":"+entry.replace(" ","").lower()+" a lemon:LexicalEntry ;\n"
-        lexEntry += "lemon:canonicalForm [ lemon:writtenRep \""+entry.lower()+"\"@en ; isocat:DC-1298 isocat:DC-1387 ] ;\n"
-        lexEntry += "lemon:sense [ lemon:reference <"+uri+"> ] ;\n"
-        lexEntry += "isocat:DC-1345 isocat:DC-1333  ."
-        result_array.append(lexEntry)
+        for x in StandardLexiconEntries.createLabel(entry,en_de_lexicon):
+            x = x.replace("_"," ")
+            lexEntry = ":"+x.replace(" ","").lower()+" a lemon:LexicalEntry ;\n"
+            lexEntry += "lemon:canonicalForm [ lemon:writtenRep \""+x.lower()+"\"@en ; isocat:DC-1298 isocat:DC-1387 ] ;\n"
+            lexEntry += "lemon:sense [ lemon:reference <"+uri+"> ] ;\n"
+            lexEntry += "isocat:DC-1345 isocat:DC-1333  ."
+            result_array.append(lexEntry)
     
     return result_array
 

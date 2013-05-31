@@ -1,6 +1,52 @@
 import ConfigParser, Sparql
 import LexiconGenerator
 
+
+def createLabel(label,en_de_lexicon):
+    if "(" in label:
+        label = label.split("(")[0]
+    if label.endswith(" "):
+        label = label[:-1]
+    config = ConfigParser.ConfigParser()
+    config.read('config.conf')
+    if config.get('system_language', 'language') == "English":
+        return [label]
+    elif config.get('system_language', 'language') == "German":
+        #Here "translate only single words, so do not look up "highest mountain" at once, but split up.
+        #simple case only for a phrase with two words
+        if " " in label:
+            label = label.lower()
+            print label
+            tmp = label.split(" ")
+            array1 = []
+            array2 = []
+            if tmp[0] in en_de_lexicon and tmp[1] in en_de_lexicon:
+                array1 = en_de_lexicon[tmp[0]]
+                array2 = en_de_lexicon[tmp[1]]
+
+                label_array = []
+                for x in array1:
+                    for y in array2:
+                        if ";" not in x and ";" not in y:
+                            label_array.append((x+" "+y).replace("  ",""))
+                return label_array
+            
+            elif tmp[0] in en_de_lexicon and tmp[1] not in en_de_lexicon:
+                return en_de_lexicon[tmp[0]]
+            
+            elif tmp[0] not in en_de_lexicon and tmp[1] in en_de_lexicon:
+                return en_de_lexicon[tmp[1]]
+            else:
+                return [label]
+                
+        else:
+            if label.lower() in en_de_lexicon:
+                label_array = en_de_lexicon[label]
+                return label_array
+            else:
+                return [label]
+            
+            
 def getLabel(uri,en_de_lexicon):
     config = ConfigParser.ConfigParser()
     config.read('config.conf')
