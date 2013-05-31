@@ -4,6 +4,7 @@ from time import time
 from Util import Sparql
 from LexiconGeneration import LexiconGenerator
 from LexiconGeneration import Approach1
+from Evaluation import lexiconEvaluation
 
 #from LexiconGeneration.Parser import MaltParser
 from LexiconGeneration.Index import Index, LiveIndex, AnchorIndex
@@ -12,8 +13,39 @@ from LexiconGeneration.Index import Index, LiveIndex, AnchorIndex
 index = None
 parsed_sentence_index = None
 anchor_index = None
+en_de_lexicon = {}
     
     
+
+def generateEnDeLexicon():
+    lexicon = {}
+    f_in = open("Util/de-en.txt")
+    #das A und O [ugs.] :: the nuts and bolts [coll.]
+    for line in f_in:
+        if line.startswith("#"):
+            pass
+        else:
+            line = line.replace("\n","")
+            tmp = line.split(" :: ")
+            german = tmp[0]
+            english = tmp[1]
+            
+            #only singular
+            if "|" in german:
+                german = german.split("|")[0]
+                
+            if "|" in english:
+                english = english.split("|")[0]
+                
+            german = german.replace("{f}","")
+            german = german.replace("{m}","")
+            german = german.replace("{n}","")
+            german = german.lower()
+            
+            for x in english.split(";"):
+                lexicon[x.lower()] = german.split(";")
+            
+    return lexicon
         
         
 def _init_():
@@ -21,15 +53,16 @@ def _init_():
     Initialisation of the Index and the Parser
     """
     print "start initialisation"
-    global m_parser
     
     global index
     global parsed_sentence_index
-
+    global en_de_lexicon
+    en_de_lexicon = generateEnDeLexicon()
     
     config = ConfigParser.ConfigParser()
     config.read('config.conf')
 
+    
     
     #Set paths to the correct target language
     path_to_index = ""
@@ -38,15 +71,6 @@ def _init_():
         path_to_index = config.get('index', 'wikipedia_index_english');
         path_to_parsed_sentences_index = config.get('index', 'wikipedia_live_index_english')
         
-#        #English Maltparser
-#        working_Dir = config.get('parser', 'working_Dir')
-#        #pretrained English model in format mco
-#        mco_File = config.get('parser', 'mco_file')
-#        maltparser_Jar = config.get('parser', 'maltparser_Jar')
-#        #Set true if you want to use the official Version from NLTK or False if you want to use the Malt.py in this Folder
-#        official_Malt_Parser=config.get('parser', 'official_Malt_Parser');
-#        os.environ["MALTPARSERHOME"] = config.get('parser', 'parser_dir')
-#        m_parser=MaltParser.Parser(working_Dir, mco_File, maltparser_Jar,official_Malt_Parser)
     
     elif config.get('system_language', 'language') == "German":
         path_to_index = config.get('index', 'wikipedia_index_german');
@@ -66,7 +90,74 @@ def _init_():
     
 
 
+def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag):
 
+    sparql=Sparql.Connection()
+    t1= time()
+    
+    
+    timestemp = str(t1)
+    timestemp = timestemp.replace(".","")
+    timestemp = timestemp[2:9]
+    if not path.endswith("/"):
+        path += "/"
+    
+    path += "Global"+timestemp+"/"
+    os.mkdir(path)
+    original_path = path
+    lemonEntriesHm = {}
+    f_in = open(list_of_properties,"r")
+    for line in f_in:
+        uri = line.replace("\n","")
+        path = original_path
+        label = sparql.getLabel(uri)[0]
+        label = label.replace(" ","+")
+        path += label+"Results"
+        os.mkdir(path)
+    
+        web_string = "<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=ISO-8859-1\"><title>Pattern overview</title></head><body><h2>Pattern overview</h2>"
+       
+        string =""
+        tmp_hm = {}
+       
+        if sparql.askClassProperty(uri) == True:
+           entryArray = LexiconGenerator.createClassEntry(uri)
+           for entry in entryArray:
+               lemonEntriesHm[entry] = ""
+        else:
+            string, tmp_hm = Approach1.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
+            for key in tmp_hm:
+               lemonEntriesHm[key] = ""   
+               
+        string += "Time for this property: "+str((time()-t1)/60.0)+" minutes"
+        string += "<p><a href=\"Lemon"+label+"\"> LemonEntry for "+label+" </a></p>"
+   
+        web_string += "<p> <p>"+string+"</p>  </p>"
+   
+        web_string += "</body></html>"
+   
+        f=file(path+"index.html","w")
+        f.write(web_string)
+        f.close()
+       
+    #######################
+    #
+    # Write Lexicon
+    #
+    #######################    
+    write_lexicon(original_path,lemonEntriesHm)
+   
+   
+    #######################
+    #
+    # Do evaluation
+    #
+    ######################
+    lexiconEvaluation.evaluate(original_path+"LemLexicon.ttl",True,path_goldstandard)
+
+    print "\n\n DONE"
+    
+    
 
 def run(uri,path,parse_flag):
     """
@@ -88,24 +179,14 @@ def run(uri,path,parse_flag):
     
     path += label+timestemp+"/"
     os.mkdir(path)
-    
-    
-    
+     
     original_path = path
     os.mkdir(path+"Result")
-    
-    
-
 
     lemonEntriesHm = {}
 
     web_string = "<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=ISO-8859-1\"><title>Pattern overview</title></head><body><h2>Pattern overview</h2>"
    
-   
-   
-   
-    
-
     string =""
     tmp_hm = {}
    
@@ -114,11 +195,9 @@ def run(uri,path,parse_flag):
        for entry in entryArray:
            lemonEntriesHm[entry] = ""
     else:
-        string, tmp_hm = Approach1.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index)
+        string, tmp_hm = Approach1.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
         for key in tmp_hm:
-           lemonEntriesHm[key] = ""
-
-       
+           lemonEntriesHm[key] = ""   
        
     #######################
     #
@@ -135,13 +214,10 @@ def run(uri,path,parse_flag):
    
     web_string += "</body></html>"
    
-    #web_array.append(string)
     f=file(path+"index.html","w")
     f.write(web_string)
     f.close()
-   
-    
-    #__destroy__() 
+
     print "\n\n DONE"
     
     
@@ -150,6 +226,7 @@ def run(uri,path,parse_flag):
 def write_lexicon(original_path,lemonEntriesHm):
     """
     Writes the Lemonentries to a file on a given path
+    Turtle syntax
     """
     f_out = file(original_path+"LemLexicon.ttl","w")
     
@@ -241,7 +318,7 @@ def main():
     """
     _init_()
     print "type quit to enter the program"
-    parse_flag = True
+    parse_flag = False
     path = raw_input("Please enter a path where the Lexicon should be saved:  ")
     while True:
         input = raw_input("Please enter a valid DBpedia URI:  ")
@@ -249,6 +326,8 @@ def main():
             print 
             print "Bye Bye!"
             exit(1)
+        elif input == "train":
+            run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia-train_de.rdf",path,parse_flag)
         else:
             start_time= time()
             try:
