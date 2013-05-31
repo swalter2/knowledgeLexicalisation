@@ -1,0 +1,1303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+	xmlns:lexinfo="http://www.lexinfo.net/ontology/2.0/lexinfo#"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:lemon="http://www.monnet-project.eu/lemon#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+<lemon:Lexicon rdf:about="temp:lexicon__de">
+	<lemon:language>de</lemon:language>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#arbeiten_97014">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#arbeiten_97014/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/profession"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#arbeiten_97014/canonicalForm">
+					<lemon:writtenRep xml:lang="de">arbeiten</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#wohnen_13193">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#wohnen_13193/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/residence"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#wohnen_13193/canonicalForm">
+					<lemon:writtenRep xml:lang="de">wohnen</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Ehegatte_58865">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Ehegatte_58865/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/spouse"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Ehegatte_58865/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Ehegatte</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#spielen_62495">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#spielen_62495/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/instrument"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#spielen_62495/canonicalForm">
+					<lemon:writtenRep xml:lang="de">spielen</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#aufnehmen_82992">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#aufnehmen_82992/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/artist"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#aufnehmen_82992/canonicalForm">
+					<lemon:writtenRep xml:lang="de">aufnehmen</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#gleichartig_484">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#gleichartig_484/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/similar"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#gleichartig_484/canonicalForm">
+					<lemon:writtenRep xml:lang="de">gleichartig</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#adjective"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#verheiratet_76817">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#verheiratet_76817/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/spouse"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#verheiratet_76817/canonicalForm">
+					<lemon:writtenRep xml:lang="de">verheiratet</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#adjective"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Vize+Kanzler_23257">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Vize+Kanzler_23257/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/viceChancellor"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Vize+Kanzler_23257/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Vizekanzler</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#sich+befinden_21105">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#sich+befinden_21105/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/country"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#sich+befinden_21105/canonicalForm">
+					<lemon:writtenRep xml:lang="de">sich befinden</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Berufsstand_60877">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Berufsstand_60877/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/profession"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Berufsstand_60877/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Berufsstand</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Football+Spieler_30603">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Football+Spieler_30603/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/GridironFootballPlayer"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Football+Spieler_30603/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Football-Spieler</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#gr%C3%BCnden_47580">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#gr%C3%BCnden_47580/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/formationDate"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#gr%C3%BCnden_47580/canonicalForm">
+					<lemon:writtenRep xml:lang="de">gründen</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Besch%C3%A4ftigung_98055">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Besch%C3%A4ftigung_98055/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/profession"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Besch%C3%A4ftigung_98055/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Beschäftigung</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#%C3%A4hnlich_20724">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#%C3%A4hnlich_20724/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/similar"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#%C3%A4hnlich_20724/canonicalForm">
+					<lemon:writtenRep xml:lang="de">ähnlich</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#adjective"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#H%C3%B6he_90151">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#H%C3%B6he_90151/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/elevation"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#H%C3%B6he_90151/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Höhe</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#kreuzen_28578">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#kreuzen_28578/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/crosses"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#kreuzen_28578/canonicalForm">
+					<lemon:writtenRep xml:lang="de">kreuzen</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Fu%C3%9Fball+Club_52549">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Fu%C3%9Fball+Club_52549/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Fu%C3%9Fball+Club_52549/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Fußballclub</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Fu%C3%9Fball+Verein_52549">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Fu%C3%9Fball+Verein_52549/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Fu%C3%9Fball+Verein_52549/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Fußballverein</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#sich+befinden_63805">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#sich+befinden_63805/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/city"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#sich+befinden_63805/canonicalForm">
+					<lemon:writtenRep xml:lang="de">sich befinden</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#entspringen_35976">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#entspringen_35976/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/source"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#entspringen_35976/canonicalForm">
+					<lemon:writtenRep xml:lang="de">entspringen</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Br%C3%BCcke_27119">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Br%C3%BCcke_27119/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/crosses"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Br%C3%BCcke_27119/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Brücke</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#sublimieren_73148">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#sublimieren_73148/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/sublimationPoint"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#sublimieren_73148/canonicalForm">
+					<lemon:writtenRep xml:lang="de">sublimieren</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#durchqueren_21288">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#durchqueren_21288/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/crosses"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#durchqueren_21288/canonicalForm">
+					<lemon:writtenRep xml:lang="de">durchqueren</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Teil_19189">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Teil_19189/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/range"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Teil_19189/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Teil</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#mitspielen_96162">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#mitspielen_96162/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/starring"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#mitspielen_96162/canonicalForm">
+					<lemon:writtenRep xml:lang="de">mitspielen</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Universit%C3%A4t_96594">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Universit%C3%A4t_96594/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/university"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Universit%C3%A4t_96594/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Universität</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#in_15362">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#in_15362/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/city"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#in_15362/canonicalForm">
+					<lemon:writtenRep xml:lang="de">in</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#preposition"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#heiraten_40020">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#heiraten_40020/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/spouse"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#heiraten_40020/canonicalForm">
+					<lemon:writtenRep xml:lang="de">heiraten</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Durchschnittstemperatur_64263">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Durchschnittstemperatur_64263/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/meanTemperature"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Durchschnittstemperatur_64263/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Durchschnittstemperatur</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Kraftwerk_13007">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Kraftwerk_13007/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/PowerStation"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Kraftwerk_13007/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Kraftwerk</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Football+Spieler_69796">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Football+Spieler_69796/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/AmericanFootballPlayer"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Football+Spieler_69796/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Football-Spieler</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#h%C3%B6chster+Berg_34220">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#h%C3%B6chster+Berg_34220/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/highestMountain"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#h%C3%B6chster+Berg_34220/canonicalForm">
+					<lemon:writtenRep xml:lang="de">höchster Berg</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:type rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#NounPhrase"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Arbeiter+Gewerkschaft_2735">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Arbeiter+Gewerkschaft_2735/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/TradeUnion"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Arbeiter+Gewerkschaft_2735/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Arbeitergewerkschaft</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#studieren_6311">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#studieren_6311/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/university"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#studieren_6311/canonicalForm">
+					<lemon:writtenRep xml:lang="de">studieren</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Weichtiere_3980">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Weichtiere_3980/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/Mollusca"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Weichtiere_3980/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Weichtiere</lemon:writtenRep>
+                                        <lexinfo:number rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#plural"/>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Mollusken_3980">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Mollusken_3980/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/Mollusca"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Mollusken_3980/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Mollusken</lemon:writtenRep>
+                                        <lexinfo:number rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#plural"/>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Vizekandidat_3694">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Vizekandidat_3694/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/runningMate"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Vizekandidat_3694/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Vizekandidat</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Ausschuss+Mitglied_45106">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Ausschuss+Mitglied_45106/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/board"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Ausschuss+Mitglied_45106/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Ausschussmitglied</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#H%C3%B6he_50728">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#H%C3%B6he_50728/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/elevation"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#H%C3%B6he_50728/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Höhe</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#durchlaufen_35776">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#durchlaufen_35776/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/crosses"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#durchlaufen_35776/canonicalForm">
+					<lemon:writtenRep xml:lang="de">durchlaufen</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Br%C3%BCcke_81727">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Br%C3%BCcke_81727/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/crosses"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Br%C3%BCcke_81727/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Brücke</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Comics+Charakter_43541">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Comics+Charakter_43541/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/ComicsCharacter"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Comics+Charakter_43541/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Comicfigur</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#sich+befinden_44167">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#sich+befinden_44167/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/range"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#sich+befinden_44167/canonicalForm">
+					<lemon:writtenRep xml:lang="de">sich befinden</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#gegr%C3%BCndet_66897">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#gegr%C3%BCndet_66897/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/formationDate"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#gegr%C3%BCndet_66897/canonicalForm">
+					<lemon:writtenRep xml:lang="de">gegründet</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#adjective"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#schreiben_2507">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#schreiben_2507/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/artist"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#schreiben_2507/canonicalForm">
+					<lemon:writtenRep xml:lang="de">schreiben</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Elektrizit%C3%A4tskraftwerk_23494">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Elektrizit%C3%A4tskraftwerk_23494/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/PowerStation"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Elektrizit%C3%A4tskraftwerk_23494/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Elektrizitätskraftwerk</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#formation+date_44801">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#formation+date_44801/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/formationDate"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#formation+date_44801/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Gründungsdatum</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#in_29393">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#in_29393/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/country"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#in_29393/canonicalForm">
+					<lemon:writtenRep xml:lang="de">in</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#schreiben_99374">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#schreiben_99374/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/writer"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#schreiben_99374/canonicalForm">
+					<lemon:writtenRep xml:lang="de">schreiben</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Gesamtpopulation_10963">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Gesamtpopulation_10963/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/populationTotal"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Gesamtpopulation_10963/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Gesamtpopulation</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Gesamteinwohnerzahl_10963">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Gesamteinwohnerzahl_10963/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/populationTotal"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Gesamteinwohnerzahl_10963/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Gesamteinwohnerzahl</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Gewerkschaft_61305">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Gewerkschaft_61305/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/TradeUnion"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Gewerkschaft_61305/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Gewerkschaft</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#%C3%BCberspannen_72336">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#%C3%BCberspannen_72336/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/crosses"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#%C3%BCberspannen_72336/canonicalForm">
+					<lemon:writtenRep xml:lang="de">überspannen</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Autor_34021">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Autor_34021/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/writer"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Autor_34021/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Autor</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#ethnische+Zugeh%C3%B6rigkeit_80208">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#ethnische+Zugeh%C3%B6rigkeit_80208/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/ethnicity"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#ethnische+Zugeh%C3%B6rigkeit_80208/canonicalForm">
+					<lemon:writtenRep xml:lang="de">ethnische Zugehörigkeit</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:type rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#NounPhrase"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Mann_42152">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Mann_42152/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/spouse"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Mann_42152/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Mann</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Ehemann_42152">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Ehemann_42152/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/spouse"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Ehemann_42152/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Ehemann</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Ehefrau_42152">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Ehefrau_42152/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/spouse"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Ehefrau_42152/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Ehefrau</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#hoch_59808">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#hoch_59808/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/elevation"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#hoch_59808/canonicalForm">
+					<lemon:writtenRep xml:lang="de">hoch</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#adjective"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#arbeiten_75005">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#arbeiten_75005/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/field"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#arbeiten_75005/canonicalForm">
+					<lemon:writtenRep xml:lang="de">arbeiten</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Wohnort_25417">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Wohnort_25417/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/residence"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Wohnort_25417/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Wohnort</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Fu%C3%9Fball+Team_35410">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Fu%C3%9Fball+Team_35410/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Fu%C3%9Fball+Team_35410/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Fußballteam</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Einwohnerzahl_714">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Einwohnerzahl_714/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/populationTotal"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Einwohnerzahl_714/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Einwohnerzahl</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Aktivit%C3%A4t_85528">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Aktivit%C3%A4t_85528/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/Activity"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Aktivit%C3%A4t_85528/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Aktivität</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Interpret_88957">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Interpret_88957/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/artist"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Interpret_88957/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Interpret</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Kapazit%C3%A4t_20912">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Kapazit%C3%A4t_20912/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/capacity"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Kapazit%C3%A4t_20912/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Kapazität</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#spielen_89805">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#spielen_89805/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/starring"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#spielen_89805/canonicalForm">
+					<lemon:writtenRep xml:lang="de">spielen</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#in_16893">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#in_16893/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/location"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#in_16893/canonicalForm">
+					<lemon:writtenRep xml:lang="de">in</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#preposition"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Br%C3%BCcke_4907">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Br%C3%BCcke_4907/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/Bridge"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Br%C3%BCcke_4907/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Brücke</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Sublimationspunkt_3127">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Sublimationspunkt_3127/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/sublimationPoint"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Sublimationspunkt_3127/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Sublimationspunkt</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Instrument_9995">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Instrument_9995/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/instrument"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Instrument_9995/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Instrument</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Frau_50262">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Frau_50262/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/spouse"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Frau_50262/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Frau</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#in_74147">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#in_74147/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/range"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#in_74147/canonicalForm">
+					<lemon:writtenRep xml:lang="de">in</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#preposition"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#angrenzen_88267">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#angrenzen_88267/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/border"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#angrenzen_88267/canonicalForm">
+					<lemon:writtenRep xml:lang="de">angrenzen</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Musik-Festival_44791">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Musik-Festival_44791/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/MusicFestival"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Musik-Festival_44791/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Musik-Festival</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Film-Festival_82025">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Film-Festival_82025/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/FilmFestival"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Film-Festival_82025/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Film-Festival</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Festival_82025">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Festival_82025/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/FilmFestival"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Festival_82025/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Festival</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Festival_6626">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Festival_6626/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/MusicFestival"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Festival_6626/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Festival</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Urheber_60558">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Urheber_60558/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/writer"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Urheber_60558/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Urheber</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Einwohner+haben_72968">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Einwohner+haben_72968/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/populationTotal"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Einwohner+haben_72968/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Einwohner haben</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:type rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#VerbPhrase"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Feld_49210">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Feld_49210/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/field"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Feld_49210/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Feld</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Football+Spieler_67182">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Football+Spieler_67182/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/GridironFootballPlayer"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Football+Spieler_67182/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Football-Spieler</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Religion_59392">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Religion_59392/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/religion"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Religion_59392/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Religion</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#verpflichtet_55214">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#verpflichtet_55214/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/draftYear"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#verpflichtet_55214/canonicalForm">
+					<lemon:writtenRep xml:lang="de">verpflichtet</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#adjective"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#Quelle_33839">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#Quelle_33839/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/source"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#Quelle_33839/canonicalForm">
+					<lemon:writtenRep xml:lang="de">Quelle</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#noun"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+	<lemon:entry>
+		<lemon:LexicalEntry rdf:about="unknown:entry#sich+_93283">
+			<lemon:sense>
+				<lemon:LexicalSense rdf:about="unknown:entry#sich+_93283/sense">
+					<lemon:reference rdf:resource="http://dbpedia.org/ontology/location"/>
+				</lemon:LexicalSense>
+			</lemon:sense>
+			<lemon:canonicalForm>
+				<lemon:Form rdf:about="unknown:entry#sich+_93283/canonicalForm">
+					<lemon:writtenRep xml:lang="de">sich befinden</lemon:writtenRep>
+				</lemon:Form>
+			</lemon:canonicalForm>
+			<lexinfo:partOfSpeech rdf:resource="http://www.lexinfo.net/ontology/2.0/lexinfo#verb"/>
+		</lemon:LexicalEntry>
+	</lemon:entry>
+</lemon:Lexicon>
+
+</rdf:RDF>
