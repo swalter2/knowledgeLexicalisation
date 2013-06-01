@@ -127,11 +127,10 @@ def createClassEntry(uri,en_de_lexicon):
         for x in StandardLexiconEntries.createLabel(entry,en_de_lexicon):
             x = x.replace("_"," ")
             lexEntry = ":"+x.replace(" ","").lower()+" a lemon:LexicalEntry ;\n"
-            lexEntry += "lemon:canonicalForm [ lemon:writtenRep \""+x.lower()+"\"@en ; isocat:DC-1298 isocat:DC-1387 ] ;\n"
-            lexEntry += "lemon:sense [ lemon:reference <"+uri+"> ] ;\n"
-            lexEntry += "isocat:DC-1345 isocat:DC-1333  ."
+            lexEntry += "lexinfo:partOfSpeech lexinfo:noun ;\n"
+            lexEntry += "lemon:canonicalForm [ lemon:writtenRep \""+x.lower()+"\"@en ];\n"
+            lexEntry += "lemon:sense [ lemon:reference <"+uri+"> ] ."
             result_array.append(lexEntry)
-    
     return result_array
 
 
