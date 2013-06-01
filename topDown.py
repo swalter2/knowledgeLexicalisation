@@ -44,6 +44,10 @@ def generateEnDeLexicon():
             german = german.replace("{m}","")
             german = german.replace("{n}","")
             german = german.replace("  "," ")
+            german = german.replace("\xc3\xbc","ue")
+            german = german.replace("\xc3\xa4","ae")
+            german = german.replace("\xc3\x9f","ss")
+            german = german.replace("\xc3\xb6","oe")
             if german.endswith(" "):
                 german = german[:-1]
             german = german.lower()
@@ -55,7 +59,14 @@ def generateEnDeLexicon():
                     x = x[:-1]
                 if " (" in x:
                     x = x.split(" (")[0]
-                lexicon[x.lower()] = german.split(" ; ")
+                x = x.lower()
+                if lexicon.has_key(x):
+                    tmp = lexicon[x]
+                    for t in german.split(" ; "):
+                        tmp.append(t)
+                    lexicon[x] = tmp
+                else:
+                    lexicon[x] = german.split(" ; ")
             
     return lexicon
         
@@ -265,7 +276,8 @@ def write_lexicon(original_path,lemonEntriesHm):
                     string = string[:-1]
                 if re.search("[^a-zA-Z0-9_]",string) == None:
                     try:
-                        string.decode('ascii')
+#                        string.decode('ascii')
+                        string = string.encode("ascii","ignore")
                         if punkt_counter == len(lemonEntriesHm):
                             lexicon += "\t lemon:entry :"+string+" .\n"
                         else:
@@ -291,7 +303,8 @@ def write_lexicon(original_path,lemonEntriesHm):
                     replace_string = replace_string[:-1]
                 if re.search("[^a-zA-Z0-9_]",replace_string) == None:
                     try:
-                        replace_string.decode('ascii')
+#                        replace_string.decode('ascii')
+                        replace_string = replace_string.encode("ascii","ignore")
                         string = key.replace(":"+replace_string,":"+replace_string+str(punkt_counter))
                         lexicon+=string+"\n\n"
                     except:
@@ -314,6 +327,10 @@ def createEntryTerm(entry):
         compare_item = compare_item.replace("a lemon:lexicalentry","")
         compare_item = compare_item.replace(":","")
         compare_item = compare_item.replace(" ","")
+        compare_item = compare_item.replace("\xc3\xbc","ue")
+        compare_item = compare_item.replace("\xc3\xa4","ae")
+        compare_item = compare_item.replace("\xc3\x9f","ss")
+        compare_item = compare_item.replace("\xc3\xb6","oe")
         return compare_item
     except:
         return entry 
