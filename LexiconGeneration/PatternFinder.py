@@ -1,6 +1,7 @@
 """
 In this file, the pattern between two entities (x,y) are extracted from a given, parsed sentence.
 """
+import ConfigParser
 tmp_number = None
 
 
@@ -25,7 +26,6 @@ def find_pattern_between_x_and_y(x,y,parsed_sentence):
     dep_x = 0
     number_y = 0
     dep_y = 0
-
     foundx = False
     foundy = False
     for item in parsed_sentence:
@@ -243,6 +243,7 @@ def pathfinding(x,dep_x,y,dep_y,parsed_sentence):
 
 def normalize_pattern(x,y,path):
     pattern = ""
+    number_counter = 0
     for item in path:
         pattern += item.__return_as_string__()+"  "
         number1 = str(item.__getattr__("pos0"))
@@ -256,7 +257,6 @@ def normalize_pattern(x,y,path):
         if item.__getattr__("pos1").lower() == y.lower() and item.__getattr__("pos7").lower() == "nn":
             return None
 
-    
 
     if pattern.endswith("  "):
         pattern = pattern[:-2]
@@ -284,14 +284,13 @@ def normalize_pattern(x,y,path):
     
     if pattern__new.count(" x ") != 1 or pattern__new.count(" y ") != 1 or "0 " not in pattern__new:
         return None
-    return pattern_new
+    return pattern__new
 
 """
 For English only, add other functions for other languages
 """    
 def english_constraints(x,y,path):
     pattern = ""
-    number_counter = 0
     
     #constraint 4, dont allow a pattern with lenght three and only a prep between x and y
     if len(path) == 3:

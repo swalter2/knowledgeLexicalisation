@@ -364,6 +364,8 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
                     try:
                         pattern = PatternFinder.find_pattern_between_x_and_y(x,y,sentence)
                     except:
+#                        print "Unexpected error in finding pattern:", sys.exc_info()[0]
+                        #TODO: Fix exceptions.AttributeError'> in pattern generation!!!!!!!
                         pattern = None
                         
 

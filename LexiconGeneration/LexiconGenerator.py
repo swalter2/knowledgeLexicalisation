@@ -6,6 +6,7 @@ from Util import Levenshtein
 import Sparql
 from Util import WordnetFunctions as wn
 import StandardLexiconEntries
+import ConfigParser
 
 
 def englishMapping(pattern,uri):
@@ -96,7 +97,7 @@ def createLexiconEntry(pattern,uri,Wiktionary, term = None):
     """
     lmtzr = WordNetLemmatizer()
 
-    print "In lexicon generation"
+#    print "In lexicon generation"
     if pattern[len(pattern)-2:] == "  ":
         pattern = pattern[:len(pattern)-2:]
 
