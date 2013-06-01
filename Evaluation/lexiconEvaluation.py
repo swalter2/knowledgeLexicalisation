@@ -53,6 +53,7 @@ def createArrayEntries(path):
             for _,_,o1 in graph.triples((o,lemon.sense ,None)):
                 for _,_,o2 in graph.triples((o1,lemon.reference ,None)):
                     reference.append(str(o2))
+                    
 
                 for _,_,o2 in graph.triples((o1,lemon.subsense ,None)):
                     for _,_,o3 in graph.triples((o2,lemon.reference ,None)):
@@ -79,13 +80,25 @@ def createArrayEntries(path):
             for _,_,o1 in graph.triples((o,lemon.canonicalForm ,None)):
                 for _,_,o2 in graph.triples((o1,lemon.writtenRep ,None)):
                     canonicalForm = o2
+                    canonicalForm = canonicalForm.replace("\xc3\xbc","ue")
+                    canonicalForm = canonicalForm.replace("\xc3\xa4","ae")
+                    canonicalForm = canonicalForm.replace("\xc3\x9f","ss")
+                    canonicalForm = canonicalForm.replace("\xc3\xb6","oe")
                     
             for _,_,o1 in graph.triples((o,lexinfo.partOfSpeech ,None)):
                 tmp = str(o1)
                 tmp = tmp.replace("http://www.lexinfo.net/ontology/2.0/lexinfo#","")
                 partOfSpeech = tmp.lower()
                 
-            
+#            if "http://dbpedia.org/ontology/Bridge" in reference:
+#                
+#                print str(reference)
+#                print ("canonicalForm",str(canonicalForm))
+#                print ("path",str(frame))
+#                print ("partOfSpeech",str(partOfSpeech))
+#                print ("path",path)
+#                raw_input("wait")
+#                print
                     
             if len(reference) != 0 and canonicalForm != None:
                 #print "reference: "+reference
