@@ -356,8 +356,8 @@ def main():
             print "Bye Bye!"
             exit(1)
         elif input == "train":
-            #run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia-train_de.rdf",path,parse_flag)
-            run_and_evaluate("Datasets/test.txt","Datasets/dbpedia-train-lexicon-en.ttl",path,parse_flag)
+            run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia-train_de.rdf",path,parse_flag)
+            #run_and_evaluate("Datasets/test.txt","Datasets/dbpedia-train-lexicon-en.ttl",path,parse_flag)
         else:
             start_time= time()
             try:

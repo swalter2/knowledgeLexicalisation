@@ -7,6 +7,7 @@ import Sparql
 from Util import WordnetFunctions as wn
 import StandardLexiconEntries
 import ConfigParser
+language = None
 
 
 def englishMapping(pattern,uri):
@@ -71,7 +72,6 @@ def germanMapping(pattern,uri):
     else:
         entry_term = term.split(" ")[1]
         
-    print ("German entry_term",entry_term) 
     if " vb" in term:
         if marker.has_key("to") or "vbn" in term  or "vbg" in term  or "vbd" in term  or marker.has_key("on"):
             lemma = lmtzr.lemmatize(entry_term,"v")
@@ -81,7 +81,7 @@ def germanMapping(pattern,uri):
             
         print
     else:
-        if marker.has_key("of"):  
+        if marker.has_key("von"):  
             return [NounPossisiveFrame(entry_term,uri)]
         else:
             return [NounPPFrame(entry_term,uri,marker)]
@@ -103,10 +103,14 @@ def createLexiconEntry(pattern,uri,Wiktionary, term = None):
 
     config = ConfigParser.ConfigParser()
     config.read('config.conf')
+    global language
+    
     if config.get('system_language', 'language') == "English":
+        language = "English"
         return englishMapping(pattern,uri)
     elif config.get('system_language', 'language') == "German":
-        return germanMapping
+        language = "German"
+        return germanMapping(pattern,uri)
     else:
         return None
         
@@ -151,7 +155,12 @@ def NounPossisiveFrame(term,reference):
     entry += "lexinfo:copulativeArg :arg2 ;\n"  
     entry += "lexinfo:possessiveAdjunct :arg1 ] ;\n"
     entry += "lexinfo:partOfSpeech lexinfo:noun .\n"
-    entry += ":y_arg2 lemon:marker [ lemon:canonicalForm [ lemon:writtenRep \"of\"] ]."
+    if language == "German":
+        entry += ":y_arg2 lemon:marker [ lemon:canonicalForm [ lemon:writtenRep \"von\"] ]."
+    elif language == "English":
+        entry += ":y_arg2 lemon:marker [ lemon:canonicalForm [ lemon:writtenRep \"of\"] ]."
+    else:
+        entry += ":y_arg2 lemon:marker [ lemon:canonicalForm [ lemon:writtenRep \"of\"] ]."
     return entry
 
 def NounPossisiveFrameWithoutMarker(term,reference):

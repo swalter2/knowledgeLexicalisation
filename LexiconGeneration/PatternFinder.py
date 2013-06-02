@@ -250,6 +250,16 @@ def normalize_pattern(x,y,path):
         number2 = str(item.__getattr__("pos6"))
         pattern = pattern.replace(number1+" ",str(number_counter)+" ")
         pattern = pattern.replace(number2+" ",str(number_counter+1)+" ")
+#        ############################################
+#        #make sure, that there is a _ on the third position. especially in the German pattern.
+#        #otherwise it would be something like 0 x Obama which we do not want, in order to summarize patterns.
+#        ############################################
+#        replacement = str(item.__getattr__("pos2"))
+#        print("replacement",replacement)
+#        pattern = pattern.replace(" "+replacement+" "," _ ")
+#        print("new pattern",pattern)
+#        
+#        ############################################
         number_counter+=1
         #constraint 3 if x or why are parsed as nn, return none, this is only in englis the case
         if item.__getattr__("pos1").lower() == x.lower() and item.__getattr__("pos7").lower() == "nn":
@@ -266,13 +276,21 @@ def normalize_pattern(x,y,path):
     for p in pattern.split("  "):
         counter = 0
         new_string = ""
-        for p1 in p.split(" "):
+        for fragment in p.split(" "):
             if counter == 1:
-                p1 = p1.replace(x.lower(),"x")
-                p1 = p1.replace(y.lower(),"y")
-                new_string+=p1+" "
+                fragment = fragment.replace(x.lower(),"x")
+                fragment = fragment.replace(y.lower(),"y")
+                new_string+=fragment+" "
+            
+            ############################################
+            #make sure, that there is a _ on the third position. especially in the German pattern.
+            #otherwise it would be something like 0 x Obama which we do not want, in order to summarize patterns.
+            ############################################
+            elif counter == 2:
+                fragment = "_"
+                new_string+=fragment+" "
             else:
-                new_string += p1 +" "
+                new_string += fragment +" "
             counter +=1
         if new_string.endswith(" "):
             new_string = new_string[:-1]
