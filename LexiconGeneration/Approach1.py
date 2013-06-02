@@ -1,4 +1,4 @@
-import sys, re
+import sys, re, ConfigParser
 from Util import CleanUp
 import PatternUtil, PatternFinder
 from Index import IndexUtils, Lookup
@@ -6,6 +6,7 @@ import LexiconGenerator, StandardLexiconEntries
 from nltk.stem.wordnet import WordNetLemmatizer
 import math
 import Sparql
+language = None
 
 
 
@@ -132,7 +133,14 @@ def createDateList(y):
         year = date[0]
         month = date[1]
         day = date[2]
-        month_array = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        month_array = []
+        if language == "German":
+            month_array = ["Januar", "Februar", "Maerz", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
+        elif language == "English":
+            month_array = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        elif language == "Spanish":
+            month_array = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+
         if month.startswith("0"):
             month = month[1:]
         month = month_array[int(month) - 1]
@@ -315,7 +323,15 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
     else:
         name = (uri.replace(ontology_prefix,"")).replace("/","")
     sparql=Sparql.Connection()
-
+    
+    global language
+    config = ConfigParser.ConfigParser()
+    config.read('config.conf')    
+    if config.get('system_language', 'language') == "English":
+        language = "English"
+    elif config.get('system_language', 'language') == "German":
+        language = "German"
+        
     hm={}
     hm_res_sentences = {}
     hm_used = {}
