@@ -25,8 +25,9 @@ class Parser():
         counter = 0
         parsed_sentences = ""
         for x in list_of_sentences:
-            counter += 1
+            print ("x",x)
             x = x.encode('ascii', 'ignore')
+            counter += 1
             write_string += x +"\n"
             if counter % 100 == 0:
                 print "Starting with parsing 100 sentences!"

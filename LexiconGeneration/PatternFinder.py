@@ -364,6 +364,10 @@ def german_constraints(x,y,path):
     if len(path) == 3:
         if path[1].__getattr__("pos7").lower() == "kon":
             return None
+        if path[1].__getattr__("pos1").lower() == "von":
+            return None
+        if path[1].__getattr__("pos1").lower() == "mit":
+            return None
     return normalize_pattern(x,y,path)
 
 

@@ -116,9 +116,14 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
                     t = t.replace("\xc3\x9f","ss")
                     t = t.replace("\xc3\xbc","ue")
                     t = t.replace("\xc3\xb6","oe")
+                    t = t.replace("\xe2\x80\x9e","\"")
+                    t = t.replace("\xe2\x80\x9c","\"")
+                    t = t.replace("\xc3\xba","u")
+                    t = t.replace("\xe2\x80\x9e","\"")
+                    t=t.replace("\xe2\x80\x99","'")
                     result.append(t)
                         
-            print str(len(result))+" number of sentences found in Corpus"
+#            print str(len(result))+" number of sentences found in Corpus"
             for line in result:
                 found_x = True
                 found_y = True

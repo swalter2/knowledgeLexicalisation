@@ -52,17 +52,18 @@ def englishMapping(pattern,uri):
 def germanMapping(pattern,uri):
     marker = {}
     term = ""
+    print pattern
     for item in pattern.split("  "):
-            
-        if "pp" in item.split(" ")[7].lower() and item.split(" ")[1]!="x" and item.split(" ")[1]!="y":
+        item = item.lower()
+        if (item.split(" ")[7] == "pp" or item.split(" ")[1]=="von" or item.split(" ")[1]=="mit")and item.split(" ")[1]!="x" and item.split(" ")[1]!="y":
             marker[item.split(" ")[1]]=""
             
-        elif item.split(" ")[1]!="x" and item.split(" ")[1]!="y" and  item.split(" ")[1]!="war" and item.split(" ")[1]!="sein" and  item.split(" ")[1]!="waren":
+        elif item.split(" ")[1]!="x" and item.split(" ")[1]!="y" and item.split(" ")[1]!="und" and  item.split(" ")[1]!="war" and item.split(" ")[1]!="sein" and  item.split(" ")[1]!="waren":
                 term += item+"  "
     if term.endswith("  "):
         term = term[:-2]
                 
- 
+
     entry_term = ""
     if "  " in term:
         for x in term.split("  "):
@@ -71,20 +72,10 @@ def germanMapping(pattern,uri):
             entry_term = entry_term[:-1]
     else:
         entry_term = term.split(" ")[1]
-        
-    if " vb" in term:
-        if marker.has_key("to") or "vbn" in term  or "vbg" in term  or "vbd" in term  or marker.has_key("on"):
-            lemma = lmtzr.lemmatize(entry_term,"v")
-            return [AdjectivePredicateFrame(entry_term,uri, marker),TransitiveFrame(lemma, uri,marker)]
-        else:
-            return [TransitiveFrame(entry_term, uri,marker)]
-            
-        print
-    else:
-        if marker.has_key("von"):  
-            return [NounPossisiveFrame(entry_term,uri)]
-        else:
-            return [NounPPFrame(entry_term,uri,marker)]
+    
+    #in order to achieve a high recall, create for all 
+    return [AdjectivePredicateFrame(entry_term,uri, marker),TransitiveFrame(entry_term, uri,marker),NounPossisiveFrame(entry_term,uri),NounPPFrame(entry_term,uri,marker)]
+
         
         
         

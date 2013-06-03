@@ -136,9 +136,11 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
                     tmp_array.append(value)
                     lexico_array.append(tmp_array)
                 if entry == None:
-                    print "Entry could not be created for pattern: "+key +"  "+str(value)
+                    print "V1:Entry could not be created for pattern: "+key +"  "+str(value)
+                    print
             except:
-                print "Entry could not be created for pattern: "+key +"  "+str(value)
+                print "V2:Entry could not be created for pattern: "+key +"  "+str(value)
+                print
 
         else:
             pattern_once += 1
