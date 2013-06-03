@@ -87,7 +87,7 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
     from the parsed sentence index and not from the given plain text corpus
     """
     config = ConfigParser.ConfigParser()
-    config.read('settings.ini')
+    config.read('config.conf')
 #    procentOfDataset = config.getint("entries", "ProcentOfCorpus")
     procentOfDataset = 100
 
@@ -199,6 +199,12 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
     Path, where MaltParser saves the sentences
     """
     sfile="/tmp/tmp.txt"
+    
+    sentence_value = 10000
+    if config.get('system_language', 'language') == "English":
+        sentence_value = 10000
+    elif config.get('system_language', 'language') == "German":
+        sentence_value = 100
 
     """
     parses always 10000 sentences at once.
@@ -206,7 +212,7 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
     In the moment only English, but it will be changed to an interface, with different parsers.
     """    
     if len(parse_list)>tolerance:
-        if len(parse_list) < 10000:
+        if len(parse_list) < sentence_value:
 #            m_parser.parses_list_of_sentences(parse_list, sfile)
             parser.parse(parse_list, sfile)
             parsed_sentences = load_file_return_list_of_sentences(sfile)
@@ -225,14 +231,14 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
             for s in parse_list:
                 p_counter += 1
                 new_list.append(s)
-                if (p_counter%10000 == 0):
+                if (p_counter%sentence_value == 0):
 #                    m_parser.parses_list_of_sentences(new_list, sfile)
                     parser.parse(parse_list, sfile)
                     new_list = []
                     parsed_sentences = load_file_return_list_of_sentences(sfile)
                     to_add = []
                     for i in range(0,len(parsed_sentences)):
-                        tmp = not_in_index[i+p_counter-10000]
+                        tmp = not_in_index[i+p_counter-sentence_value]
                         to_add.append([parsed_sentences[i],tmp[1],tmp[2],uri])
                         
                     live_index.update_index_withLineArray(to_add)
@@ -244,7 +250,7 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
             new_list = []
             parsed_sentences = load_file_return_list_of_sentences(sfile)
             to_add = []
-            offset = p_counter%10000
+            offset = p_counter%sentence_value
             for i in range(0,len(parsed_sentences)):
                 
                 tmp = not_in_index[i+p_counter-offset]
