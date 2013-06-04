@@ -24,3 +24,6 @@ Dependencies:
 
 For this project you need the German ParZu parser (https://github.com/rsennrich/parzu) and also the TreeTagger (http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/).
 Please do not forget to set the correct path to the german.par in TreeTagger in the ParZu folder under preprocessor/treetagger-wrapper.py 
+
+In order to use the MaltParser for Spanish, you have to integrate the pretrained spansih .mco file, which can be downloaded from the INSTITUT UNIVERSITARI DE LINGÜÍSTICA APLICADA
+UNIVERSITAT POMPEU FABRA  http://www.iula.upf.edu/recurs01_mpars_uk.htm
