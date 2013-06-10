@@ -2,7 +2,7 @@
 Used PyLucene Implementation: http://www.apache.org/dist/lucene/pylucene/pylucene-3.6.0-2-src.tar.gz
 """
 
-import lucene
+import lucene, sys
 from lucene import \
     SimpleFSDirectory, System, File, \
     Document, Field, StandardAnalyzer, IndexWriter, IndexSearcher, Version, QueryParser
@@ -57,9 +57,11 @@ class LuceneIndex():
         return string
 
     def search(self, string , rank):
-        
+        query = ""
         try:
             MAX = 100000
+            #for dates such as 1931.08.06
+            string = string.replace("."," ")
             
             array = re.findall(r'[\w\s]+',string)
             string = ""
@@ -78,6 +80,9 @@ class LuceneIndex():
             return sentence_list
         except:
             print("Fail in receiving sentence with term "+string)
+            print ("query",query)
+            print "Unexpected error:", sys.exc_info()[0]
+            print
     
 #    def index(self):
 #        'indexes wikipedia sentences'
