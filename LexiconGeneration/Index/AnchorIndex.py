@@ -2,7 +2,8 @@
 Used PyLucene Implementation: http://www.apache.org/dist/lucene/pylucene/pylucene-3.6.0-2-src.tar.gz
 """
 
-import lucene
+import lucene, sys
+from operator import itemgetter
 from lucene import \
 SimpleFSDirectory, System, File, \
     Document, Field, StandardAnalyzer, IndexWriter, IndexSearcher, Version, QueryParser
@@ -73,7 +74,7 @@ class LuceneIndex():
                 result.append([doc.get("anchor").encode("utf-8"), doc.get("anchor_uri").encode("utf-8"), doc.get("dbpedia_uri").encode("utf-8"), doc.get("number").encode("utf-8")])
             return result
         except:
-            print("Fail in "+string)
+            print("searchForAnchor - Fail in "+string)
             return []
             
     def searchExactAnchor(self, string):
@@ -95,7 +96,7 @@ class LuceneIndex():
                     result.append([anchor, doc.get("anchor_uri").encode("utf-8"), doc.get("dbpedia_uri").encode("utf-8"), doc.get("number").encode("utf-8")])
             return result
         except:
-            print("Fail in "+string)
+            print("searchExactAnchor - Fail in "+string)
             return []
             
             
@@ -126,7 +127,7 @@ class LuceneIndex():
                     result.append([doc["anchor"].encode("utf-8"), doc["anchor_uri"].encode("utf-8"), dbpedia_uri, doc["number"].encode("utf-8")])
             return result
         except:
-            print("Fail in uri: "+uri)
+            print("searchForDbpediaURI - Fail in uri: "+uri)
             return []
             
     def searchForDbpediaURImax(self, uri, number):
@@ -154,7 +155,6 @@ class LuceneIndex():
                 dbpedia_uri = doc["dbpedia_uri"].encode("utf-8")
                 if dbpedia_uri == uri_old:
                     result.append([doc["anchor"].encode("utf-8"), doc["anchor_uri"].encode("utf-8"), dbpedia_uri, doc["number"].encode("utf-8")])
-            
             result = sorted(result, key = itemgetter(1), reverse=True)
             if len(result) > number:
                 return result[0:number]
@@ -164,7 +164,10 @@ class LuceneIndex():
             
             return result
         except:
-            print("Fail in uri: "+uri)
+            print("searchForDbpediaURImax - Fail in uri: "+uri)
+            print "Unexpected error:", sys.exc_info()[0]
+            raise
+            print
             return []
         
     def searchForDbpediaURIreturnAnchor(self, uri):
@@ -189,7 +192,7 @@ class LuceneIndex():
                 result.append(doc.get("anchor").encode("utf-8"))
             return result
         except:
-            print("Fail in "+uri)
+            print("searchForDbpediaURIreturnAnchor - Fail in "+uri)
             return []
             
     
