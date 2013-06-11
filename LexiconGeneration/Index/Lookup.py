@@ -120,7 +120,10 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
                     t = t.replace("\xe2\x80\x9c","\"")
                     t = t.replace("\xc3\xba","u")
                     t = t.replace("\xe2\x80\x9e","\"")
-                    t=t.replace("\xe2\x80\x99","'")
+                    t = t.replace("\xe2\x80\x99","'")
+                    t = t.replace("\xe2\x80\x93","-")
+                    t = t.replace("\xe2\x80\x94","-")
+                    t = t.replace("\xe2\x80\x95","-")
                     result.append(t)
                         
 #            print str(len(result))+" number of sentences found in Corpus"
@@ -161,7 +164,7 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
                         hm[line]=[x,y]
             
         except Exception:
-            print "Unexpected error:", sys.exc_info()[0]
+            print "Unexpected error on lookup terms in lookupSortAndParse:", sys.exc_info()[0]
             #print ("Error in finding term: "+str(item))
      
     print "found "+str(len(hm))+" combination of pairs and sentences"
@@ -205,19 +208,15 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
     """
     sfile="/tmp/tmp.txt"
     
-    sentence_value = 10000
-    if config.get('system_language', 'language') == "English":
-        sentence_value = 10000
-    elif config.get('system_language', 'language') == "German":
-        sentence_value = 100
-
+    sentence_value = 5000
     """
-    parses always 10000 sentences at once.
+    parses always x sentences at once.
     For other languages, here it has to be checked, which language is given and which parser has to be used.
-    In the moment only English, but it will be changed to an interface, with different parsers.
     """    
     if len(parse_list)>tolerance:
+#        raw_input(str(sentence_value))
         if len(parse_list) < sentence_value:
+            print ("in case 1")
 #            m_parser.parses_list_of_sentences(parse_list, sfile)
             parser.parse(parse_list, sfile)
             parsed_sentences = load_file_return_list_of_sentences(sfile)
@@ -230,15 +229,16 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
             to_add = []
             
             
-        else:
+        elif len(parse_list) > sentence_value:
+            print ("in case 2")
+            print ("sentence value",sentence_value)
             p_counter = 0
             new_list = []
             for s in parse_list:
                 p_counter += 1
                 new_list.append(s)
                 if (p_counter%sentence_value == 0):
-#                    m_parser.parses_list_of_sentences(new_list, sfile)
-                    parser.parse(parse_list, sfile)
+                    parser.parse(new_list, sfile)
                     new_list = []
                     parsed_sentences = load_file_return_list_of_sentences(sfile)
                     to_add = []
@@ -250,8 +250,7 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
                     parsed_sentences = []
                     to_add = []
 
-#            m_parser.parses_list_of_sentences(new_list, sfile)
-            parser.parse(parse_list, sfile)
+            parser.parse(new_list, sfile)
             new_list = []
             parsed_sentences = load_file_return_list_of_sentences(sfile)
             to_add = []
