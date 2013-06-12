@@ -12,6 +12,7 @@ language = None
 
 def englishMapping(pattern,uri):
     marker = {}
+    lmtzr = WordNetLemmatizer()
     term = ""
     for item in pattern.split("  "):
             
@@ -37,7 +38,7 @@ def englishMapping(pattern,uri):
     if " vb" in term:
         if marker.has_key("to") or "vbn" in term  or "vbg" in term  or "vbd" in term  or marker.has_key("on"):
             lemma = lmtzr.lemmatize(entry_term,"v")
-            return [AdjectivePredicateFrame(entry_term,uri, marker),TransitiveFrame(lemma, uri,marker)]
+            return [AdjectivePredicateFrame(entry_term,uri, marker),TransitiveFrame(entry_term, uri,marker),TransitiveFrame(lemma, uri,marker)]
         else:
             return [TransitiveFrame(entry_term, uri,marker)]
             
@@ -86,7 +87,6 @@ def createLexiconEntry(pattern,uri,Wiktionary, term = None):
     The pattern here is still in the CONLL format.
     In the moment this function is limited to AdjectivePredicateFrame, TransitiveFrame, NounPossisiveFrame, NounPPFrame
     """
-    lmtzr = WordNetLemmatizer()
 
 #    print "In lexicon generation"
     if pattern[len(pattern)-2:] == "  ":
@@ -109,7 +109,7 @@ def createLexiconEntry(pattern,uri,Wiktionary, term = None):
 
 
 
-def createClassEntry(uri,en_de_lexicon):
+def createClassEntry(uri,en_target_lexicon):
     """
     Creates a standard class entry for a given URI.
     As label for the entry, the label from the URI is taken (sparql.getLabel)
@@ -120,7 +120,7 @@ def createClassEntry(uri,en_de_lexicon):
     result_array = []
     array = wn.return_synsetsNoun(label)
     for entry in array:
-        for x in StandardLexiconEntries.createLabel(entry,en_de_lexicon):
+        for x in StandardLexiconEntries.createLabel(entry,en_target_lexicon):
             x = x.replace("_"," ")
             lexEntry = ":"+x.replace(" ","").lower()+" a lemon:LexicalEntry ;\n"
             lexEntry += "lexinfo:partOfSpeech lexinfo:noun ;\n"

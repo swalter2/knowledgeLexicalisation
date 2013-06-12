@@ -2,7 +2,7 @@ import ConfigParser, Sparql
 import LexiconGenerator
 
 
-def createLabel(label,en_de_lexicon):
+def createLabel(label,en_target_lexicon):
     if "(" in label:
         label = label.split("(")[0]
     if label.endswith(" "):
@@ -11,7 +11,7 @@ def createLabel(label,en_de_lexicon):
     config.read('config.conf')
     if config.get('system_language', 'language') == "English":
         return [label]
-    elif config.get('system_language', 'language') == "German":
+    else:
         #Here "translate only single words, so do not look up "highest mountain" at once, but split up.
         #simple case only for a phrase with two words
         if " " in label:
@@ -20,9 +20,9 @@ def createLabel(label,en_de_lexicon):
             tmp = label.split(" ")
             array1 = []
             array2 = []
-            if tmp[0] in en_de_lexicon and tmp[1] in en_de_lexicon:
-                array1 = en_de_lexicon[tmp[0]]
-                array2 = en_de_lexicon[tmp[1]]
+            if tmp[0] in en_target_lexicon and tmp[1] in en_target_lexicon:
+                array1 = en_target_lexicon[tmp[0]]
+                array2 = en_target_lexicon[tmp[1]]
 
                 label_array = []
                 for x in array1:
@@ -31,23 +31,23 @@ def createLabel(label,en_de_lexicon):
                             label_array.append((x+" "+y).replace("  ",""))
                 return label_array
             
-            elif tmp[0] in en_de_lexicon and tmp[1] not in en_de_lexicon:
-                return en_de_lexicon[tmp[0]]
+            elif tmp[0] in en_target_lexicon and tmp[1] not in en_target_lexicon:
+                return en_target_lexicon[tmp[0]]
             
-            elif tmp[0] not in en_de_lexicon and tmp[1] in en_de_lexicon:
-                return en_de_lexicon[tmp[1]]
+            elif tmp[0] not in en_target_lexicon and tmp[1] in en_target_lexicon:
+                return en_target_lexicon[tmp[1]]
             else:
                 return [label]
                 
         else:
-            if label.lower() in en_de_lexicon:
-                label_array = en_de_lexicon[label]
+            if label.lower() in en_target_lexicon:
+                label_array = en_target_lexicon[label]
                 return label_array
             else:
                 return [label]
             
             
-def getLabel(uri,en_de_lexicon):
+def getLabel(uri,en_target_lexicon):
     config = ConfigParser.ConfigParser()
     config.read('config.conf')
     sparql=Sparql.Connection()
@@ -59,7 +59,7 @@ def getLabel(uri,en_de_lexicon):
         
     if config.get('system_language', 'language') == "English":
         return [label]
-    elif config.get('system_language', 'language') == "German":
+    else:
         #Here "translate only single words, so do not look up "highest mountain" at once, but split up.
         #simple case only for a phrase with two words
         if " " in label:
@@ -68,9 +68,9 @@ def getLabel(uri,en_de_lexicon):
             tmp = label.split(" ")
             array1 = []
             array2 = []
-            if tmp[0] in en_de_lexicon and tmp[1] in en_de_lexicon:
-                array1 = en_de_lexicon[tmp[0]]
-                array2 = en_de_lexicon[tmp[1]]
+            if tmp[0] in en_target_lexicon and tmp[1] in en_target_lexicon:
+                array1 = en_target_lexicon[tmp[0]]
+                array2 = en_target_lexicon[tmp[1]]
 
                 label_array = []
                 for x in array1:
@@ -78,23 +78,23 @@ def getLabel(uri,en_de_lexicon):
                         label_array.append((x+" "+y).replace("  ",""))
                 return label_array
             
-            elif tmp[0] in en_de_lexicon and tmp[1] not in en_de_lexicon:
-                return en_de_lexicon[tmp[0]]
+            elif tmp[0] in en_target_lexicon and tmp[1] not in en_target_lexicon:
+                return en_target_lexicon[tmp[0]]
             
-            elif tmp[0] not in en_de_lexicon and tmp[1] in en_de_lexicon:
-                return en_de_lexicon[tmp[1]]
+            elif tmp[0] not in en_target_lexicon and tmp[1] in en_target_lexicon:
+                return en_target_lexicon[tmp[1]]
             else:
                 return [label]
                 
         else:
-            if label.lower() in en_de_lexicon:
-                label_array = en_de_lexicon[label]
+            if label.lower() in en_target_lexicon:
+                label_array = en_target_lexicon[label]
                 return label_array
             else:
                 return [label]
         
-def createEntries(uri,en_de_lexicon):
-    label_array = getLabel(uri,en_de_lexicon)
+def createEntries(uri,en_target_lexicon):
+    label_array = getLabel(uri,en_target_lexicon)
     lemonEntries = []
     try:
         for label in label_array:#
