@@ -32,6 +32,6 @@ UNIVERSITAT POMPEU FABRA  http://www.iula.upf.edu/recurs01_mpars_uk.htm
 Additional informations:
 ====================
 
-Important to mention is, that the Dropbox link above does not always contain the up-to-date pylucene index, so in case you want to use this system and there is a problem with the index, contact me (swalter at techfak dot uni minus bielefeld dot de and I will check the version of the index, stored in Dropbox.
+Important to mention is, that the Dropbox link above does not always contain the up-to-date pylucene index, so in case you want to use this system and there is a problem with the index, contact me (swalter at techfak dot uni minus bielefeld dot de) and I will check the version of the index, stored in Dropbox.
 
 In the moment two major changes are ongoing. First using MaltParser not only for English, but also for German. The second change is related to the index in order to improve the sentence selection to avoid noise.
