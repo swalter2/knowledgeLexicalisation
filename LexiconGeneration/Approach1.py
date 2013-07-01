@@ -150,7 +150,7 @@ def createDateList(y):
         y_list.append(year + " " + month + " " + day)
         y_list.append(day + " " + month + " " + year)
         y_list.append(day + ". " + month + " " + year)
-        y_list.append(y)
+        y_list.append(date[0]+"."+date[1]+"."+date[2])
         
         return y_list
     except:
@@ -225,7 +225,7 @@ def createTermsForDataTypeProperty(uri, PropertyEntities, anchor_index):
             else:
                 x_list = []
                 y_list = []
-                
+                #print ("Range of this property is still not implemented")
                 
             
             for xentry in x_list:
@@ -272,10 +272,10 @@ def createPatternFile(uri, path, name, hm):
     different_pattern = 0
     hm_new = {}
     hm_test = {}
-    for key, value in hm.iteritems():
-    ###only for test#######
-        
-        if value > 1:
+    for key, value in hm.iteritems():  
+              
+        ####SHOULD BE 1
+        if value > 0:
             overall_pattern_numer += value
             different_pattern += 1
             hm_new[key] = value
@@ -354,12 +354,14 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
         if sparql.askObjectProperty(uri) == True:
             print "Object property given"
             term_list = createTermsForObjectProperty(PropertyEntities,anchor_index)
+            print ("number of terms",len(term_list))
             Lookup.lookupSortAndParse(term_list,index,live_index,flag,uri)
     
         else:
             #here add function for DataProperty
             print "Datatype property given"
             term_list = createTermsForDataTypeProperty(uri,PropertyEntities,anchor_index)
+            print ("number of terms",len(term_list))
             Lookup.lookupSortAndParse(term_list,index,live_index,flag,uri)
 
 
@@ -412,6 +414,7 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
                 print "error in creatingLexiconEntry_for_singleURI in lookup or some other function \n\n"
 
     
+    return_string = uri+";"+str(total_number_sentence)+";"+str(len(hm))+"\n"
 
     pattern_once = 0
     
@@ -438,28 +441,7 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
         tmp_entry = StandardLexiconEntries.createEntries(uri,en_de_lexicon)
         for x in tmp_entry:
             lemonEntriesHm[x]=""
-#        label = sparql.getLabel(uri)
-#        if "(" in label:
-#            label = label.split("(")[0]
-#        try:
-#            entry = LexiconGenerator.NounPPFrame(label, uri, {})
-#            lemonEntriesHm.append(entry)
-#            entry = LexiconGenerator.NounPossisiveFrameWithoutMarker(label, uri)
-#            lemonEntriesHm.append(entry)
-#            entry = LexiconGenerator.AdjectivePPFrame(label, uri, {})
-#            lemonEntriesHm.append(entry)
-#        
-#            #print "added"
-#            
-#            lemma = lmtzr.lemmatize(label,"v")
-#            if lemma != label:
-#                entry = LexiconGenerator.TransitiveFrame(lemma, uri, {})
-#                lemonEntriesHm.append(entry)
-#            else:
-#                entry = LexiconGenerator.TransitiveFrame(label, uri, {})
-#                lemonEntriesHm.append(entry)
-#        except:
-#            pass
+
 
         
 
@@ -482,4 +464,4 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
     
     hm.clear()
     
-    return web, lemonEntriesHm
+    return web, lemonEntriesHm ,return_string
