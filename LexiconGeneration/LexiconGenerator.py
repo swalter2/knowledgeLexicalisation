@@ -33,7 +33,7 @@ def englishMapping(pattern,uri):
             entry_term = entry_term[:-1]
     else:
         entry_term = term.split(" ")[1]
-        
+    
 
     if " vb" in term:
         if marker.has_key("to") or "vbn" in term  or "vbg" in term  or "vbd" in term  or marker.has_key("on"):
@@ -48,6 +48,7 @@ def englishMapping(pattern,uri):
             return [NounPossisiveFrame(entry_term,uri)]
         else:
             return [NounPPFrame(entry_term,uri,marker)]
+    return []
         
 
 def germanMapping(pattern,uri):

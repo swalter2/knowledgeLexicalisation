@@ -70,6 +70,7 @@ class LuceneIndex():
             qp = QueryParser(Version.LUCENE_35, "title", analyzer)
             qp.setDefaultOperator(qp.Operator.AND)
             query = qp.parse(string)
+#            print ("query",query)
                         
             hits = searcher.search(query, MAX)
             
@@ -82,7 +83,9 @@ class LuceneIndex():
             print("Fail in receiving sentence with term "+string)
             print ("query",query)
             print "Unexpected error:", sys.exc_info()[0]
+#            raw_input("wait")
             print
+            return []
     
 #    def index(self):
 #        'indexes wikipedia sentences'

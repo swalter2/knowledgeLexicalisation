@@ -166,7 +166,7 @@ class LuceneIndex():
         except:
             print("searchForDbpediaURImax - Fail in uri: "+uri)
             print "Unexpected error:", sys.exc_info()[0]
-            raise
+#            raise
             print
             return []
         

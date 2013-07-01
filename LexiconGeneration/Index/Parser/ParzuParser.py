@@ -19,18 +19,18 @@ class Parser():
         write_string = ""
         ##########################
         ##
-        ## To avoid some scripts from the parZuparser running crazy, I only parse 100 Sentences at once
+        ## To avoid some scripts from the parZuparser running crazy, I only parse a few Sentences at once
         ##
         ##########################
         counter = 0
         parsed_sentences = ""
         for x in list_of_sentences:
-            print ("x",x)
+#            print ("x",x)
             x = x.encode('ascii', 'ignore')
             counter += 1
             write_string += x +"\n"
-            if counter % 100 == 0:
-                print "Starting with parsing 100 sentences!"
+            if counter % 20 == 0:
+                print "Starting with parsing 20 sentences!"
                 f_out = open("/tmp/parzu_input","w")
                 f_out.write(write_string)
                 f_out.close()

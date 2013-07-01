@@ -345,7 +345,12 @@ class LiveIndex():
             except Exception:
                 print "Unexpected error:", sys.exc_info()[0]
                 raw_input("Error in updating the Sentences")
-        writer.optimize()
+        try:
+            writer.optimize()
+        except:
+            print "Unexpected error:", sys.exc_info()[0]
+            print ("could not optimize index")
+
         writer.close()
         print "all sentences added"
             

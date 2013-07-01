@@ -126,7 +126,28 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
         Include different selecting strategies
         
         """
+        ##########################
+        ## Take all pattern with a certain percentage 
+        ##########################
         if (((value/(overall_pattern_numer+0.0))*100) > procentOfPatterns and best_counter < max_counter+1) or overall_pattern_numer == len(hm):
+        
+        ##########################
+        ## Take only the top 100 pattern
+        ##########################
+#        if best_counter < 101:   
+        
+        ##########################
+        ## Take only the top 10 pattern
+        ##########################
+#        if best_counter < 11:
+        
+        ##########################
+        ## Take every pattern which exists at least twice
+        ## and ignore pattern which exists only once
+        ##########################
+#        if value > 1:
+
+
             try:
                 entry_array=LexiconGenerator.createLexiconEntry(key, uri, False)
                 for entry in entry_array:

@@ -208,7 +208,7 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
     """
     sfile="/tmp/tmp.txt"
     
-    sentence_value = 5000
+    sentence_value = 10000
     """
     parses always x sentences at once.
     For other languages, here it has to be checked, which language is given and which parser has to be used.

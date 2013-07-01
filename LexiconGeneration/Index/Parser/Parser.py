@@ -1,5 +1,5 @@
 #in this class, the correct parser, depending on the target language, is chosen/created and a function parse is created, which is always called from the Lookup function
-import ConfigParser, MaltParser, ParzuParser
+import ConfigParser, MaltParser, ParzuParser, os
 
 class Sentence_Parser():
     language = ""
