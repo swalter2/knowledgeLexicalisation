@@ -32,7 +32,7 @@ def MatchArrays(array1 ,array2):
             
 
 def createArrayEntries(path):
-    #print"Path: "+str(path)
+#    print"Load Path: "+str(path)
     graph = loadGraph(path)
     lemon = Namespace("http://www.monnet-project.eu/lemon#")
     lexinfo = Namespace("http://www.lexinfo.net/ontology/2.0/lexinfo#")
@@ -80,25 +80,30 @@ def createArrayEntries(path):
             for _,_,o1 in graph.triples((o,lemon.canonicalForm ,None)):
                 for _,_,o2 in graph.triples((o1,lemon.writtenRep ,None)):
                     canonicalForm = o2
+                    #do not use for german!!
+#                    canonicalForm = canonicalForm.encode("ascii","ignore")
+#                    canonicalForm = canonicalForm.replace("\xf3","o")
+                    
                     canonicalForm = canonicalForm.replace("\xc3\xbc","ue")
                     canonicalForm = canonicalForm.replace("\xc3\xa4","ae")
                     canonicalForm = canonicalForm.replace("\xc3\x9f","ss")
                     canonicalForm = canonicalForm.replace("\xc3\xb6","oe")
+                    
                     
             for _,_,o1 in graph.triples((o,lexinfo.partOfSpeech ,None)):
                 tmp = str(o1)
                 tmp = tmp.replace("http://www.lexinfo.net/ontology/2.0/lexinfo#","")
                 partOfSpeech = tmp.lower()
                 
-#            if "http://dbpedia.org/ontology/Bridge" in reference:
+#            if "http://dbpedia.org/ontology/spouse" in reference and "cnyuge" in canonicalForm:
 #                
 #                print str(reference)
 #                print ("canonicalForm",str(canonicalForm))
-#                print ("path",str(frame))
+#                print ("frame",str(frame))
 #                print ("partOfSpeech",str(partOfSpeech))
 #                print ("path",path)
 #                raw_input("wait")
-#                print
+##                print
                     
             if len(reference) != 0 and canonicalForm != None:
                 #print "reference: "+reference
@@ -217,10 +222,14 @@ def evaluate(path_user_lexicon,Train_evaluation,path_goldstandard):
         #Only sense, canonical and partofSpeech form together can really identify an entry
         for user_lex in user_lexicon:
             for gold in lexicon_entries_gold:
-                if user_lex.getCanonicalForm().lower() == gold.getCanonicalForm().lower() and tmp_hm.has_key(user_lex.getCanonicalForm()) == False and MatchArrays(user_lex.getSense(),gold.getSense()) == True and user_lex.getPartOfSpeech() == gold.getPartOfSpeech():
-        
-                    tmp_hm[user_lex.getCanonicalForm()] = ""
-                    numberOfCorrectEntries_lexicon+=1
+                if gold.getPartOfSpeech() == None or gold.getPartOfSpeech() == "" or gold.getPartOfSpeech() == "None" :
+                    if user_lex.getCanonicalForm().lower() == gold.getCanonicalForm().lower() and tmp_hm.has_key(user_lex.getCanonicalForm()) == False and MatchArrays(user_lex.getSense(),gold.getSense()) == True:
+                        tmp_hm[user_lex.getCanonicalForm()] = ""
+                        numberOfCorrectEntries_lexicon+=1
+                else:
+                    if user_lex.getCanonicalForm().lower() == gold.getCanonicalForm().lower() and tmp_hm.has_key(user_lex.getCanonicalForm()) == False and MatchArrays(user_lex.getSense(),gold.getSense()) == True and user_lex.getPartOfSpeech() == gold.getPartOfSpeech():
+                        tmp_hm[user_lex.getCanonicalForm()] = ""
+                        numberOfCorrectEntries_lexicon+=1
                 
         
                 
