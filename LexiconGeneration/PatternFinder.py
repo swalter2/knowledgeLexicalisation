@@ -16,7 +16,7 @@ def find_pattern_between_x_and_y(x,y,parsed_sentence):
     In the second, more accurate approach, the direct connection between two entities, given the dependency path, is extracted as pattern. 
     """
     #######Always False, if the normal algorithm should be used!!!!!!#######
-    baseline = True
+    baseline = False
     ######################################################################
     x_original = x
     y_original = y

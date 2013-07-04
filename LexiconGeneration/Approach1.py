@@ -275,7 +275,7 @@ def createPatternFile(uri, path, name, hm):
     for key, value in hm.iteritems():  
               
         ####SHOULD BE 1
-        if value > 0:
+        if value > 1:
             overall_pattern_numer += value
             different_pattern += 1
             hm_new[key] = value
@@ -420,7 +420,7 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
     
     hm , overall_pattern_numer = createPatternFile(uri, path, name, hm)
     
-    
+    print "Created Pattern File"
     lexico_array, tmp_pattern_once = PatternUtil.create_lexico_array(hm,uri,1,en_de_lexicon)
     pattern_once += tmp_pattern_once
     
@@ -443,7 +443,7 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
             lemonEntriesHm[x]=""
 
 
-        
+    print "created standard entries"
 
     web_string = "<table><tr><td style=\"width: 50%;\"> "
     try:
@@ -461,7 +461,8 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
     web = web_table0+web_string
     
     #print "Number of used sentences: "+str(len(hm_res_sentences))
-    
+    print "created html side"
     hm.clear()
     
-    return web, lemonEntriesHm ,return_string
+    #return web, lemonEntriesHm ,return_string
+    return web, lemonEntriesHm

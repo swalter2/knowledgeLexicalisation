@@ -91,6 +91,30 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
 #    procentOfDataset = config.getint("entries", "ProcentOfCorpus")
     procentOfDataset = 100
 
+    special = False
+    if config.get("index","advancedEnglishIndex") == "True" and config.get('system_language', 'language') == "English":
+        special = True
+#    else:
+#        special = False
+    print ("special",str(special))
+    print ("config.get(\"index","advancedEnglishIndex\")",config.get("index","advancedEnglishIndex"))
+    print ("config.get('system_language', 'language')",config.get('system_language', 'language'))
+        
+    ###############
+    ##
+    ## TODO: After testing, make this user friendly
+    ##
+    ###############
+    f_in = open("/home/swalter/keystore_out","r")
+    hm_key = {}
+    for line in f_in:
+        line = line.replace("\n","")
+        tmp = line.split("\t")
+        hm_key[tmp[1].lower()]=tmp[0]
+    f_in.close()
+    print "keystore created"
+    ##############
+        
     parser = Sentence_Parser()
     not_in_index = []
     hm = {}
@@ -103,11 +127,35 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
             y = item[2]
             x = x.encode("ascii","ignore")
             y = y.encode("ascii","ignore")
-#            print ("x",x)
-#            print ("y",y)
+
+            key_list = []
+###############################################
+###############################################
+#
+#Create subset of keys
+            if special == True:
+                print "create subset of keys"
+                if hm_key.has_key(x.lower()):
+                    key_list.append(hm_key[x.lower()])
+                if hm_key.has_key(y.lower()):
+                    key_list.append(hm_key[y.lower()])
+                print ("key_list",key_list)
+                if len(key_list) == 0:
+                    #only to make sure, that search isnt started
+                    x = "a"
+                    y = "a"
+###############################################
+###############################################
+
             result = []
             if x != y:
-                result= index.search(term,1)
+                if special == True:
+                    print "start special search"
+                    result= index.search(key_list,special)
+                    print "returned "+str(len(result))+" sentences for special search"
+                    print
+                else:
+                    result= index.search(term,special)
                 tmp = result
                 result = []
                 for t in tmp:
@@ -148,15 +196,29 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
                 if found_x == True and found_y == False:
                     if " " in y:
                         searchY = y.split(" ")[0]
-                        if searchY != x:
-                            line = line.replace(" "+searchY+" ",replacementY.capitalize())
-                        found_y = True
+                        if searchY in line:
+                            if searchY != x:
+                                line = line.replace(" "+searchY+" ",replacementY.capitalize())
+                                found_y = True
+                            else:
+                                if " he " in line or " she " in line or " it " in line:
+                                    line = line.replace(" he ",replacementY.capitalize())
+                                    line = line.replace(" she ",replacementY.capitalize())
+                                    line = line.replace(" it ",replacementY.capitalize())
+                                    found_y = True  
                 if found_x == False and found_y == True:
                     if " " in x:
                         searchX = x.split(" ")[0]
-                        if searchX != y:
-                            line = line.replace(" "+searchX+" ",replacementX.capitalize())
-                        found_x = True
+                        if searchX in line:
+                            if searchX != y:
+                                line = line.replace(" "+searchX+" ",replacementX.capitalize())
+                                found_x = True
+                            else:
+                                if " he " in line or " she " in line or " it " in line:
+                                  line = line.replace(" he ",replacementX.capitalize())
+                                  line = line.replace(" she ",replacementX.capitalize())
+                                  line = line.replace(" it ",replacementX.capitalize())
+                                  found_x = True  
                         
                 if found_x == True and found_y == True:
                     #Use each line only for one x-y pair

@@ -7,7 +7,7 @@ from LexiconGeneration import Approach1
 from Evaluation import lexiconEvaluation
 
 #from LexiconGeneration.Parser import MaltParser
-from LexiconGeneration.Index import Index, LiveIndex, AnchorIndex
+from LexiconGeneration.Index import Index, LiveIndex, AnchorIndex, Index_WithID
 
 #m_parser = None
 index = None
@@ -86,21 +86,31 @@ def _init_():
     config.read('config.conf')
 
     
-    
+    special = False
     #Set paths to the correct target language
     path_to_index = ""
     path_to_parsed_sentences_index = ""
     if config.get('system_language', 'language') == "English":
         path_to_index = config.get('index', 'wikipedia_index_english');
         path_to_parsed_sentences_index = config.get('index', 'wikipedia_live_index_english')
+    if config.get("index","advancedEnglishIndex") == "True" and config.get('system_language', 'language') == "English":
+        path_to_parsed_sentences_index = config.get('index', 'wikipedia_live_index_english')
+        path_to_index = config.get('index', 'advanced_wikipedia_index_english')
         
+        special = True
     
     elif config.get('system_language', 'language') == "German":
         path_to_index = config.get('index', 'wikipedia_index_german');
         path_to_parsed_sentences_index = config.get('index', 'wikipedia_live_index_german')
         
     #create Indexes
-    index = Index.LuceneIndex(path_to_index)
+    print ("path_to_parsed_sentences_index",path_to_parsed_sentences_index)
+    print ("path_to_index",path_to_index)
+    if special == False:
+        index = Index.LuceneIndex(path_to_index)
+    else:
+        index = Index_WithID.LuceneIndex(path_to_index)
+        
     parsed_sentence_index = LiveIndex.LiveIndex(path_to_parsed_sentences_index)
     
     global anchor_index
@@ -351,13 +361,13 @@ def main():
     path = raw_input("Please enter a path where the Lexicon should be saved:  ")
     while True:
         input = raw_input("Please enter a valid DBpedia URI:  ")
-        if input == "quit":
+        if input == "quit" or input == "exit":
             print 
             print "Bye Bye!"
             exit(1)
         elif input == "train":
-            run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia-train_de.rdf",path,parse_flag)
-            #run_and_evaluate("Datasets/test.txt","Datasets/dbpedia-train-lexicon-en.ttl",path,parse_flag)
+            #run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia-train_de.rdf",path,parse_flag)
+            run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia-train-lexicon-en.ttl",path,parse_flag)
         else:
             start_time= time()
             try:

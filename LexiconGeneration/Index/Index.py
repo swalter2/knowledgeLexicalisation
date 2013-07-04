@@ -56,7 +56,7 @@ class LuceneIndex():
         #raw_input(string)
         return string
 
-    def search(self, string , rank):
+    def search(self, string ,special = None):
         query = ""
         try:
             MAX = 100000
