@@ -126,7 +126,10 @@ def createClassEntry(uri,en_target_lexicon):
             lexEntry = ":"+x.replace(" ","").lower()+" a lemon:LexicalEntry ;\n"
             lexEntry += "lexinfo:partOfSpeech lexinfo:noun ;\n"
             lexEntry += "lemon:canonicalForm [ lemon:writtenRep \""+x.lower()+"\"@en ];\n"
-            lexEntry += "lemon:sense [ lemon:reference <"+uri+"> ] ."
+            lexEntry += "lemon:synBehavior [ rdf:type lexinfo:NounPredicateFrame ;\n"
+            lexEntry += "lexinfo:subject :arg ];\n"
+            lexEntry += "lemon:sense [ lemon:reference <"+uri+"> ;\n"
+            lexEntry += "lemon:isA :arg ] ." 
             result_array.append(lexEntry)
     return result_array
 
