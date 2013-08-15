@@ -14,62 +14,53 @@ import Entry
 endpoint = "http://vtentacle.techfak.uni-bielefeld.de:443/sparql/"
 path_goldstandard_train = ""
 path_goldstandard_test  = ""
-Laenge_Goldstandard = 40
+Laenge_Goldstandard = 0
 
-
-
-#in commandline give path to lexicon and goldstandard lexicon
-
-
-def MatchArrays(array1 ,array2):
-    for user_lex in array1:
-        for gold in array2:
-            if user_lex == gold:
-                return True
-            
-    #raw_input("no entry found...")
-    return False
             
 
 def createArrayEntries(path):
 #    print"Load Path: "+str(path)
+    entry_hm = {}
+    number_of_entries = 0
     graph = loadGraph(path)
     lemon = Namespace("http://www.monnet-project.eu/lemon#")
     lexinfo = Namespace("http://www.lexinfo.net/ontology/2.0/lexinfo#")
     rdf = Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#")
     isocat = Namespace("http://www.isocat.org/datcat/")
-    #getProperties(graph)
+
 
     result_array = []
         
-#   for lexicon in getResultsFrom(graph,'Task2/sparql/lexicon.sparql'):
     for _,_,o in graph.triples((None,lemon.entry ,None)):
             canonicalForm = None
             reference = []
             sense_arguments = []
             synBehavior_arguments = []
-            frame = None
+            frame = []
             partOfSpeech = None
             for _,_,o1 in graph.triples((o,lemon.sense ,None)):
                 for _,_,o2 in graph.triples((o1,lemon.reference ,None)):
-                    reference.append(str(o2))
+                    if o2 != None and "http://dbpedia.org" in o2:
+                        reference.append(str(o2))
                     
-
-                for _,_,o2 in graph.triples((o1,lemon.subsense ,None)):
-                    for _,_,o3 in graph.triples((o2,lemon.reference ,None)):
-                        if str(o3) not in reference:
-                            reference.append(str(o3))
-                for _,B,o2 in graph.triples((o1,None ,None)):
-                    if "reference" not in B:
-                        
-                        if "subj" in B:
-                            sense_arguments.append(["subject",str(o2)])
-                        else:
-                            sense_arguments.append(["object",str(o2)])
+#                #ignore subsenses for now!!!
+#                for _,_,o2 in graph.triples((o1,lemon.subsense ,None)):
+#                    for _,_,o3 in graph.triples((o2,lemon.reference ,None)):
+#                        if str(o3) not in reference:
+#                            reference.append(str(o3))
+#                for _,B,o2 in graph.triples((o1,None ,None)):
+#                    if "reference" not in B:
+#                        
+#                        if "subj" in B:
+#                            sense_arguments.append(["subject",str(o2)])
+#                        else:
+#                            sense_arguments.append(["object",str(o2)])
             
             for _,_,o1 in graph.triples((o,lemon.synBehavior,None)):
                 for _,B,o2 in graph.triples((o1,rdf.type , None)):
-                    frame = o2
+                    if "lemon#Frame" not in o2:
+                        frame.append(o2)
+                        
                 for _,B,o2 in graph.triples((o1,None , None)):
                     if "#type" not in B:
                         if lexinfo in B:
@@ -83,36 +74,70 @@ def createArrayEntries(path):
                     #do not use for german!!
 #                    canonicalForm = canonicalForm.encode("ascii","ignore")
 #                    canonicalForm = canonicalForm.replace("\xf3","o")
-                    
-                    canonicalForm = canonicalForm.replace("\xc3\xbc","ue")
-                    canonicalForm = canonicalForm.replace("\xc3\xa4","ae")
-                    canonicalForm = canonicalForm.replace("\xc3\x9f","ss")
-                    canonicalForm = canonicalForm.replace("\xc3\xb6","oe")
+#
+#                    
+#                    canonicalForm = canonicalForm.replace("\xc3\xbc","ue")
+#                    canonicalForm = canonicalForm.replace("\xc3\xa4","ae")
+#                    canonicalForm = canonicalForm.replace("\xc3\x9f","ss")
+#                    canonicalForm = canonicalForm.replace("\xc3\xb6","oe")
                     
                     
             for _,_,o1 in graph.triples((o,lexinfo.partOfSpeech ,None)):
                 tmp = str(o1)
                 tmp = tmp.replace("http://www.lexinfo.net/ontology/2.0/lexinfo#","")
+                #############
+                ##
+                ## To keep evaluation simple, use only noun.
+                ## Same problem maybe occur with properNoun 
+                ##
+                #############
+#                print("tmp0",tmp)
+                if tmp.lower() == "commonnoun":
+                    tmp = "noun"
+#                print("tmp",tmp)
                 partOfSpeech = tmp.lower()
                 
-#            if "http://dbpedia.org/ontology/spouse" in reference and "cnyuge" in canonicalForm:
-#                
-#                print str(reference)
-#                print ("canonicalForm",str(canonicalForm))
-#                print ("frame",str(frame))
-#                print ("partOfSpeech",str(partOfSpeech))
-#                print ("path",path)
-#                raw_input("wait")
-##                print
+
                     
             if len(reference) != 0 and canonicalForm != None:
-                #print "reference: "+reference
-                entry = Entry.Entry(canonicalForm.replace(" ","").lower(), str(canonicalForm), reference, str(frame), None, str(partOfSpeech),sense_arguments, synBehavior_arguments)
-                result_array.append(entry)
+#                print "reference: "+str(reference)
+                for ref in reference:
+#                    print "ref: "+ref
+                    if str(partOfSpeech) == "None":
+                        partOfSpeech = "noun"
+                    entry = Entry.Entry(canonicalForm.replace(" ","").lower(), str(canonicalForm), ref, frame, None, str(partOfSpeech),sense_arguments, synBehavior_arguments)
+                    number_of_entries += 1
+                    if entry_hm.has_key(ref):
+                        tmp = entry_hm[ref]
+                        if tmp != None:
+                            tmp.append(entry)
+                            entry_hm[ref] = tmp
+                    else:
+                        entry_hm[ref] = [entry]
             
-    return result_array
+    return entry_hm, number_of_entries
 
 
+
+
+def calculateOverallAccuracy(key,user_lex,signature_ml, hm_ML, subject_map, object_map):
+    counter = 0
+    overall_value = 0
+    for gold in hm_ML[key]:
+        signature_tmp = str(gold.getPartOfSpeech())+" "+gold.getCanonicalForm().lower()+" "+str(gold.getSense())
+        if signature_ml == signature_tmp:
+            value = 0
+            try:
+                value = calculateAccuracy(key,user_lex, gold, subject_map, object_map)
+                counter += 1
+                if value > overall_value:
+                    overall_value = value
+            except:
+                print "Error in Accuracy"
+                print "Unexpected error:", sys.exc_info()[0]
+                print
+
+    return  overall_value
 
 
 
@@ -124,35 +149,144 @@ def createArrayEntries(path):
 ################################################################################## 
 ##################################################################################  
 
-def evaluate(path_user_lexicon,Train_evaluation,path_goldstandard):
+
+def calculateAccuracy(key,user_lex, gold, subject_map, object_map):
+    points = 0
+    local_points = 0
+    #einen Punkt fuers korrekte Frame
+    if len(gold.getFrame()) == 0:
+        local_points += 1
+    else:
+        found_frames = 0
+        for user_frame in user_lex.getFrame():
+            for gold_frame in gold.getFrame():
+                if user_frame == gold_frame:
+                    found_frames += 1
+        if found_frames >= len(gold.getFrame()):
+            local_points += 1
+        else:
+            #also give part frames, if for example the user has one frame correct, but the second wrong
+            local_points += (float(found_frames)/len(gold.getFrame()))
+        
+        
+    #einen Punkt fuer korrekten eigenen Eintrag, d.h. ist das Subject Argument in der sense auch das Subject in synbehaviour? Nur fuer den vom user gegebenen Eintrag
+    if len(user_lex.getSynBehavior_arguments()) == 0 or len(user_lex.getSense_arguments()) == 0:
+        local_points += 1
+    elif len(user_lex.getSynBehavior_arguments()) == len(user_lex.getSense_arguments()):
+        tmp_points = 0
+        #Abhaengig von den Eintraegen in Gold!!!
+        #########################################
+        #
+        #
+        #
+        # 1 = sub -> obj
+        # 2 = obj -> sub
+        # 3 = sub -> sub
+        # 4 = obj -> obj
+        #
+        #
+        #
+        #########################################
+        fingerprint_user = []
+        fingerprint_gold = []
+        for entry_sense in user_lex.getSense_arguments():
+            for entry_syn in user_lex.getSynBehavior_arguments():
+                if entry_sense[1] == entry_syn[1]:
+                    if "subject" in entry_sense[0] and entry_syn[0] in object_map:
+                        fingerprint_user.append("1")
+                    if "object" in entry_sense[0] and entry_syn[0] in subject_map:
+                        fingerprint_user.append("2")
+                    if "subject" in entry_sense[0] and entry_syn[0] in subject_map:
+                        fingerprint_user.append("3")
+                    if "object" in entry_sense[0] and entry_syn[0] in object_map:
+                        fingerprint_user.append("4")
+        
+        for entry_sense in gold.getSense_arguments():
+            for entry_syn in gold.getSynBehavior_arguments():
+                if entry_sense[1] == entry_syn[1]:
+                    if "subject" in entry_sense[0] and entry_syn[0] in object_map:
+                        fingerprint_gold.append("1")
+                    if "object" in entry_sense[0] and entry_syn[0] in subject_map:
+                        fingerprint_gold.append("2")
+                    if "subject" in entry_sense[0] and entry_syn[0] in subject_map:
+                        fingerprint_gold.append("3")
+                    if "object" in entry_sense[0] and entry_syn[0] in object_map:
+                        fingerprint_gold.append("4")
+        
+        if len(fingerprint_user) == len(fingerprint_gold):
+            correct = True
+            for x in fingerprint_gold:
+                if x not in fingerprint_user:
+                    correct = False
+            
+            if correct == True:
+                local_points += 1
+        elif len(fingerprint_user) != len(fingerprint_gold):
+            number_tmp = 0
+            for x in fingerprint_gold:
+                if x in fingerprint_user:
+                    number_tmp += 1
+            
+            if number_tmp == 0:
+                local_points += 0
+            else:
+                local_points += number_tmp / len(fingerprint_gold)
+    else:
+        local_points += 0
+    #einen Punkt, wenn die Mappings im Synbehaviour von user_lex und gold gleich sind
+    #ueberprueft und funktioniert
+    if len(gold.getSynBehavior_arguments()) == 0:
+        local_points += 1
+    elif len(user_lex.getSynBehavior_arguments()) == len(gold.getSynBehavior_arguments()):
+        found = 0
+        for syn_1 in user_lex.getSynBehavior_arguments():
+            for syn_2 in gold.getSynBehavior_arguments():
+                if syn_1[0] == syn_2[0]:
+                    found += 1
+
+        
+        if found >= len(gold.getSynBehavior_arguments()):
+            local_points += 1
+    else:
+        local_points += 0
+#                print local_points
+    #ganz am Ende entweder 0 zurueck geben, oder normieren uber die 3 Punkte
+    if local_points == 0:
+        points = 0
+    else:
+        if askClassProperty(key) == True and local_points<=2.0 :
+            local_points = (local_points + 0.0) / 2
+        else:
+            local_points = (local_points + 0.0) / 3
+        points = local_points
+    return  points
+
+def evaluate(path_user_lexicon,Train_evaluation,path_goldstandard, number_of_uris = 40):
+    #default: number_of_uris = 40
+    print "Start evaluation"
+    print
+    
+    adding_counter = 0
 
     
     Train_evaluation = True
     
     results_each_uri = []
-#    
-#    
-#    if len(sys.argv)>3:
-#        path_user_lexicon = sys.argv[1]
-#        if str(sys.argv[2]) == "0":
-#            Train_evaluation = True
-#        elif str(sys.argv[2]) == "1":
-#            Train_evaluation = False
-            
 
-#    else:
-#        exit(1)
-       
-#    if Train_evaluation: path_goldstandard = path_goldstandard_train
-#    else:                path_goldstandard = path_goldstandard_test 
-      
-    user_lexicon_global = createArrayEntries(path_user_lexicon)
-    hm_of_uris = {}
+    print "    Load user lexicon!"
+    hm_UL , number_of_entries_UL= createArrayEntries(path_user_lexicon)
+    print "    Done!"
+    print
+    print "    Load goldstandard lexicon!"
+    hm_ML, number_of_entries_ML = createArrayEntries(path_goldstandard)
+    print "    Done!"
+
+    Laenge_Goldstandard = number_of_uris
+##for TEST!!!
+#    Laenge_Goldstandard = len(hm_UL)
+
+
     
-    for entry in user_lexicon_global:
-        tmp = entry.getSense()
-        for x in tmp:
-            hm_of_uris[x] = ""
         
     ################## First Recall/Precision over given lexicon entries ##########################
     
@@ -160,236 +294,98 @@ def evaluate(path_user_lexicon,Train_evaluation,path_goldstandard):
     global_Precision = 0
     global_FMeasure = 0
     global_Accuracy = 0
-
     
-    
-    for uri_to_compare_with in hm_of_uris:
-
-        listOfPathes = []
-        lexicon_entries_gold = []
-        user_lexicon = []
+    subject_map = {}
+    object_map = {}
+    subject_map,object_map = return_mapping()
         
-        listOfPathes.extend(glob.glob(path_goldstandard))
+    for key in hm_UL:
         
-        
-        #create gold lexicon only containing entries for uri_to_compare_with over all given pathes
-        for path in listOfPathes:
-            #print "Path: "+path
-            for item in createArrayEntries(path):
-                
-                #check here, if already the same entry is in the goldstandard...
-                #if there is the same, do not add!
-                
-                if uri_to_compare_with in item.getSense():
-                    adding = True
-                    for x in lexicon_entries_gold:
-                        if item.getCanonicalForm().lower() == x.getCanonicalForm().lower() and MatchArrays(item.getSense(),x.getSense()) == True and item.getPartOfSpeech() == x.getPartOfSpeech():
-                            adding = False
-                            break
-                    
-                    if adding == True:
-                        lexicon_entries_gold.append(item)
-                        
-                        
-                        
-        #create user lexicon only containing entries for uri_to_compare_with
-        for user_entry in user_lexicon_global:  
-            if uri_to_compare_with in user_entry.getSense():
-                adding = True
-                for x in user_lexicon:
-                    if user_entry.getCanonicalForm().lower() == x.getCanonicalForm().lower() and MatchArrays(user_entry.getSense(),x.getSense()) == True and user_entry.getPartOfSpeech() == x.getPartOfSpeech():
-                        adding = False
-                        break
-                
-                if adding == True:
-                    user_lexicon.append(user_entry)
-                    
-                    
-        
-        
-        numberOfEntries_lexicon = float(len(user_lexicon))
-        numberOfEntries_goldstandard = float(len(lexicon_entries_gold))
-        
+        local_Recall = 0
+        local_Precision = 0
+        local_FMeasure = 0
+        local_Accuracy = 0
         numberOfCorrectEntries_lexicon = 0
-        Recall = 0
-        Precision = 0
-        FMeasure = 0
-        Accuracy = 0
-        
-            
-        tmp_hm = {}
-        
-        #Only sense, canonical and partofSpeech form together can really identify an entry
-        for user_lex in user_lexicon:
-            for gold in lexicon_entries_gold:
-                if gold.getPartOfSpeech() == None or gold.getPartOfSpeech() == "" or gold.getPartOfSpeech() == "None" :
-                    if user_lex.getCanonicalForm().lower() == gold.getCanonicalForm().lower() and tmp_hm.has_key(user_lex.getCanonicalForm()) == False and MatchArrays(user_lex.getSense(),gold.getSense()) == True:
-                        tmp_hm[user_lex.getCanonicalForm()] = ""
-                        numberOfCorrectEntries_lexicon+=1
-                else:
-                    if user_lex.getCanonicalForm().lower() == gold.getCanonicalForm().lower() and tmp_hm.has_key(user_lex.getCanonicalForm()) == False and MatchArrays(user_lex.getSense(),gold.getSense()) == True and user_lex.getPartOfSpeech() == gold.getPartOfSpeech():
-                        tmp_hm[user_lex.getCanonicalForm()] = ""
-                        numberOfCorrectEntries_lexicon+=1
-                
-        
-                
-        if numberOfCorrectEntries_lexicon == 0:
-            Recall = 0
-            Precision = 0
-            FMeasure = 0
-        else:
-            
-            Recall = round((numberOfCorrectEntries_lexicon/numberOfEntries_goldstandard),5)
-            Precision = round((numberOfCorrectEntries_lexicon/numberOfEntries_lexicon),5)
-            FMeasure = round((2*Recall*Precision)/(Precision+Recall),5)
-        
-        
-        subject_map = {}
-        object_map = {}
-        subject_map,object_map = return_mapping()
-        
-        
-        
-        
-        
-        
         points = 0
-        entries_counter = 0
-        for user_lex in user_lexicon:
-            for gold in lexicon_entries_gold:
-                if user_lex.getCanonicalForm().lower() == gold.getCanonicalForm().lower() and MatchArrays(user_lex.getSense(),gold.getSense()) == True and user_lex.getPartOfSpeech() == gold.getPartOfSpeech():
-                    #print str(user_lex.getCanonicalForm())
-                    local_points = 0
-                    entries_counter += 1
-                    # For classes check only the Frame!
-                    if askClassProperty(user_lex.getSense()[0]) == True and len(user_lex.getSense())==1:
-                        if user_lex.getFrame() == gold.getFrame():
-                            local_points += 1
-                            
+        tmp_hm = {}
+        used_entries = 0
+        signature_hm = {}
+        
+        correct_user_entries = {}
+        
+        for user_lex in hm_UL[key]:
+            signature_ml_hm = {}
+            for gold in hm_ML[key]:
+                #only use each user triple once!! otherwise there can be a higher recall than one!
+                signature = str(user_lex.getPartOfSpeech())+" "+user_lex.getCanonicalForm().lower()+" "+str(user_lex.getSense())
+                signature_ml = str(gold.getPartOfSpeech())+" "+gold.getCanonicalForm().lower()+" "+str(gold.getSense())
+
+                if signature not in signature_hm and signature_ml not in signature_ml_hm and gold.getPartOfSpeech() == user_lex.getPartOfSpeech() and user_lex.getCanonicalForm().lower() == gold.getCanonicalForm().lower() and user_lex.getSense()== gold.getSense():
+                    numberOfCorrectEntries_lexicon+=1
+                    signature_hm[signature]=""
+                    signature_ml_hm[signature_ml]= ""
+                    tmp_accuracy = calculateOverallAccuracy(key,user_lex,signature_ml, hm_ML, subject_map, object_map)
+                    local_Accuracy += tmp_accuracy
+                    entry = user_lex
+                    if correct_user_entries.has_key(key):
+                        tmp = correct_user_entries[key]
+                        if tmp != None:
+                            tmp.append(entry)
+                            correct_user_entries[key] = tmp
                     else:
-                        
-                        #einen Punkt fuers korrekte Frame
-                        if user_lex.getFrame() == gold.getFrame():
-                            local_points +=1
-                           
-                            
-                        #einen Punkt fuer korrekten eigenen Eintrag, d.h. ist das Subject Argument in der sense auch das Subject in synbehaviour? Nur fuer den vom user gegebenen Eintrag
-                        if len(user_lex.getSynBehavior_arguments()) == len(user_lex.getSense_arguments()):
-                            tmp_points = 0
-                            
-                            #Abhaengig von den Eintraegen in Gold!!!
-                            #########################################
-                            #
-                            #
-                            #
-                            # 1 = sub -> obj
-                            # 2 = obj -> sub
-                            # 3 = sub -> sub
-                            # 4 = obj -> obj
-                            #
-                            #
-                            #
-                            #########################################
-                            fingerprint_user = []
-                            fingerprint_gold = []
-                            for entry_sense in user_lex.getSense_arguments():
-                                for entry_syn in user_lex.getSynBehavior_arguments():
-                                    if entry_sense[1] == entry_syn[1]:
-                                        if "subject" in entry_sense[0] and entry_syn[0] in object_map:
-                                            fingerprint_user.append("1")
-                                        if "object" in entry_sense[0] and entry_syn[0] in subject_map:
-                                            fingerprint_user.append("2")
-                                        if "subject" in entry_sense[0] and entry_syn[0] in subject_map:
-                                            fingerprint_user.append("3")
-                                        if "object" in entry_sense[0] and entry_syn[0] in object_map:
-                                            fingerprint_user.append("4")
-                                            
-                            for entry_sense in gold.getSense_arguments():
-                                for entry_syn in gold.getSynBehavior_arguments():
-                                    if entry_sense[1] == entry_syn[1]:
-                                        if "subject" in entry_sense[0] and entry_syn[0] in object_map:
-                                            fingerprint_gold.append("1")
-                                        if "object" in entry_sense[0] and entry_syn[0] in subject_map:
-                                            fingerprint_gold.append("2")
-                                        if "subject" in entry_sense[0] and entry_syn[0] in subject_map:
-                                            fingerprint_gold.append("3")
-                                        if "object" in entry_sense[0] and entry_syn[0] in object_map:
-                                            fingerprint_gold.append("4")
- 
-                            
-                            
-                            if len(fingerprint_user) == len(fingerprint_gold):
-                                correct = True
-                                for x in fingerprint_gold:
-                                    if x not in fingerprint_user:
-                                        correct = False
-                                if correct == True:
-                                    local_points += 1
-                                        
-                            elif len(fingerprint_user) != len(fingerprint_gold):
-                                number_tmp = 0
-                                for x in fingerprint_gold:
-                                    if x in fingerprint_user:
-                                        number_tmp += 1
-                                if number_tmp == 0:
-                                    local_points += 0
-                                else:
-                                    local_points += (number_tmp/len(fingerprint_gold))
-                          
-                                                
-                        else:
-                            local_points += 0
-                           
-                                            
-                                            
-                            
-                            
-                        #einen Punkt, wenn die Mappings im Synbehaviour von user_lex und gold gleich sind
-        
-                        if len(user_lex.getSynBehavior_arguments()) == len(gold.getSynBehavior_arguments()):
-                            found = 0
-                            for syn_1 in user_lex.getSynBehavior_arguments():
-                                for syn_2 in gold.getSynBehavior_arguments():
-                                    if syn_1[0] == syn_2[0]:
-                                        found +=1
-                            if found == len(gold.getSynBehavior_arguments()):
-                                local_points += 1
-                                
-                                    
-                        else:
-                            local_points += 0
-                            print local_points
-                            
-                        #ganz am Ende entweder 0 zurueck geben, oder normieren uber die 3 Punkte
-                        if local_points == 0:
-                            points += local_points
-                          
-                        else:
-                            local_points = (local_points+0.0)/3
-                           
-                            
-                            
-                    points += local_points
-     
-                    
-        if entries_counter >0:
-            Accuracy = points/entries_counter
+                        correct_user_entries[key] = [entry]
+
+
+        if len(correct_user_entries) == 0:
+            local_accuracy = 0
         else:
-            Accuracy = 0
-        
-        
-        results_each_uri.append([uri_to_compare_with,Recall,Precision,FMeasure,Accuracy])
-        global_Recall += Recall
-        global_Precision += Precision
-        global_FMeasure += FMeasure
-        global_Accuracy += Accuracy
+            local_Accuracy = (local_Accuracy+0.0)/numberOfCorrectEntries_lexicon
 
 
-    #write results
-    global_Recall = global_Recall/Laenge_Goldstandard
-    global_Precision = global_Precision/Laenge_Goldstandard
-    global_FMeasure = global_FMeasure/Laenge_Goldstandard
-    global_Accuracy = global_Accuracy/Laenge_Goldstandard
+            
+        if numberOfCorrectEntries_lexicon == 0:
+            local_Recall = 0
+            local_Precision = 0
+            local_FMeasure = 0
+        else:
+
+            #use signature for number entries UL and ML.
+            hm1 = {}
+            for user_lex in hm_UL[key]:
+                signature = str(user_lex.getPartOfSpeech())+" "+user_lex.getCanonicalForm().lower()+" "+str(user_lex.getSense())
+                hm1[signature] = ""
+
+            hm2 = {}
+            for gold in hm_ML[key]:
+                signature_ml = str(gold.getPartOfSpeech())+" "+gold.getCanonicalForm().lower()+" "+str(gold.getSense())
+                hm2[signature_ml] = ""
+                
+            local_number_of_entries_UL = len(hm1)
+            local_number_of_entries_ML = len(hm2)
+            
+            
+            local_Recall = round((numberOfCorrectEntries_lexicon/float(local_number_of_entries_ML)),5)
+            local_Precision = round((numberOfCorrectEntries_lexicon/float(local_number_of_entries_UL)),5)
+            local_FMeasure = round((2*local_Recall*local_Precision)/(local_Precision+local_Recall),5)
+            
+        if local_Recall == 0:
+            # in order to ignore accuracy, if no correct entry can be found, set accuracy to 1
+            # as later is divided over the number of property, it normalizes itself for the overall result.
+            local_Accuracy = 1
+        results_each_uri.append([key,local_Recall,local_Precision,local_FMeasure,local_Accuracy])
+        global_Recall += local_Recall
+        global_Precision += local_Precision
+        global_FMeasure += local_FMeasure
+        global_Accuracy += local_Accuracy
+        adding_counter += 1
+
+
+#TODO: Warum werden vier EIntraege bei dataset/classes ignoriert, denn adding_counter ist vier kleiner als len(classes) 
+    global_Recall = global_Recall/adding_counter
+    global_Precision = global_Precision/adding_counter
+    global_FMeasure = global_FMeasure/adding_counter
+    global_Accuracy = global_Accuracy/adding_counter
+
     
     #Train_evaluation == True -> HTML-Datei
     #Train_evaluation == False -> TEST-Datei
@@ -415,7 +411,7 @@ def evaluate(path_user_lexicon,Train_evaluation,path_goldstandard):
 def create_html_file(global_Recall,global_Precision,global_FMeasure,global_Accuracy,results_each_uri,filename):
     start_table= "<!doctype html> <html> <head> <title>Evaluation</title></head> <body> <p>Evaluation</p>"
     space="<p></p><p></p><p></p><p></p><p></p>"
-    tabelle1="<table class=\"eval\" border=\"1\"><tr><th>URI</th><th>Recall</th><th>Precision</th><th>F-Measure</th><th>Accuracy</th></tr>"
+    tabelle1="<table class=\"eval\" border=\"1\"><tr><th>Counter</th><th>URI</th><th>Recall</th><th>Precision</th><th>F-Measure</th><th>Accuracy</th></tr>"
     tabelle2="<table class=\"eval\" border=\"1\"><tr><th>Global Recall</th><th>Global Precision</th><th>Global F-Measure</th><th>Global Accuracy</th></tr>"
     inhalt_tabelle2="<tr><td>"+str(global_Recall)+"</td><td>"+str(global_Precision)+"</td><td>"+str(global_FMeasure)+"</td><td>"+str(global_Accuracy)+"</td></tr>" 
     end_tabelle="</table>"
@@ -424,9 +420,10 @@ def create_html_file(global_Recall,global_Precision,global_FMeasure,global_Accur
     string=""
     
     #results_each_uri.appen([uri_to_compare_with,Recall,Precision,FMeasure,Accuracy])
-    
+    counter = 0
     for uri,recall,precision,fmeasure,accuracy in results_each_uri:
-        string_bla="<tr><td>"+uri+"</td><td>"+str(recall)+"</td><td>"+str(precision)+"</td><td>"+str(fmeasure)+"</td><td>"+str(accuracy)+"</td></tr>"       
+        counter += 1
+        string_bla="<tr><td>"+str(counter)+"</td><td>"+uri+"</td><td>"+str(recall)+"</td><td>"+str(precision)+"</td><td>"+str(fmeasure)+"</td><td>"+str(accuracy)+"</td></tr>"       
         string+=string_bla                                                                                            
 
     outfile=open(filename,"w")
@@ -497,22 +494,28 @@ def create_entryTerm(entry):
  
  
 def askClassProperty(uri):
-    sparql = SPARQLWrapper(endpoint)
-    sparql.setQuery("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX owl: <http://www.w3.org/2002/07/owl#>  ASK WHERE {<"+uri+"> rdf:type owl:Class}")
-    sparql.setReturnFormat(JSON)
-    results = sparql.query().convert()
-    #print results
-    for result in results:
-        try:
-            string = str(results[result])
-            if "False" in string:
-                return False
-            
-            if "True" in string:
-                return True
-        except:
-            pass
-    return False
+#    print "in askClassProperty"
+    uri = uri.replace("http://dbpedia.org/ontology/","")
+    if uri[0].isupper():
+        return True
+    else:
+        False
+#    sparql = SPARQLWrapper(endpoint)
+#    sparql.setQuery("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX owl: <http://www.w3.org/2002/07/owl#>  ASK WHERE {<"+uri+"> rdf:type owl:Class}")
+#    sparql.setReturnFormat(JSON)
+#    results = sparql.query().convert()
+#    #print results
+#    for result in results:
+#        try:
+#            string = str(results[result])
+#            if "False" in string:
+#                return False
+#            
+#            if "True" in string:
+#                return True
+#        except:
+#            pass
+#    return False
 
 
 
