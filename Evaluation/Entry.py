@@ -10,6 +10,7 @@ class Entry():
     partOfSpeech = None
     sense_arguments = []
     synBehavior_arguments = []
+    
     def __init__(self, entryTerm = None, canonicalForm = None, reference = None, synBehaviorFrame = None, marker = None, partOfSpeech = None, sense_arguments = None, synBehavior_arguments = None):
         self.entryTerm = entryTerm
         self.canonicalForm = canonicalForm

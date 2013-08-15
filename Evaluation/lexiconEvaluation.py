@@ -415,8 +415,7 @@ def create_html_file(global_Recall,global_Precision,global_FMeasure,global_Accur
     tabelle2="<table class=\"eval\" border=\"1\"><tr><th>Global Recall</th><th>Global Precision</th><th>Global F-Measure</th><th>Global Accuracy</th><th>F-Prime</th></tr>"
     f_prime = (2*global_FMeasure*global_Accuracy)/(global_Accuracy+global_FMeasure)
     inhalt_tabelle2="<tr><td>"+str(global_Recall)+"</td><td>"+str(global_Precision)+"</td><td>"+str(global_FMeasure)+"</td><td>"+str(global_Accuracy)+"</td><td>"+str(f_prime)+"</td></tr>" 
-    end_tabelle="</table>"
-    
+    end_tabelle="</table>"  
     ende="</body> </html>"
     string=""
     
