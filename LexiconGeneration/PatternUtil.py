@@ -129,7 +129,7 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
         ##########################
         ## Take all pattern with a certain percentage 
         ##########################
-        if (((value/(overall_pattern_numer+0.0))*100) > procentOfPatterns and best_counter < max_counter+1) or overall_pattern_numer == len(hm):
+#        if (((value/(overall_pattern_numer+0.0))*100) > procentOfPatterns and best_counter < max_counter+1) or overall_pattern_numer == len(hm):
         
         ##########################
         ## Take only the top 100 pattern
@@ -145,7 +145,7 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
         ## Take every pattern which exists at least twice
         ## and ignore pattern which exists only once
         ##########################
-#        if value > 1:
+        if value > 1:
 
 
             try:
@@ -174,56 +174,6 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
         tmp_array.append(1)
         lexico_array.append(tmp_array)
 
-
-#    label = sparql.getLabel(uri)[0]
-#    print "label: "+label
-#    if "(" in label:
-#        label = label.split("(")[0]
-#    if label.endswith(" "):
-#        label = label[:-1]
-#        
-#    """
-#    Create some standard lexical entries, on base of the label of the property
-#    """
-#    entry = LexiconGenerator.NounPPFrame(label, uri, {})
-#    tmp_array = []
-#    tmp_array.append(entry)
-#    tmp_array.append("Noun created by Guessing")
-#    tmp_array.append(1)
-#    lexico_array.append(tmp_array)
-#    
-#    entry = LexiconGenerator.AdjectivePPFrame(label, uri, {})
-#    tmp_array = []
-#    tmp_array.append(entry)
-#    tmp_array.append("Adjective created by Guessing")
-#    tmp_array.append(1)
-#    lexico_array.append(tmp_array)
-#    
-#    entry = LexiconGenerator.NounPossisiveFrameWithoutMarker(label, uri)
-#    #print entry
-#    tmp_array = []
-#    tmp_array.append(entry)
-#    tmp_array.append("NounPossisive created by guessing")
-#    tmp_array.append(1)
-#    lexico_array.append(tmp_array)
-#
-#    
-#    lemma = lmtzr.lemmatize(label,"v")
-#
-#    entry = LexiconGenerator.TransitiveFrame(lemma, uri, {})
-#    tmp_array = []
-#    tmp_array.append(entry)
-#    tmp_array.append("Verb created by Wordnet")
-#    tmp_array.append(1)
-#    lexico_array.append(tmp_array)
-#    
-#    entry = LexiconGenerator.TransitiveFrame(label, uri, {})
-#    tmp_array = []
-#    tmp_array.append(entry)
-#    tmp_array.append("Verb created by Wordnet")
-#    tmp_array.append(1)
-#    lexico_array.append(tmp_array)
-    
         
     return lexico_array , pattern_once
 
