@@ -1,7 +1,9 @@
 class Entry():
     entryTerm = None
     canonicalForm = None
-    sense = []
+    #old version
+#    sense = []
+    sense = None
     synBehaviorFrame = None
     marker = None
     original = None
@@ -45,3 +47,5 @@ class Entry():
     def getSynBehavior_arguments(self):
         return self.synBehavior_arguments
     
+    def e_print(self):
+        print str(self.canonicalForm) +"  "+ str(self.sense) +"  "+ str(self.getPartOfSpeech())

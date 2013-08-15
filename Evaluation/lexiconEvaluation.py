@@ -412,8 +412,9 @@ def create_html_file(global_Recall,global_Precision,global_FMeasure,global_Accur
     start_table= "<!doctype html> <html> <head> <title>Evaluation</title></head> <body> <p>Evaluation</p>"
     space="<p></p><p></p><p></p><p></p><p></p>"
     tabelle1="<table class=\"eval\" border=\"1\"><tr><th>Counter</th><th>URI</th><th>Recall</th><th>Precision</th><th>F-Measure</th><th>Accuracy</th></tr>"
-    tabelle2="<table class=\"eval\" border=\"1\"><tr><th>Global Recall</th><th>Global Precision</th><th>Global F-Measure</th><th>Global Accuracy</th></tr>"
-    inhalt_tabelle2="<tr><td>"+str(global_Recall)+"</td><td>"+str(global_Precision)+"</td><td>"+str(global_FMeasure)+"</td><td>"+str(global_Accuracy)+"</td></tr>" 
+    tabelle2="<table class=\"eval\" border=\"1\"><tr><th>Global Recall</th><th>Global Precision</th><th>Global F-Measure</th><th>Global Accuracy</th><th>F-Prime</th></tr>"
+    f_prime = (2*global_FMeasure*global_Accuracy)/(global_Accuracy+global_FMeasure)
+    inhalt_tabelle2="<tr><td>"+str(global_Recall)+"</td><td>"+str(global_Precision)+"</td><td>"+str(global_FMeasure)+"</td><td>"+str(global_Accuracy)+"</td><td>"+str(f_prime)+"</td></tr>" 
     end_tabelle="</table>"
     
     ende="</body> </html>"
