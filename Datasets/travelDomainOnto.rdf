@@ -1,0 +1,797 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY Ontology1336387504255 "http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#"
+     xml:base="http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:Ontology1336387504255="http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#airline -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;airline">
+        <rdfs:range rdf:resource="&Ontology1336387504255;AirLine"/>
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Leg"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#airport -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;airport">
+        <rdfs:range rdf:resource="&Ontology1336387504255;Airport"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#arrival -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;arrival">
+        <rdfs:range rdf:resource="&Ontology1336387504255;Arrival"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#car -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;car">
+        <rdfs:range rdf:resource="&Ontology1336387504255;Car"/>
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Rental"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#carType -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;carType">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Car"/>
+        <rdfs:range rdf:resource="&Ontology1336387504255;CarType"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#city -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;city">
+        <rdfs:range rdf:resource="&Ontology1336387504255;City"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#cityCountry -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;cityCountry">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;City"/>
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;country"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#country -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;country">
+        <rdfs:range rdf:resource="&Ontology1336387504255;Country"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#departure -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;departure">
+        <rdfs:range rdf:resource="&Ontology1336387504255;Departure"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#flight -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;flight">
+        <rdfs:range rdf:resource="&Ontology1336387504255;Flight"/>
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Trip"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#flightArrival -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;flightArrival">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Leg"/>
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;arrival"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#flightdeparture -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;flightdeparture">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Leg"/>
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;departure"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#hotel -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;hotel">
+        <rdfs:range rdf:resource="&Ontology1336387504255;Hotel"/>
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Stay"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#hotelArrival -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;hotelArrival">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Stay"/>
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;arrival"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#hoteldeparture -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;hoteldeparture">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Stay"/>
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;departure"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#leg -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;leg">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Flight"/>
+        <rdfs:range rdf:resource="&Ontology1336387504255;Leg"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#leg1 -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;leg1">
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;leg"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#leg2 -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;leg2">
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;leg"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#leg3 -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;leg3">
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;leg"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#location -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;location">
+        <rdfs:range rdf:resource="&Ontology1336387504255;Location"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#manufacturer -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;manufacturer">
+        <rdfs:range rdf:resource="&Ontology1336387504255;Manufacturer"/>
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Plane"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#meal -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;meal">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Leg"/>
+        <rdfs:range rdf:resource="&Ontology1336387504255;Meal"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#planeType -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;planeType">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Leg"/>
+        <rdfs:range rdf:resource="&Ontology1336387504255;Plane"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#rental -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;rental">
+        <rdfs:range rdf:resource="&Ontology1336387504255;Rental"/>
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Trip"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#rental1 -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;rental1">
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;rental"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#rental2 -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;rental2">
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;rental"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#rentalCompany -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;rentalCompany">
+        <rdfs:range rdf:resource="&Ontology1336387504255;Company"/>
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Rental"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#rentalLocation -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;rentalLocation">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Rental"/>
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;location"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#state -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;state">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;City"/>
+        <rdfs:range rdf:resource="&Ontology1336387504255;State"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#stateCountry -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;stateCountry">
+        <rdfs:range rdf:resource="&Ontology1336387504255;State"/>
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;country"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#stay -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;stay">
+        <rdfs:range rdf:resource="&Ontology1336387504255;Stay"/>
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Trip"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#stay1 -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;stay1">
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;stay"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#stay2 -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;stay2">
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;stay"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#stayLocation -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;stayLocation">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Stay"/>
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;location"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#stopover -->
+
+    <owl:ObjectProperty rdf:about="&Ontology1336387504255;stopover">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Leg"/>
+        <rdfs:range rdf:resource="&Ontology1336387504255;StopOver"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#adddress -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;adddress">
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#airportName -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;airportName">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Airport"/>
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;name"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#carType -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;carType">
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#cityName -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;cityName">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;City"/>
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;name"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#class -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;class">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Flight"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#companyName -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;companyName">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Company"/>
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;name"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#datecall -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;datecall">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;UserInfo"/>
+        <rdfs:range rdf:resource="&xsd;dateTime"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#fareType -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;fareType">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Flight"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#fax -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;fax">
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#flighnumber -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;flighnumber">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;StopOver"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#guestsnumber -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;guestsnumber">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Stay"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#hasDuration -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;hasDuration">
+        <rdfs:range rdf:resource="&xsd;decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#hasTime -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;hasTime">
+        <rdfs:range rdf:resource="&xsd;dateTime"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#hotelName -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;hotelName">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Hotel"/>
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;name"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#id -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;id">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;UserInfo"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#manufacturerName -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;manufacturerName">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Manufacturer"/>
+        <rdfs:subPropertyOf rdf:resource="&Ontology1336387504255;name"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#mealType -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;mealType">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Meal"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#name -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;name">
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#passnumber -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;passnumber">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Flight"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#price -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;price">
+        <rdfs:range rdf:resource="&xsd;decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#priceCurrency -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;priceCurrency">
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#pricedaily -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;pricedaily">
+        <rdfs:range rdf:resource="&xsd;decimal"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#roomnumber -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;roomnumber">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Stay"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#seatPreference -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;seatPreference">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;Flight"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#tel -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;tel">
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#timecall -->
+
+    <owl:DatatypeProperty rdf:about="&Ontology1336387504255;timecall">
+        <rdfs:domain rdf:resource="&Ontology1336387504255;UserInfo"/>
+        <rdfs:range rdf:resource="&xsd;dateTime"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#AirLine -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;AirLine"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Airport -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Airport">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Arrival -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Arrival"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Car -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Car"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#CarType -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;CarType"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#City -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;City"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Company -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Company"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Country -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Country">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Departure -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Departure"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Flight -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Flight"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Hotel -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Hotel"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Leg -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Leg"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Leg1 -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Leg1">
+        <rdfs:subClassOf rdf:resource="&Ontology1336387504255;Leg"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Leg2 -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Leg2">
+        <rdfs:subClassOf rdf:resource="&Ontology1336387504255;Leg"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Leg3 -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Leg3">
+        <rdfs:subClassOf rdf:resource="&Ontology1336387504255;Leg"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Location -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Location"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Manufacturer -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Manufacturer"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Meal -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Meal">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Plane -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Plane">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Rental -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Rental"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Rental1 -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Rental1">
+        <rdfs:subClassOf rdf:resource="&Ontology1336387504255;Rental"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Rental2 -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Rental2">
+        <rdfs:subClassOf rdf:resource="&Ontology1336387504255;Rental"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#State -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;State">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Stay -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Stay"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Stay1 -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Stay1">
+        <rdfs:subClassOf rdf:resource="&Ontology1336387504255;Stay"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Stay2 -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Stay2">
+        <rdfs:subClassOf rdf:resource="&Ontology1336387504255;Stay"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#StopOver -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;StopOver"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#Trip -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;Trip"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2012/4/Ontology1336387504255.owl#UserInfo -->
+
+    <owl:Class rdf:about="&Ontology1336387504255;UserInfo"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.2.3.1824) http://owlapi.sourceforge.net -->
+
