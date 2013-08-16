@@ -4,7 +4,9 @@ from time import time
 from LexiconGeneration import Sparql
 from LexiconGeneration import LexiconGenerator
 from LexiconGeneration import Approach1
-from Evaluation import lexiconEvaluation
+from Evaluation import lexiconEvaluation 
+from subprocess import Popen, PIPE, STDOUT
+
 
 #from LexiconGeneration.Parser import MaltParser
 from LexiconGeneration.Index import Index, LiveIndex, AnchorIndex, Index_WithID
@@ -140,7 +142,9 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag):
     original_path = path
     lemonEntriesHm = {}
     f_in = open(list_of_properties,"r")
+    property_counter = 0
     for line in f_in:
+        property_counter += 1
         uri = line.replace("\n","")
         path = original_path
         label = sparql.getLabel(uri)[0]
@@ -152,7 +156,7 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag):
        
         string =""
         tmp_hm = {}
-       
+        print uri
         if sparql.askClassProperty(uri) == True:
            entryArray = LexiconGenerator.createClassEntry(uri,en_de_lexicon)
            for entry in entryArray:
@@ -178,15 +182,36 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag):
     # Write Lexicon
     #
     #######################    
-    write_lexicon(original_path,lemonEntriesHm)
+#     write_lexicon(original_path,lemonEntriesHm)
+    write_pattern_lexicon(original_path,lemonEntriesHm)
+
    
+   #####################
+   ##
+   ## use lemonpatterns to create out of the .ldp file a working rdf file
+   ##
+   #####################
    
+   #lemonpatterns input output
+   #output => evaluation
+    #os.system("lemonpatterns "+original_path+"PatternLexicon.ldp lemlexicon.rdf")
+    shell_command = "bash -i -c \"lemonpatterns "+original_path+"PatternLexicon.ldp "+original_path+"lemlexicon.rdf\""
+    event = Popen(shell_command, shell=True, stdin=PIPE, stdout=PIPE, 
+    stderr=STDOUT)
+    
+    output = event.communicate()
+    event.wait()
+   
+    print ("output",str(output))
+    print "lexicon generated"
     #######################
     #
     # Do evaluation
     #
     ######################
-    lexiconEvaluation.evaluate(original_path+"LemLexicon.ttl",True,path_goldstandard)
+#     lexiconEvaluation.evaluate(original_path+"LemLexicon.ttl",True,path_goldstandard,property_counter)
+    lexiconEvaluation.evaluate(original_path+"lemlexicon.rdf",True,path_goldstandard,property_counter)
+
 
     print "\n\n DONE"
     
@@ -254,6 +279,21 @@ def run(uri,path,parse_flag):
     print "\n\n DONE"
     
     
+    
+def write_pattern_lexicon(original_path,lemonEntriesHm): 
+    f_out = file(original_path+"PatternLexicon.ldp","w")
+    lexicon = "@prefix dbpedia:  <http://dbpedia.org/ontology/> .\n"
+    lexicon += "@prefix resource: <http://dbpedia.org/resource/> .\n"
+    lexicon += "@prefix lex: <http://github.com/cunger/lemon.dbpedia/target/dbpedia_all#> .\n"
+    lexicon += "Lexicon(<http://github.com/cunger/lemon.dbpedia/target/dbpedia_en_8#>,\"en\",\n"
+    for key in lemonEntriesHm:
+        lexicon += key+",\n"
+    #remove final ,\n
+    lexicon = lexicon[:-3]
+    lexicon += "))"
+    
+    f_out.write(lexicon)
+    f_out.close()
     
     
 def write_lexicon(original_path,lemonEntriesHm):
@@ -367,7 +407,9 @@ def main():
             exit(1)
         elif input == "train":
             #run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia-train_de.rdf",path,parse_flag)
-            run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia-train-lexicon-en.ttl",path,parse_flag)
+#            run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
+           run_and_evaluate("Datasets/classes_small","Datasets/dbpedia_en.rdf",path,parse_flag)
+#             run_and_evaluate("Datasets/test.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
         else:
             start_time= time()
             try:
@@ -377,12 +419,14 @@ def main():
                 raise
                 exit(1)
             print "Done after "+str(round(time()-start_time,2))+" seconds"
+             
             
 
     
 
 
-main()
+if __name__ == "__main__":
+   main()
     
 
         
