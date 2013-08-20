@@ -105,12 +105,12 @@ def createEntries(uri,en_target_lexicon):
                 label = label[:-1]
             entry = LexiconGenerator.NounPPFrame(label, uri, {})
             lemonEntries.append(entry)
-            entry = LexiconGenerator.NounPossisiveFrameWithoutMarker(label, uri)
-            lemonEntries.append(entry)
-            entry = LexiconGenerator.AdjectivePPFrame(label, uri, {})
-            lemonEntries.append(entry)
-            entry = LexiconGenerator.TransitiveFrame(label, uri, {})
-            lemonEntries.append(entry)
+#             entry = LexiconGenerator.NounPossisiveFrameWithoutMarker(label, uri)
+#             lemonEntries.append(entry)
+#             entry = LexiconGenerator.AdjectivePPFrame(label, uri, {})
+#             lemonEntries.append(entry)
+#             entry = LexiconGenerator.TransitiveFrame(label, uri, {})
+#             lemonEntries.append(entry)
     except:
         pass
     return lemonEntries
