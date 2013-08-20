@@ -11,6 +11,7 @@ language = None
 
 
 def englishMapping(pattern,uri):
+    sparql = Sparql.Connection()
     marker = {}
     lmtzr = WordNetLemmatizer()
     term = ""
@@ -37,8 +38,27 @@ def englishMapping(pattern,uri):
 
     if " vb" in term:
         if marker.has_key("to") or "vbn" in term  or "vbg" in term  or "vbd" in term  or marker.has_key("on"):
-            lemma = lmtzr.lemmatize(entry_term,"v")
-            return [AdjectivePredicateFrame(entry_term,uri, marker),TransitiveFrame(entry_term, uri,marker),TransitiveFrame(lemma, uri,marker)]
+#             print "befor wiktionary informations"
+            try:
+                wiktionary_informations = sparql.getWiktionaryInformations(entry_term)
+            except:
+                print "Unexpected error:", sys.exc_info()[0]
+#             print "after wiktionary informations"
+            if wiktionary_informations == 0:
+                lemma = lmtzr.lemmatize(entry_term,"v")
+                return [TransitiveFrame(entry_term, uri,marker)]
+#                 return [AdjectivePredicateFrame(entry_term,uri, marker),TransitiveFrame(entry_term, uri,marker),TransitiveFrame(lemma, uri,marker)]
+            else:
+                tmp = []
+                for entry in wiktionary_informations:
+                    print entry[0], entry[1]
+#                     raw_input("wait")
+                    if entry[0] == "verb":
+                        tmp.append(TransitiveFrame(entry[1], uri,marker))
+                    if entry[0] == "adjective":
+                        tmp.append(AdjectivePredicateFrame(entry[1], uri,marker))
+                return tmp
+                    
         else:
             return [TransitiveFrame(entry_term, uri,marker)]
             
@@ -301,3 +321,4 @@ def NounPPFrame(term,reference,marker):
 #         for x in marker:
 #             entry +=":y_arg2 lemon:marker [ lemon:canonicalForm [ lemon:writtenRep \""+x+"\"] ].\n"
     return entry
+
