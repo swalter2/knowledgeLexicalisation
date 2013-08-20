@@ -154,7 +154,7 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
     lem_counter = 0
     for key, value in sorted(lem_entries_hm.iteritems(), key=lambda x:x[1], reverse = True):
         lem_counter += 1
-        if lem_counter < 11:
+        if lem_counter < 6:
             print (key,value)
             tmp_array = []
             tmp_array.append(key)
