@@ -10,6 +10,9 @@ class Connection():
     #endpoint = "http://dbpedia.org/sparql/"
     sparql = SPARQLWrapper(endpoint)
     
+    sparql_wiktionary = SPARQLWrapper("http://wiktionary.dbpedia.org/sparql")
+
+    
     def __init__(self):
         'Initialisation'
 
@@ -194,3 +197,31 @@ class Connection():
                 pass
 
         return [label]
+    
+    def getWiktionaryInformations(self,string):
+        """
+        
+        """
+
+        self.sparql_wiktionary.setQuery(" SELECT ?lexword ?y FROM <http://wiktionary.dbpedia.org> WHERE {  ?lexword <http://www.w3.org/2000/01/rdf-schema#label> \""+string+"\"@en . ?lexword <http://wiktionary.dbpedia.org/terms/hasEtymology> ?y .}LIMIT 10 ")
+        self.sparql_wiktionary.setReturnFormat(JSON)
+        results = self.sparql_wiktionary.query().convert()
+        result_array = []
+        for result in results["results"]["bindings"]:
+#             print result
+            try:
+                #print result
+                y= (result["y"]["value"])
+                lexword = (result["lexword"]["value"])
+                if " + " in y:
+                    tmp = y.split(" + ")
+                    if "Verb" in lexword:
+                        result_array.append(["verb",str(tmp[0])])
+                    if "Adjective" in lexword:
+                        result_array.append(["adjective",str(tmp[0])])
+#                 print [str(lexword),str(y)]
+            except:
+                pass
+        return result_array
+ 
+
