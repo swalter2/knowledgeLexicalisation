@@ -1,7 +1,7 @@
 import ConfigParser, Sparql
 import LexiconGenerator
 
-
+ 
 def createLabel(label,en_target_lexicon):
     if "(" in label:
         label = label.split("(")[0]
