@@ -200,7 +200,7 @@ class Connection():
     
     def getWiktionaryInformations(self,string):
         """
-        
+         Returns information for a given keyword from DBpedia Wiktionary
         """
 
         self.sparql_wiktionary.setQuery(" SELECT ?lexword ?y FROM <http://wiktionary.dbpedia.org> WHERE {  ?lexword <http://www.w3.org/2000/01/rdf-schema#label> \""+string+"\"@en . ?lexword <http://wiktionary.dbpedia.org/terms/hasEtymology> ?y .}LIMIT 10 ")
