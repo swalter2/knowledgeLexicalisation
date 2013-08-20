@@ -37,29 +37,36 @@ def englishMapping(pattern,uri):
     
 
     if " vb" in term:
-        if marker.has_key("to") or "vbn" in term  or "vbg" in term  or "vbd" in term  or marker.has_key("on"):
+#         if marker.has_key("to") or "vbn" in term  or "vbg" in term  or "vbd" in term  or marker.has_key("on"):
+        if entry_term.endswith("ing"):
+            entry_term = checkForIngForm(entry_term)
+            return [TransitiveFrame(entry_term, uri,marker)]
+        else:
+            wiktionary_informations = []
             try:
                 wiktionary_informations = sparql.getWiktionaryInformations(entry_term)
             except:
                 print "Unexpected error:", sys.exc_info()[0]
-            if wiktionary_informations == 0:
-#                 lemma = lmtzr.lemmatize(entry_term,"v")
+                wiktionary_informations = []
+            if len(wiktionary_informations) == 0:
+    #                 lemma = lmtzr.lemmatize(entry_term,"v")
                 return [TransitiveFrame(entry_term, uri,marker)]
-#                 return [AdjectivePredicateFrame(entry_term,uri, marker),TransitiveFrame(entry_term, uri,marker),TransitiveFrame(lemma, uri,marker)]
+    #                 return [AdjectivePredicateFrame(entry_term,uri, marker),TransitiveFrame(entry_term, uri,marker),TransitiveFrame(lemma, uri,marker)]
             else:
                 tmp = []
                 for entry in wiktionary_informations:
-#                     raw_input("wait")
-                    if entry[0] == "verb":
+    #                     raw_input("wait")
+    # and "," not in entry[1]: in order to avoid entries like From  apperen, aperen, from  aparoir
+                    if entry[0] == "verb" and "," not in entry[1]:
                         tmp.append(TransitiveFrame(entry[1], uri,marker))
-                    if entry[0] == "adjective":
+                    if entry[0] == "adjective" and "," not in entry[1]:
                         tmp.append(AdjectivePredicateFrame(entry[1], uri,marker))
                 return tmp
                     
-        else:
-            return [TransitiveFrame(entry_term, uri,marker)]
-            
-        print
+#         else:
+#             return [TransitiveFrame(entry_term, uri,marker)]
+#             
+#         print
     else:
         if marker.has_key("of"):  
             return [NounPossisiveFrame(entry_term,uri)]
@@ -328,3 +335,20 @@ def NounPPFrame(term,reference,marker):
 #             entry +=":y_arg2 lemon:marker [ lemon:canonicalForm [ lemon:writtenRep \""+x+"\"] ].\n"
     return entry
 
+
+def checkForIngForm(string):
+    if string.endswith("ing"):
+        string = string[:-3]
+        laenge = len(string)-1
+        a = string[laenge:]
+        b = string[laenge-1:-1]
+        
+        if a == b:
+            string = string[:-1]
+        
+        return string
+        
+        
+    else:
+        return string
+    
