@@ -38,20 +38,17 @@ def englishMapping(pattern,uri):
 
     if " vb" in term:
         if marker.has_key("to") or "vbn" in term  or "vbg" in term  or "vbd" in term  or marker.has_key("on"):
-#             print "befor wiktionary informations"
             try:
                 wiktionary_informations = sparql.getWiktionaryInformations(entry_term)
             except:
                 print "Unexpected error:", sys.exc_info()[0]
-#             print "after wiktionary informations"
             if wiktionary_informations == 0:
-                lemma = lmtzr.lemmatize(entry_term,"v")
+#                 lemma = lmtzr.lemmatize(entry_term,"v")
                 return [TransitiveFrame(entry_term, uri,marker)]
 #                 return [AdjectivePredicateFrame(entry_term,uri, marker),TransitiveFrame(entry_term, uri,marker),TransitiveFrame(lemma, uri,marker)]
             else:
                 tmp = []
                 for entry in wiktionary_informations:
-                    print entry[0], entry[1]
 #                     raw_input("wait")
                     if entry[0] == "verb":
                         tmp.append(TransitiveFrame(entry[1], uri,marker))
@@ -203,13 +200,18 @@ def TransitiveFrame(term, reference,marker):
     """
     Creates an TransitiveFrame entry for a given label, reference and marker
     """
-
     term = term.replace(";","")
     if len(marker) == 0:
         entry = "StateVerb(\""+term+"\",<"+reference+">, propSubj = DirectObject, propObj  = Subject)"
         return entry
     else:
-        entry = "StateVerb(\""+term+"\",<"+reference+">,propObj  = PrepositionalObject(\""+marker[0]+"\"))"
+        if marker.has_key("of"):
+            entry = "StateVerb(\""+term+"\",<"+reference+">,propObj  = PrepositionalObject(\"of\"))"
+        elif marker.has_key("to"):
+            entry = "StateVerb(\""+term+"\",<"+reference+">,propObj  = PrepositionalObject(\"to\"))"
+        else:
+            entry = "StateVerb(\""+term+"\",<"+reference+">, propSubj = DirectObject, propObj  = Subject)"
+            
 #     entry = ":"+term.lower().replace(" ","_")+" a lemon:LexicalEntry ;\n"
 #     entry += "lemon:canonicalForm [ lemon:writtenRep \""+term+"\"@en ] ;\n"
 #     entry += "lemon:synBehavior [ rdf:type lexinfo:TransitiveFrame ;\n"
@@ -224,6 +226,7 @@ def TransitiveFrame(term, reference,marker):
 #         entry += "lexinfo:partOfSpeech lexinfo:verb .\n"
 #         for x in marker:
 #             entry +=":y_arg2 lemon:marker [ lemon:canonicalForm [ lemon:writtenRep \""+x+"\"] ].\n"
+
     return entry
 
 
@@ -295,6 +298,9 @@ def NounPPFrame(term,reference,marker):
     """
     Creates an NounPPFrame entry for a given label, reference and marker
     """
+    marker_a = []
+    for key in marker:
+        marker_a.append(key)
     term = term.replace(";","")
     entry = ""
     #beim generieren der Pattern wird entschieden, was fuer ein frame gegeben ist, abhaengig dvon, ob eine praeposition gegeben ist oder nicht
@@ -302,7 +308,7 @@ def NounPPFrame(term,reference,marker):
         entry = "RelationalNoun(\""+term+"\",<"+reference+">, propSubj = PossessiveAdjunct, propObj  = CopulativeArg)"
         return entry
     else:
-        entry = "RelationalNoun(\""+term+"\",<"+reference+">, propSubj = PrepositionalObject(\""+marker[0]+"\"), propObj  = CopulativeArg)"
+        entry = "RelationalNoun(\""+term+"\",<"+reference+">, propSubj = PrepositionalObject(\""+marker_a[0]+"\"), propObj  = CopulativeArg)"
         return entry
      
     
