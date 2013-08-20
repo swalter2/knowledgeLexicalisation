@@ -119,52 +119,98 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
     #only for test, set very high!
     max_counter = 10000
     #highest value first
+    lem_entries_hm = {}
     for key, value in sorted(hm.iteritems(), key=lambda x:x[1], reverse = True):
         best_counter += 1
+        """
+        Different selecting strategies based on the lemon entries
+        
+        """
+        try:
+            entry_array=LexiconGenerator.createLexiconEntry(key, uri, False)
+            for entry in entry_array:
+                if lem_entries_hm.has_key(entry):
+                    value = lem_entries_hm[entry]
+                    value += 1
+                    lem_entries_hm[entry] = value
+                else:
+                    lem_entries_hm[entry] = 1
+
+        except:
+            print "V3:Entry could not be created for pattern: "+key +"  "+str(value)
+            print
+            print
             
-        """
-        Include different selecting strategies
-        
-        """
-        ##########################
-        ## Take all pattern with a certain percentage 
-        ##########################
-#        if (((value/(overall_pattern_numer+0.0))*100) > procentOfPatterns and best_counter < max_counter+1) or overall_pattern_numer == len(hm):
-        
-        ##########################
-        ## Take only the top 100 pattern
-        ##########################
-#        if best_counter < 101:   
-        
-        ##########################
-        ## Take only the top 10 pattern
-        ##########################
-#        if best_counter < 11:
-        
-        ##########################
-        ## Take every pattern which exists at least twice
-        ## and ignore pattern which exists only once
-        ##########################
-        if value > 1:
+#     for entry in lem_entries_hm:
+#         if value > 2:
+#             tmp_array = []
+#             tmp_array.append(entry)
+#             tmp_array.append("")
+#             tmp_array.append(value)
+#             lexico_array.append(tmp_array)
+#         else:
+#             pattern_once += 1
 
-
-            try:
-                entry_array=LexiconGenerator.createLexiconEntry(key, uri, False)
-                for entry in entry_array:
-                    tmp_array = []
-                    tmp_array.append(entry)
-                    tmp_array.append(key)
-                    tmp_array.append(value)
-                    lexico_array.append(tmp_array)
-                if entry == None:
-                    print "V1:Entry could not be created for pattern: "+key +"  "+str(value)
-                    print
-            except:
-                print "V2:Entry could not be created for pattern: "+key +"  "+str(value)
-                print
-
+    lem_counter = 0
+    for key, value in sorted(lem_entries_hm.iteritems(), key=lambda x:x[1], reverse = True):
+        lem_counter += 1
+        if lem_counter < 11:
+            print (key,value)
+            tmp_array = []
+            tmp_array.append(key)
+            tmp_array.append("")
+            tmp_array.append(value)
+            lexico_array.append(tmp_array)
         else:
             pattern_once += 1
+            
+                
+    
+            
+#         """
+#         Different selecting strategies based on the patterns
+#         
+#         """
+#         ##########################
+#         ## Take all pattern with a certain percentage 
+#         ##########################
+# #        if (((value/(overall_pattern_numer+0.0))*100) > procentOfPatterns and best_counter < max_counter+1) or overall_pattern_numer == len(hm):
+#         
+#         ##########################
+#         ## Take only the top 100 pattern
+#         ##########################
+# #        if best_counter < 101:   
+#         
+#         ##########################
+#         ## Take only the top 10 pattern
+#         ##########################
+# #         if best_counter < 11:
+#         
+#         ##########################
+#         ## Take every pattern which exists at least twice
+#         ## and ignore pattern which exists only once
+#         ##########################
+#         if value > 2:
+# 
+# 
+#             try:
+#                 entry_array=LexiconGenerator.createLexiconEntry(key, uri, False)
+#                 for entry in entry_array:
+#                     tmp_array = []
+#                     tmp_array.append(entry)
+#                     tmp_array.append(key)
+#                     tmp_array.append(value)
+#                     lexico_array.append(tmp_array)
+#                 if entry == None:
+#                     print "V1:Entry could not be created for pattern: "+key +"  "+str(value)
+#                     print
+#             except:
+#                 print "V2:Entry could not be created for pattern: "+key +"  "+str(value)
+#                 print
+#                 print
+# 
+#         else:
+#             pattern_once += 1
    
     tmp_entries = StandardLexiconEntries.createEntries(uri,en_de_lexicon)
     for x in tmp_entries:
