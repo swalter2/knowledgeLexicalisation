@@ -157,22 +157,28 @@ class Connection():
         """
         Checks, if a given property is from the type class
         """
-        self.sparql.setQuery("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX owl: <http://www.w3.org/2002/07/owl#>  ASK WHERE {<"+uri+"> rdf:type owl:Class}")
-        self.sparql.setReturnFormat(JSON)
-        results = self.sparql.query().convert()
-        #print results
-        for result in results:
-            try:
-                string = str(results[result])
-                if "False" in string:
-                    return False
-                elif "True" in string:
-                    return True
-
-
-            except:
-                pass
-        return False
+        uri = uri.replace("http://dbpedia.org/ontology/","")
+        if uri[0].isupper():
+            return True
+        else:
+            False
+        
+#         self.sparql.setQuery("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX owl: <http://www.w3.org/2002/07/owl#>  ASK WHERE {<"+uri+"> rdf:type owl:Class}")
+#         self.sparql.setReturnFormat(JSON)
+#         results = self.sparql.query().convert()
+#         #print results
+#         for result in results:
+#             try:
+#                 string = str(results[result])
+#                 if "False" in string:
+#                     return False
+#                 elif "True" in string:
+#                     return True
+# 
+# 
+#             except:
+#                 pass
+#         return False
 
     
     
