@@ -119,3 +119,30 @@ def createEntries(uri,en_target_lexicon):
     except:
         pass
     return lemonEntries
+
+def createAllEntries(uri,en_target_lexicon):
+    label_array = getLabel(uri,en_target_lexicon)
+    lemonEntries = []
+    try:
+        for label in label_array:#
+            if label.startswith(" "):
+                label = label[1:]
+            label = label.replace("  "," ")
+            if label.endswith(" "):
+                label = label[:-1]
+            if label.endswith("ing"):
+                entry_term = LexiconGenerator.checkForIngForm(label)
+                entry = LexiconGenerator.TransitiveFrame(entry_term, uri,{})
+                lemonEntries.append(entry)
+            else:
+                entry = LexiconGenerator.NounPPFrame(label, uri, {})
+                lemonEntries.append(entry)
+                entry = LexiconGenerator.NounPossisiveFrameWithoutMarker(label, uri)
+                lemonEntries.append(entry)
+                entry = LexiconGenerator.AdjectivePPFrame(label, uri, {})
+                lemonEntries.append(entry)
+                entry = LexiconGenerator.TransitiveFrame(label, uri, {})
+                lemonEntries.append(entry)
+    except:
+        pass
+    return lemonEntries

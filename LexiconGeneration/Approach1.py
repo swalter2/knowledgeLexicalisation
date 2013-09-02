@@ -437,10 +437,10 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
     #
     ##################################
     ##################################
-    if total_number_sentence == 0 or len(lemonEntriesHm) == 0:
-        tmp_entry = StandardLexiconEntries.createEntries(uri,en_de_lexicon)
-        for x in tmp_entry:
-            lemonEntriesHm[x]=""
+#     if total_number_sentence <= 20 or len(lemonEntriesHm) == 0:
+#         tmp_entry = StandardLexiconEntries.createAllEntries(uri,en_de_lexicon)
+#         for x in tmp_entry:
+#             lemonEntriesHm[x]=""
 
 
     print "created standard entries"

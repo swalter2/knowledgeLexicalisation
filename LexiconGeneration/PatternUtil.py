@@ -154,8 +154,7 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
     lem_counter = 0
     for key, value in sorted(lem_entries_hm.iteritems(), key=lambda x:x[1], reverse = True):
         lem_counter += 1
-        if lem_counter < 6:
-            print (key,value)
+        if lem_counter < 4:
             tmp_array = []
             tmp_array.append(key)
             tmp_array.append("")
@@ -214,6 +213,7 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
    
     tmp_entries = StandardLexiconEntries.createEntries(uri,en_de_lexicon)
     for x in tmp_entries:
+        print ("additional entry",x)
         tmp_array = []
         tmp_array.append(x)
         tmp_array.append("Created by Guessing")

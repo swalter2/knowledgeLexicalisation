@@ -372,9 +372,9 @@ def english_constraints(x,y,path):
         if path[1].__getattr__("pos3").lower() == "nn" and path[2].__getattr__("pos3").lower() == "cc":
 #            print "case14"
             return None
-        if path[1].__getattr__("pos7").lower() == "prep":
-#            print "case14"
-            return None
+#         if path[1].__getattr__("pos7").lower() == "prep":
+# #            print "case15"
+#             return None
         #################
 #    print"got here, start normalising pattern now"
     return normalize_pattern(x,y,path)
