@@ -181,7 +181,6 @@ class Connection():
 #         return False
 
     
-    
     def getLabel(self,uri):
         """
         returns the label for a given property
