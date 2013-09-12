@@ -312,6 +312,16 @@ def createPatternFile(uri, path, name, hm):
     f.close()
     return hm, overall_pattern_numer
 
+def getEntities(path):
+    f_in = open(path,"r")
+    array = []
+    for line in f_in:
+        line = line.replace("\n","")
+        tmp = line.split(" ## ")
+        array.append(tmp[0])
+        array.append(tmp[1])
+    return array
+
 def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index, anchor_index,en_de_lexicon, ontology_prefix = None ):   
 
     lmtzr = WordNetLemmatizer()
@@ -347,22 +357,30 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
 
     if flag == True:
         term_list = []
-        print "Gets entities for "+uri+" from the SPARQL endpoint"
-        PropertyEntities = sparql.getPairsOfGivenProperties(uri)
-#        PropertyEntities = ["Barack Obama","Michelle Obama"]
-        print str(len(PropertyEntities)/2)+" number of entity pairs found"
-        if sparql.askObjectProperty(uri) == True:
-            print "Object property given"
-            term_list = createTermsForObjectProperty(PropertyEntities,anchor_index)
-            print ("number of terms",len(term_list))
-            Lookup.lookupSortAndParse(term_list,index,live_index,flag,uri)
-    
-        else:
-            #here add function for DataProperty
-            print "Datatype property given"
-            term_list = createTermsForDataTypeProperty(uri,PropertyEntities,anchor_index)
-            print ("number of terms",len(term_list))
-            Lookup.lookupSortAndParse(term_list,index,live_index,flag,uri)
+        path_to_resource = config.get("index", "resource_folder")
+        try:
+            tmp_path = "ResourceFolder/"+uri.replace("http://dbpedia.org/ontology/","")
+            with open(tmp_path,"r"):
+                print "Gets entities for "+uri+" from resource folder"
+                term_list = getEntities(tmp_path)
+
+        except IOError:
+            print "Gets entities for "+uri+" from the SPARQL endpoint"
+            PropertyEntities = sparql.getPairsOfGivenProperties(uri)
+    #        PropertyEntities = ["Barack Obama","Michelle Obama"]
+            print str(len(PropertyEntities)/2)+" number of entity pairs found"
+            if sparql.askObjectProperty(uri) == True:
+                print "Object property given"
+                term_list = createTermsForObjectProperty(PropertyEntities,anchor_index)
+                print ("number of terms",len(term_list))
+                Lookup.lookupSortAndParse(term_list,index,live_index,flag,uri)
+        
+            else:
+                #here add function for DataProperty
+                print "Datatype property given"
+                term_list = createTermsForDataTypeProperty(uri,PropertyEntities,anchor_index)
+                print ("number of terms",len(term_list))
+                Lookup.lookupSortAndParse(term_list,index,live_index,flag,uri)
 
 
     x_y_array = live_index.searchForXY(uri)
