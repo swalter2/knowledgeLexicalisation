@@ -149,8 +149,8 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag):
         path = original_path
         label = sparql.getLabel(uri)[0]
         label = label.replace(" ","+")
-        path += label+"Results"
-        os.mkdir(path)
+#         path += label+"Results"
+        
     
         web_string = "<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=ISO-8859-1\"><title>Pattern overview</title></head><body><h2>Pattern overview</h2>"
        
@@ -158,14 +158,17 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag):
         tmp_hm = {}
         print uri
         if sparql.askClassProperty(uri) == True:
-           entryArray = LexiconGenerator.createClassEntry(uri,en_de_lexicon)
-           for entry in entryArray:
-               lemonEntriesHm[entry] = ""
+            path += label+"ClassResults"
+            entryArray = LexiconGenerator.createClassEntry(uri,en_de_lexicon)
+            for entry in entryArray:
+                lemonEntriesHm[entry] = ""
         else:
             string, tmp_hm = Approach1.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
+            path += label+"PropertyResults"
             for key in tmp_hm:
                lemonEntriesHm[key] = ""   
                
+        os.mkdir(path)
         string += "Time for this property: "+str((time()-t1)/60.0)+" minutes"
         string += "<p><a href=\"Lemon"+label+"\"> LemonEntry for "+label+" </a></p>"
    
@@ -397,7 +400,7 @@ def main():
     """
     _init_()
     print "type quit to enter the program"
-    parse_flag = False
+    parse_flag = True
     path = raw_input("Please enter a path where the Lexicon should be saved:  ")
     while True:
         input = raw_input("Please enter a valid DBpedia URI:  ")
@@ -408,7 +411,7 @@ def main():
         elif input == "train":
             #run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia-train_de.rdf",path,parse_flag)
 #            run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
-           run_and_evaluate("Datasets/classes_small","Datasets/dbpedia_en.rdf",path,parse_flag)
+           run_and_evaluate("Datasets/combined","Datasets/dbpedia_en.rdf",path,parse_flag)
 #             run_and_evaluate("Datasets/test.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
         else:
             start_time= time()

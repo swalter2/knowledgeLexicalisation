@@ -318,8 +318,13 @@ def getEntities(path):
     for line in f_in:
         line = line.replace("\n","")
         tmp = line.split(" ## ")
-        array.append(tmp[0])
-        array.append(tmp[1])
+        try:
+            x = tmp[0]
+            y = tmp[1]
+            array.append(x)
+            array.append(y)
+        except:
+            pass
     return array
 
 def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index, anchor_index,en_de_lexicon, ontology_prefix = None ):   
