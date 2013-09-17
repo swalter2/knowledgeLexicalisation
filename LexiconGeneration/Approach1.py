@@ -358,15 +358,16 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
     if flag == True:
         term_list = []
         path_to_resource = config.get("index", "resource_folder")
+        tmp_path = path_to_resource+"/"+uri.replace("http://dbpedia.org/ontology/","")
+        print "Look in path "+tmp_path
         try:
-            tmp_path = "ResourceFolder/"+uri.replace("http://dbpedia.org/ontology/","")
             with open(tmp_path,"r"):
-                print "Gets entities for "+uri+" from resource folder"
+                print "Get entities for "+uri+" from resource folder"
                 term_list = getEntities(tmp_path)
 
         except IOError:
-            print "Gets entities for "+uri+" from the SPARQL endpoint"
-            PropertyEntities = sparql.getPairsOfGivenProperties(uri)
+            print "Get entities for "+uri+" from the SPARQL endpoint"
+            PropertyEntities = sparql.getPairsOfGivenProperties(uri,tmp_path)
     #        PropertyEntities = ["Barack Obama","Michelle Obama"]
             print str(len(PropertyEntities)/2)+" number of entity pairs found"
             if sparql.askObjectProperty(uri) == True:

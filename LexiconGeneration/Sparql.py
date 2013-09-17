@@ -33,7 +33,7 @@ class Connection():
         
 
     #def newsparql(self,uri):
-    def getPairsOfGivenProperties(self,uri):
+    def getPairsOfGivenProperties(self,uri,path_to_save):
         """
         returns all entities of a given properties in one array.
         Barack Obama
@@ -51,13 +51,14 @@ class Connection():
         self.sparql.setQuery("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT DISTINCT ?s ?z WHERE {?y <"+uri+"> ?x. ?y rdfs:label ?s. FILTER (lang(?s) = 'en') . ?x rdfs:label ?z. FILTER (lang(?z) = 'en')} LIMIT 30000")
         self.sparql.setReturnFormat(JSON)
         results = self.sparql.query().convert()
-        
+        write_array = []
         for result in results["results"]["bindings"]:
             try:
                 string1 = result["s"]["value"]
                 string2 = result["z"]["value"]
                 array.append(string1)
                 array.append(string2)
+                write_array.append(string1+" ## "+string2)
             except:
                 pass
 
@@ -81,9 +82,14 @@ class Connection():
                         string2 = string2.replace(".0", "")
                     array.append(string1)
                     array.append(string2)
+                    write_array.append(string1+" ## "+string2)
                 except:
                     pass
         print "getPairs Done"
+        f_out = open(path_to_save,"w")
+        for x in write_array:
+            f_out.write(x+"\n")
+        f_out.close()
         return array
     
 #    def getPairsOfGivenProperties(self,uri):
