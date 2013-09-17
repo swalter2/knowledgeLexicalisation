@@ -31,7 +31,10 @@ class LuceneIndex():
         searcher = IndexSearcher(index_dir)
 
     
-
+    def search(self,string):
+        print "search string"
+        return self.searchString(string)
+    
     def searchString(self, string):
         'searches for a string and returns an array of POS-tagged sentences'
         query = ""
