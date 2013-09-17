@@ -74,14 +74,15 @@ class Parser():
     
     def parses_list_of_sentences(self,list_sentences,filepath):
         'expects untagged list of sentences and saves the parsed to the  given filepath'
-        string_list=[]
-        tagger=Tagger()
-        for sentence in list_sentences:
-            #print "sentence: "+sentence
-            sentence = self.clean_sentence(sentence)
-            string_list.append(tagger.tag(self.tokenize(sentence)))
+#         string_list=[]
+#         tagger=Tagger()
+#         for sentence in list_sentences:
+#             #print "sentence: "+sentence
+#             sentence = self.clean_sentence(sentence)
+#             string_list.append(tagger.tag(self.tokenize(sentence)))
             
-        parser.tagged_parse_many_sentences(string_list)
+#         parser.tagged_parse_many_sentences(string_list)
+        parser.tagged_parse_many_sentences(list_sentences)
         self.save(filepath)
     
     

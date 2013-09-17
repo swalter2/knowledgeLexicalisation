@@ -31,8 +31,7 @@ class LuceneIndex():
         searcher = IndexSearcher(index_dir)
 
     
-    def search(self,string):
-        print "search string"
+    def search(self,string,special = False):
         return self.searchString(string)
     
     def searchString(self, string):
@@ -50,7 +49,7 @@ class LuceneIndex():
             qp = QueryParser(Version.LUCENE_35, "sentence", analyzer)
             qp.setDefaultOperator(qp.Operator.AND)
             query = qp.parse(string)
-            print ("query",query)
+#             print ("query",query)
                         
             hits = searcher.search(query, MAX)
 

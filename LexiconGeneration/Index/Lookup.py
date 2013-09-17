@@ -74,7 +74,54 @@ def load_file_return_list_of_sentences(file_path):
     f.close()
     return sentence_list
 
-
+def combineNNP(array,x_variable,y_variable):
+    # 1. Combine all NNP
+    cluster = []
+    foundx = False
+    foundy = False
+    tmp = []
+    for i in range(0,len(array)-1):
+        if "NNP" in array[i][1]:
+            tmp.append(i)
+        else:
+            if len(tmp) > 1 :
+                cluster.append(tmp)
+                tmp = []
+    new_array = []
+    for x in cluster:
+        string = ""
+        for i in x:
+            string += array[i][0]+" "
+        string = string[:-1]
+        if x_variable.lower() in string.lower():
+            string = ((x_variable.lower()).replace(" ","")).capitalize()
+            foundx = True
+        if y_variable.lower() in string.lower():
+            string = ((y_variable.lower()).replace(" ","")).capitalize()
+            foundy = True
+        string = (string,'NNP')
+        x.append(string)
+        
+    hm = {}
+    counter = 0
+    for x in cluster:
+        for i in x[:-1]:
+            hm[i] = counter
+        counter += 1
+    
+    tmp = True
+    for i in range(0,len(array)-1):
+        if hm.has_key(i):
+            if tmp == True:
+                t_a = cluster[hm[i]]
+                t = t_a[len(t_a)-1:]
+                new_array.append(t[0])
+                tmp = False
+        else:
+            new_array.append(array[i])
+            tmp = True
+    return new_array, foundx, foundy
+        
 
 def lookupSortAndParse(term_list,index,live_index, flag,uri):
     """
@@ -90,12 +137,12 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
     config.read('config.conf')
 #    procentOfDataset = config.getint("entries", "ProcentOfCorpus")
     procentOfDataset = 100
-
+    overall_sentences = 0
     special = False
-    if config.get("index","advancedEnglishIndex") == "True" and config.get('system_language', 'language') == "English":
-        special = True
-#    else:
-#        special = False
+#     if config.get("index","advancedEnglishIndex") == "True" and config.get('system_language', 'language') == "English":
+#         special = True
+# #    else:
+# #        special = False
     print ("special",str(special))
     print ("config.get(\"index","advancedEnglishIndex\")",config.get("index","advancedEnglishIndex"))
     print ("config.get('system_language', 'language')",config.get('system_language', 'language'))
@@ -105,15 +152,16 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
     ## TODO: After testing, make this user friendly
     ##
     ###############
-    f_in = open("/home/swalter/keystore_out","r")
-    hm_key = {}
-    for line in f_in:
-        line = line.replace("\n","")
-        tmp = line.split("\t")
-        hm_key[tmp[1].lower()]=tmp[0]
-    f_in.close()
-    print "keystore created"
-    ##############
+    if special == True:
+        f_in = open("/home/swalter/keystore_out","r")
+        hm_key = {}
+        for line in f_in:
+            line = line.replace("\n","")
+            tmp = line.split("\t")
+            hm_key[tmp[1].lower()]=tmp[0]
+        f_in.close()
+        print "keystore created"
+        ##############
         
     parser = Sentence_Parser()
     not_in_index = []
@@ -148,87 +196,97 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
 ###############################################
 
             result = []
-            if x != y:
+            if x != y and x.lower() not in y.lower() and y.lower() not in x.lower():
                 if special == True:
-                    print "start special search"
+#                     print "start special search"
                     result= index.search(key_list,special)
-                    print "returned "+str(len(result))+" sentences for special search"
+#                     print "returned "+str(len(result))+" sentences for special search"
                     print
                 else:
+#                     print "start normal index search"
                     result= index.search(term,special)
-                tmp = result
-                result = []
-                for t in tmp:
-                    #To Deal with German Umlaute
-                    t = t.replace("\xc3\xa4","ae")
-                    t = t.replace("\xc3\x9f","ss")
-                    t = t.replace("\xc3\xbc","ue")
-                    t = t.replace("\xc3\xb6","oe")
-                    t = t.replace("\xe2\x80\x9e","\"")
-                    t = t.replace("\xe2\x80\x9c","\"")
-                    t = t.replace("\xc3\xba","u")
-                    t = t.replace("\xe2\x80\x9e","\"")
-                    t = t.replace("\xe2\x80\x99","'")
-                    t = t.replace("\xe2\x80\x93","-")
-                    t = t.replace("\xe2\x80\x94","-")
-                    t = t.replace("\xe2\x80\x95","-")
-                    result.append(t)
+                    overall_sentences += len(result)
+#                     print "returned "+str(len(result)) + " sentences"
+#                 tmp = result
+#                 result = []
+#                 for t in tmp:
+#                     #To Deal with German Umlaute
+#                     t = t.replace("\xc3\xa4","ae")
+#                     t = t.replace("\xc3\x9f","ss")
+#                     t = t.replace("\xc3\xbc","ue")
+#                     t = t.replace("\xc3\xb6","oe")
+#                     t = t.replace("\xe2\x80\x9e","\"")
+#                     t = t.replace("\xe2\x80\x9c","\"")
+#                     t = t.replace("\xc3\xba","u")
+#                     t = t.replace("\xe2\x80\x9e","\"")
+#                     t = t.replace("\xe2\x80\x99","'")
+#                     t = t.replace("\xe2\x80\x93","-")
+#                     t = t.replace("\xe2\x80\x94","-")
+#                     t = t.replace("\xe2\x80\x95","-")
+#                     result.append(t)
                         
 #            print str(len(result))+" number of sentences found in Corpus"
-            for line in result:
-                found_x = True
-                found_y = True
-                replacementX = x.replace(" ","")
-                
-                if x in line:
-                    line = line.replace(x,replacementX.capitalize())
-                else:
-                    found_x = False
-                
-                replacementY = y.replace(" ","")
-                
-                if y in line: 
-                    line = line.replace(y,replacementY.capitalize())
-                    
-                else:
-                    found_y = False
+            for line_array in result:
+                found_x = False
+                found_y = False
+                line_array,found_x,found_y = combineNNP(line_array,x,y)
+#                 print line_array
+                line = ""
+                for e in line_array:
+                    line += e[0]+" "
 
-                if found_x == True and found_y == False:
-                    if " " in y:
-                        searchY = y.split(" ")[0]
-                        if searchY in line:
-                            if searchY != x:
-                                line = line.replace(" "+searchY+" ",replacementY.capitalize())
-                                found_y = True
-                            else:
-                                if " he " in line or " she " in line or " it " in line:
-                                    line = line.replace(" he ",replacementY.capitalize())
-                                    line = line.replace(" she ",replacementY.capitalize())
-                                    line = line.replace(" it ",replacementY.capitalize())
-                                    found_y = True  
-                if found_x == False and found_y == True:
-                    if " " in x:
-                        searchX = x.split(" ")[0]
-                        if searchX in line:
-                            if searchX != y:
-                                line = line.replace(" "+searchX+" ",replacementX.capitalize())
-                                found_x = True
-                            else:
-                                if " he " in line or " she " in line or " it " in line:
-                                  line = line.replace(" he ",replacementX.capitalize())
-                                  line = line.replace(" she ",replacementX.capitalize())
-                                  line = line.replace(" it ",replacementX.capitalize())
-                                  found_x = True  
+#                 replacementX = x.replace(" ","")
+#                 
+#                 if x in line:
+#                     line = line.replace(x,replacementX.capitalize())
+#                 else:
+#                     found_x = False
+#                 
+#                 replacementY = y.replace(" ","")
+#                 
+#                 if y in line: 
+#                     line = line.replace(y,replacementY.capitalize())
+#                     
+#                 else:
+#                     found_y = False
+# 
+#                 if found_x == True and found_y == False:
+#                     if " " in y:
+#                         searchY = y.split(" ")[0]
+#                         if searchY in line:
+#                             if searchY != x:
+#                                 line = line.replace(" "+searchY+" ",replacementY.capitalize())
+#                                 found_y = True
+#                             else:
+#                                 if " he " in line or " she " in line or " it " in line:
+#                                     line = line.replace(" he ",replacementY.capitalize())
+#                                     line = line.replace(" she ",replacementY.capitalize())
+#                                     line = line.replace(" it ",replacementY.capitalize())
+#                                     found_y = True  
+#                 if found_x == False and found_y == True:
+#                     if " " in x:
+#                         searchX = x.split(" ")[0]
+#                         if searchX in line:
+#                             if searchX != y:
+#                                 line = line.replace(" "+searchX+" ",replacementX.capitalize())
+#                                 found_x = True
+#                             else:
+#                                 if " he " in line or " she " in line or " it " in line:
+#                                   line = line.replace(" he ",replacementX.capitalize())
+#                                   line = line.replace(" she ",replacementX.capitalize())
+#                                   line = line.replace(" it ",replacementX.capitalize())
+#                                   found_x = True  
                         
                 if found_x == True and found_y == True:
                     #Use each line only for one x-y pair
                     if line not in hm:
-                        hm[line]=[x,y]
+                        hm[line]=[x,y,line_array]
             
         except Exception:
             print "Unexpected error on lookup terms in lookupSortAndParse:", sys.exc_info()[0]
             #print ("Error in finding term: "+str(item))
      
+    print "found "+str(overall_sentences)+" sentences"
     print "found "+str(len(hm))+" combination of pairs and sentences"
     #German Umlaute
 #    for key in hm:
@@ -251,7 +309,7 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
             tmp = hm[key]
             inIndex = live_index.does_line_exist(key,str(tmp[0]),str(tmp[1]))
             if inIndex == False:
-                not_in_index.append([key,tmp[0],tmp[1]])
+                not_in_index.append([key,tmp[0],tmp[1],tmp[2]])
             else:
                 true_counter += 1
         except:
@@ -263,7 +321,7 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
     hm = {}
 
     for item in not_in_index:
-        parse_list.append(item[0])
+        parse_list.append(item[3])
  
     """
     Path, where MaltParser saves the sentences

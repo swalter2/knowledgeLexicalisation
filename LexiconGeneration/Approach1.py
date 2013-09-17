@@ -374,8 +374,8 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
         except IOError:
             print "Get entities for "+uri+" from the SPARQL endpoint"
             PropertyEntities = sparql.getPairsOfGivenProperties(uri,tmp_path)
-    #        PropertyEntities = ["Barack Obama","Michelle Obama"]
     
+#         PropertyEntities = ["Barack Obama", "Michelle Obama"]
         print str(len(PropertyEntities)/2)+" number of entity pairs found"
         if sparql.askObjectProperty(uri) == True:
             print "Object property given"
