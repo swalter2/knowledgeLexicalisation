@@ -189,7 +189,7 @@ class MaltParser(ParserI):
 
             self._execute(cmd, 'parse', verbose)
             #print cmd
-            return DependencyGraph.load(output_file)
+#             return DependencyGraph.load(output_file)
         finally:
             if f: f.close()
             

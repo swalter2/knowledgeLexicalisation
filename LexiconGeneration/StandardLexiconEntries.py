@@ -105,7 +105,7 @@ def createEntries(uri,en_target_lexicon):
                 label = label[:-1]
             if label.endswith("ing"):
                 entry_term = LexiconGenerator.checkForIngForm(label)
-                entry = LexiconGenerator.TransitiveFrame(entry_term, uri,{})
+                entry = LexiconGenerator.TransitiveFrame(entry_term, uri,"")
                 lemonEntries.append(entry)
             else:
                 entry = LexiconGenerator.NounPPFrame(label, uri, {})

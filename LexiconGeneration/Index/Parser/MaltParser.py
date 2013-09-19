@@ -1,6 +1,7 @@
 import nltk
 import os.path
 import Malt
+import sys
 
 class Parser():
     parser = None
@@ -82,8 +83,21 @@ class Parser():
 #             string_list.append(tagger.tag(self.tokenize(sentence)))
             
 #         parser.tagged_parse_many_sentences(string_list)
-        parser.tagged_parse_many_sentences(list_sentences)
-        self.save(filepath)
+#         for x in list_sentences:
+#             print ("sentence",x)
+        try:
+            parser.tagged_parse_many_sentences(list_sentences)
+            print "parsing done"
+            self.save(filepath)
+            print "saved sentences"
+        except:
+            print "Error in parser!!"
+            print "Unexpected error:", sys.exc_info()[0]
+#             In order to amke sure that no old sentence is used!
+            f=open("/tmp/malt_output.conll","w")
+            f.write("")
+            f.close()
+        
     
     
     def clean_sentence(self,sentence):

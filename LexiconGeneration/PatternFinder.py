@@ -282,6 +282,8 @@ def normalize_pattern(x,y,path):
         new_string = ""
         for fragment in p.split(" "):
             if counter == 1:
+#                 print ("fragment",fragment)
+#                 print ("x.lower()",x.lower())
                 fragment = fragment.replace(x.lower(),"x")
                 fragment = fragment.replace(y.lower(),"y")
                 new_string+=fragment+" "
@@ -304,7 +306,8 @@ def normalize_pattern(x,y,path):
         pattern__new = pattern__new[:-2]
 
     
-    if pattern__new.count(" x ") != 1 or pattern__new.count(" y ") != 1 or "0 " not in pattern__new:
+#     if pattern__new.count(" x ") != 1 or pattern__new.count(" y ") != 1 or "0 " not in pattern__new:
+    if pattern__new.count(" x ") != 1 or pattern__new.count(" y ") != 1:
         return None
     return pattern__new
 
@@ -399,27 +402,17 @@ def create_pattern(x,y,path):
     Nevertheless this constraints only work for the English Corpus yet and also has to be updated.
     For all other languages, create own create_pattern function with own constrains
     """
-#    print "in create pattern"
-#    print "laenge Path: "+str(len(path))
-#    tmp = ""
-#    for item in path:
-#        tmp += item.__return_as_string__()+"  "
-#    print("path:",tmp)
-#    print
-    #constrain one and two
-    #if len(path)<3 or len(path) > 8:
-    pattern = ""
-    if len(path)<3 or len(path) > 4:
-#        print "laenge falsch"
-        tmp = ""
-        for item in path:
-            tmp += item.__return_as_string__()+"  "
-        #TODO: Warum ist das Pattern zu kurz, bzw anders gefragt, warum wird im Path nur eine Entity und nicht beide angegeben???
-#        print("x:",x)
-#        print("y:",y)
-#        print("Path:",tmp)
-#        print
+
+#     print (path[0].__return_as_string__()).lower()
+#     print (x).lower()
+#     print
+    
+    if x.lower() not in (path[0].__return_as_string__()).lower():
+        path = path[1:]
+        
+    if len(path)<3 or len(path) > 5:
         return None
+    
     config = ConfigParser.ConfigParser()
     config.read('config.conf')
     if config.get('system_language', 'language') == "English":

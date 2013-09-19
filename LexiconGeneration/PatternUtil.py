@@ -120,6 +120,16 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
     max_counter = 10000
     #highest value first
     lem_entries_hm = {}
+    f_hm = {}
+    try:
+        f = open("/home/swalter/wrongpattern","r")
+        for line in f:
+            f_hm[line.replace("\n","")] = ""
+        f.close()
+    except:
+        pass
+            
+    blub_array = []
     for key, value in sorted(hm.iteritems(), key=lambda x:x[1], reverse = True):
         best_counter += 1
         """
@@ -129,6 +139,8 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
         try:
             entry_array=LexiconGenerator.createLexiconEntry(key, uri, False)
             for entry in entry_array:
+#                 TODO: Add value from pattern
+                blub_array.append((key,entry))
                 if lem_entries_hm.has_key(entry):
                     value = lem_entries_hm[entry]
                     value += 1
@@ -137,9 +149,18 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
                     lem_entries_hm[entry] = 1
 
         except:
+            f_hm[key]=""
             print "V3:Entry could not be created for pattern: "+key +"  "+str(value)
             print
             print
+    f = open("/home/swalter/wrongpattern","w")
+    for key in f_hm:
+        f.write(key+"\n")
+    f.close()
+    f = open("/home/swalter/rightpattern","w")
+    for blub in blub_array:
+        f.write(str(blub)+"\n")
+    f.close()
             
 #     for entry in lem_entries_hm:
 #         if value > 2:
@@ -154,7 +175,7 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
     lem_counter = 0
     for key, value in sorted(lem_entries_hm.iteritems(), key=lambda x:x[1], reverse = True):
         lem_counter += 1
-        if lem_counter < 4:
+        if lem_counter < 21:
             tmp_array = []
             tmp_array.append(key)
             tmp_array.append("")
@@ -220,7 +241,10 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
         tmp_array.append(1)
         lexico_array.append(tmp_array)
 
-        
+    f_out = open("/home/swalter/lementries","w")
+    for x in lexico_array:
+        f_out.write(x[0]+"\n")
+    f_out.close()
     return lexico_array , pattern_once
 
 

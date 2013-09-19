@@ -267,8 +267,11 @@ def normalisePattern(pattern):
 def createPatternFile(uri, path, name, hm):
     f = file(path + "PatternList" + name + ".txt", "w")
     write_string = ""
-    overall_pattern_numer = 0
-################## TODO: Save "normalized" set of patterns like for QA in extra function #######################
+#     overall_pattern_number = 0
+#     for key, value in hm.iteritems():
+#         overall_pattern_number += value
+        
+        
     different_pattern = 0
     hm_new = {}
     hm_test = {}
@@ -276,7 +279,6 @@ def createPatternFile(uri, path, name, hm):
               
         ####SHOULD BE 1
         if value > 1:
-            overall_pattern_numer += value
             different_pattern += 1
             hm_new[key] = value
             
@@ -292,25 +294,24 @@ def createPatternFile(uri, path, name, hm):
     hm_new = {}
     alpha = 0.8
     
-    ####only for test#####
-    overall_pattern_numer = 0
+    overall_pattern_number = 0
     for key, value in hm_test.iteritems():
-    ###only for test#######
-        overall_pattern_numer += value
+        overall_pattern_number += value
+    
             
     
     for key, value in sorted(hm_test.iteritems(), key=lambda x:x[1], reverse=True):
-        p = value / (overall_pattern_numer + 0.0)
-        p_prime = (value - alpha) / (overall_pattern_numer + 0.0)
-        p_3 = (overall_pattern_numer + 0.0)/value
+        p = value / (overall_pattern_number + 0.0)
+        p_prime = (value - alpha) / (overall_pattern_number + 0.0)
+        p_3 = (overall_pattern_number + 0.0)/value
         
         #write_string+="Pattern: "+key+"\t Occurrences: "+str(value)+"\t P(x|Property): "+str(p)+"\n"
         write_string += key + "\t" + str(value) + "\t" + uri + "\t" + str(math.log(p)) + "\t" + str(math.log(p_prime)) +"  "+ str(math.log(p_3)) +"\n"
     
-    write_string = "Overall number: " + str(overall_pattern_numer) + " Different patterns: " + str(different_pattern) + "\n\n\n" + write_string
+    write_string = "Overall number: " + str(overall_pattern_number) + " Different patterns: " + str(different_pattern) + "\n\n\n" + write_string
     f.write(write_string)
     f.close()
-    return hm, overall_pattern_numer
+    return hm, overall_pattern_number
 
 def getEntities(path):
     f_in = open(path,"r")
@@ -491,4 +492,4 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
     hm.clear()
     
     #return web, lemonEntriesHm ,return_string
-    return web, lemonEntriesHm
+    return web, lemonEntriesHm , total_number_sentence

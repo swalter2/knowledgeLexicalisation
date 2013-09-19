@@ -166,7 +166,7 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
     parser = Sentence_Parser()
     not_in_index = []
     hm = {}
-    tolerance_procent = 15
+    tolerance_procent = 1
     tolerance = 0
     for item in term_list:
         try:
@@ -341,6 +341,7 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
             parser.parse(parse_list, sfile)
             parsed_sentences = load_file_return_list_of_sentences(sfile)
             to_add = []
+            print len(parsed_sentences)
             for i in range(0,len(parsed_sentences)):
                 tmp = not_in_index[i]
                 to_add.append([parsed_sentences[i],tmp[1],tmp[2],uri])
