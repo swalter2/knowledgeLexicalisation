@@ -42,7 +42,7 @@ def createTermsForObjectProperty(PropertyEntities, anchor_index):
     """
     Use additional 
     """
-    if len(PropertyEntities)/2 > 20000:
+    if len(PropertyEntities)/2 > 40000:
         result = []
         for item in range(0,len(PropertyEntities),2):
             x = PropertyEntities[item]
@@ -170,6 +170,7 @@ def createTermsForDataTypeProperty(uri, PropertyEntities, anchor_index):
     The range of the URI to be determined, because for different ranges, different approaches are needed.
     """
     uri_range = sparql.askForRange(uri)
+    print ("uri_range",uri_range)
     """
     If no range could be found for the property, the function returns the original list, because without the information of the range,
     it can not be determined, which procedure is needed to increase the number of subject/object pairs.
@@ -222,10 +223,20 @@ def createTermsForDataTypeProperty(uri, PropertyEntities, anchor_index):
                 y_list.extend(createDateList(y))
             elif "gYear" in uri_range:
                 y_list.extend(createDateList(y.split("T")[0]))
-            else:
-                x_list = []
-                y_list = []
-                #print ("Range of this property is still not implemented")
+                
+            elif "string" in uri_range:
+                y_uri = "http://dbpedia.org/ontology/"+y.replace(" ","_")
+                if "(" in y:
+                    y = y.split("(")[0]
+                tmp = anchor_index.searchForDbpediaURImax(y_uri,10)
+                if len(tmp)!= 0:
+                    for entry in tmp:
+                        if entry[0] != "*":
+                            y_list.append(entry[0])
+                tmp = []
+#             else:
+#                 x_list = []
+#                 y_list = []
                 
             
             for xentry in x_list:
@@ -402,6 +413,10 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
             #only uses x/y/sentence combination once!
             try:
                 sentence = parsed_sentence
+#                 s_t = ""
+#                 for item in sentence:
+#                     s_t += item.__return_as_string__()+"  "
+#                 print (x,y,s_t)
                 total_number_sentence+=1
                 used_sentence+=1       
                 try:
@@ -489,6 +504,7 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
     
     #print "Number of used sentences: "+str(len(hm_res_sentences))
     print "created html side"
+    print ("total_number_sentence used:",total_number_sentence)
     hm.clear()
     
     #return web, lemonEntriesHm ,return_string

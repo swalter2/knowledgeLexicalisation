@@ -86,7 +86,9 @@ class Connection():
                 except:
                     pass
         print "getPairs Done"
-        f_out = open(path_to_save,"w")
+        tmp_path = path_to_save.replace("http://dbpedia.org/property/","")
+        tmp_path = tmp_path.replace("http://dbpedia.org/ontology/","")
+        f_out = open(tmp_path,"w")
         for x in write_array:
             f_out.write(x+"\n")
         f_out.close()
@@ -213,23 +215,26 @@ class Connection():
         """
          Returns information for a given keyword from DBpedia Wiktionary
         """
-
-        self.sparql_wiktionary.setQuery(" SELECT ?lexword ?y FROM <http://wiktionary.dbpedia.org> WHERE {  ?lexword <http://www.w3.org/2000/01/rdf-schema#label> \""+string+"\"@en . ?lexword <http://wiktionary.dbpedia.org/terms/hasEtymology> ?y .}LIMIT 10 ")
+        query = " SELECT ?lexword ?y FROM <http://wiktionary.dbpedia.org> WHERE {  ?lexword <http://www.w3.org/2000/01/rdf-schema#label> \""+string+"\"@en . ?lexword <http://wiktionary.dbpedia.org/terms/hasEtymology> ?y .}LIMIT 10 "
+#         print("query",query)
+        self.sparql_wiktionary.setQuery(query)
         self.sparql_wiktionary.setReturnFormat(JSON)
         results = self.sparql_wiktionary.query().convert()
         result_array = []
         for result in results["results"]["bindings"]:
-#             print result
             try:
                 #print result
                 y= (result["y"]["value"])
                 lexword = (result["lexword"]["value"])
                 if " + " in y:
                     tmp = y.split(" + ")
+                    
                     if "Verb" in lexword:
                         result_array.append(["verb",str(tmp[0])])
                     if "Adjective" in lexword:
                         result_array.append(["adjective",str(tmp[0])])
+                elif "Adjective" in lexword:
+                    result_array.append(["adjective",y])
 #                 print [str(lexword),str(y)]
             except:
                 pass

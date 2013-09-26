@@ -1,5 +1,3 @@
-http://dbpedia.org/ontology/foundingPerson
-http://dbpedia.org/ontology/routeEnd
 http://dbpedia.org/ontology/isPartOf
 http://dbpedia.org/ontology/nationality
 http://dbpedia.org/ontology/district
@@ -61,7 +59,6 @@ http://dbpedia.org/ontology/computingMedia
 http://dbpedia.org/ontology/region
 http://dbpedia.org/ontology/manager
 http://dbpedia.org/ontology/education
-http://dbpedia.org/ontology/family
 http://dbpedia.org/ontology/league
 http://dbpedia.org/ontology/foundedBy
 http://dbpedia.org/ontology/routeStart
@@ -164,3 +161,5 @@ http://dbpedia.org/ontology/assembly
 http://dbpedia.org/ontology/album
 http://dbpedia.org/ontology/arrondissement
 http://dbpedia.org/ontology/series
+http://dbpedia.org/ontology/routeEnd
+http://dbpedia.org/ontology/foundingPerson

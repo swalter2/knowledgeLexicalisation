@@ -130,7 +130,7 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
         pass
             
     blub_array = []
-    for key, value in sorted(hm.iteritems(), key=lambda x:x[1], reverse = True):
+    for key, value_pattern in sorted(hm.iteritems(), key=lambda x:x[1], reverse = True):
         best_counter += 1
         """
         Different selecting strategies based on the lemon entries
@@ -139,14 +139,15 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
         try:
             entry_array=LexiconGenerator.createLexiconEntry(key, uri, False)
             for entry in entry_array:
-#                 TODO: Add value from pattern
                 blub_array.append((key,entry))
                 if lem_entries_hm.has_key(entry):
                     value = lem_entries_hm[entry]
-                    value += 1
+#                     value += 1
+                    value += value_pattern
                     lem_entries_hm[entry] = value
                 else:
-                    lem_entries_hm[entry] = 1
+                    lem_entries_hm[entry] = value_pattern
+#                     lem_entries_hm[entry] = 1
 
         except:
             f_hm[key]=""

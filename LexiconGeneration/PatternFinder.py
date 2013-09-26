@@ -316,70 +316,70 @@ For English only, add other functions for other languages
 """    
 def english_constraints(x,y,path):
     pattern = ""
-    
-    #constraint 4, dont allow a pattern with lenght three and only a prep between x and y
-    if len(path) == 3:
-        
-        if path[1].__getattr__("pos7").lower() == "prep":
-#            print "case1"
-            return None
-        if path[1].__getattr__("pos3").lower() == "cd":
-#            print "case2"
-            return None
-        if "num" in path[1].__getattr__("pos7").lower():
-#            print "case4"
-            return None
-        
-        ####for Test######
-        if path[1].__getattr__("pos3").lower() == "nn":
-#            print "case5"
-            return None
-        #################
-        
-#        if path[1].__getattr__("pos7").lower() == "number":
-#            return None
-#        if path[1].__getattr__("pos7").lower() == "num":
-#            return None
-
-
-        #constraint 5: same if there is only a to between x and y or an in
-        #print path[1].__getattr__("pos4")
-        if path[1].__getattr__("pos4").lower() == "in" or path[1].__getattr__("pos4").lower() == "to":
-#            print "case6"
-            return None
-    
-    #constraint 6: dont allow such pattern: 0 x _ nnp nnp _ 1 pobj _ _  1 from _ in in _ 2 prep _ _  2 to _ to to _ 3 dep _ _  3 y _ nnp nnp _ 4 pobj _ _  4
-    if len(path) == 4:
-        if path[1].__getattr__("pos4").lower() == "in" and path[2].__getattr__("pos4").lower() == "to":
-#            print "case7"
-            return None
-        if path[1].__getattr__("pos4").lower() == "in" and path[2].__getattr__("pos4").lower() == "in":
-#            print "case8"
-            return None
-        if path[1].__getattr__("pos4").lower() == "to" and path[2].__getattr__("pos4").lower() == "in":
-#            print "case9"
-            return None
-        if path[1].__getattr__("pos7").lower() == "tmod" and "num" in path[2].__getattr__("pos7").lower():
-#            print "case10"
-            return None
-        if path[1].__getattr__("pos3").lower() == "nnp" and "num" in path[2].__getattr__("pos7").lower():
-#            print "case11"
-            return None
-        ####for Test######
-        if path[1].__getattr__("pos3").lower() == "nn" and path[2].__getattr__("pos3").lower() == "nn":
-#            print "case12"
-            return None
-        if path[1].__getattr__("pos3").lower() == "cc" and path[2].__getattr__("pos3").lower() == "nn":
-#            print "case13"
-            return None
-        if path[1].__getattr__("pos3").lower() == "nn" and path[2].__getattr__("pos3").lower() == "cc":
-#            print "case14"
-            return None
+#     
+#     #constraint 4, dont allow a pattern with lenght three and only a prep between x and y
+#     if len(path) == 3:
+#         
 #         if path[1].__getattr__("pos7").lower() == "prep":
-# #            print "case15"
+# #            print "case1"
 #             return None
-        #################
-#    print"got here, start normalising pattern now"
+#         if path[1].__getattr__("pos3").lower() == "cd":
+# #            print "case2"
+#             return None
+#         if "num" in path[1].__getattr__("pos7").lower():
+# #            print "case4"
+#             return None
+#         
+#         ####for Test######
+#         if path[1].__getattr__("pos3").lower() == "nn":
+# #            print "case5"
+#             return None
+#         #################
+#         
+# #        if path[1].__getattr__("pos7").lower() == "number":
+# #            return None
+# #        if path[1].__getattr__("pos7").lower() == "num":
+# #            return None
+# 
+# 
+#         #constraint 5: same if there is only a to between x and y or an in
+#         #print path[1].__getattr__("pos4")
+#         if path[1].__getattr__("pos4").lower() == "in" or path[1].__getattr__("pos4").lower() == "to":
+# #            print "case6"
+#             return None
+#     
+#     #constraint 6: dont allow such pattern: 0 x _ nnp nnp _ 1 pobj _ _  1 from _ in in _ 2 prep _ _  2 to _ to to _ 3 dep _ _  3 y _ nnp nnp _ 4 pobj _ _  4
+#     if len(path) == 4:
+#         if path[1].__getattr__("pos4").lower() == "in" and path[2].__getattr__("pos4").lower() == "to":
+# #            print "case7"
+#             return None
+#         if path[1].__getattr__("pos4").lower() == "in" and path[2].__getattr__("pos4").lower() == "in":
+# #            print "case8"
+#             return None
+#         if path[1].__getattr__("pos4").lower() == "to" and path[2].__getattr__("pos4").lower() == "in":
+# #            print "case9"
+#             return None
+#         if path[1].__getattr__("pos7").lower() == "tmod" and "num" in path[2].__getattr__("pos7").lower():
+# #            print "case10"
+#             return None
+#         if path[1].__getattr__("pos3").lower() == "nnp" and "num" in path[2].__getattr__("pos7").lower():
+# #            print "case11"
+#             return None
+#         ####for Test######
+#         if path[1].__getattr__("pos3").lower() == "nn" and path[2].__getattr__("pos3").lower() == "nn":
+# #            print "case12"
+#             return None
+#         if path[1].__getattr__("pos3").lower() == "cc" and path[2].__getattr__("pos3").lower() == "nn":
+# #            print "case13"
+#             return None
+#         if path[1].__getattr__("pos3").lower() == "nn" and path[2].__getattr__("pos3").lower() == "cc":
+# #            print "case14"
+#             return None
+# #         if path[1].__getattr__("pos7").lower() == "prep":
+# # #            print "case15"
+# #             return None
+#         #################
+# #    print"got here, start normalising pattern now"
     return normalize_pattern(x,y,path)
 
 def german_constraints(x,y,path):

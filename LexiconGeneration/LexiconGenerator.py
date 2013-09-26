@@ -27,16 +27,21 @@ def verbEntry(term,uri,marker):
         if term.endswith("ed"):
 #             term = term[:-2]
             entry.append(TransitiveFrame(term[:-1], uri,marker))
+#             entry.append(AdjectivePPFrame(term[:-1], uri,marker))
             entry.append(TransitiveFrame(term[:-2], uri,marker))
+#             entry.append(AdjectivePPFrame(term[:-2], uri,marker))
         elif term.endswith("s"):
             term = term[:-1]
             entry.append(TransitiveFrame(term, uri,marker))
+#             entry.append(AdjectivePPFrame(term, uri,marker))
         else:
             entry.append(TransitiveFrame(term, uri,marker))
+#             entry.append(AdjectivePPFrame(term, uri,marker))
     else:
         for e in wiktionary_informations:
             if e[0] == "verb" and "," not in e[1]:
                 entry.append(TransitiveFrame(e[1], uri,marker))
+                entry.append(AdjectivePPFrame(e[1], uri,marker))
 #     print ("entry",entry)  
 #     print  
     return entry
@@ -51,6 +56,8 @@ def englishMapping(pattern,uri):
         if (" vbd" in array[1] or " vbn" in array[1] or " vbz" in array[1]) and (" rcmod" in array[1] or " null" in array[1]):
             print "case1"
             term = array[1]
+            if len(term)<3:
+                return None
             entry_list = verbEntry(term,uri,"")
             return entry_list
             
@@ -58,11 +65,21 @@ def englishMapping(pattern,uri):
             print "case4"
             term = array[1]
             term = term.split(" ")[1]
+            if len(term)<3:
+                return None
             if term != "x" and term != "y":
                 entry = NounPPFrame(term,uri,{})
                 return [entry]
             
-            
+        if (" nn" in array[1]) and ("dep" in array[1] or " null" in array[1]): 
+            print "case6 - nn case"
+            term = array[1]
+            if len(term)<3:
+                return None
+            entry_list = verbEntry(term,uri,"")
+#             print
+#             print
+            return entry_list
         
 #          if " nn "
             
@@ -76,9 +93,11 @@ def englishMapping(pattern,uri):
                  marker = marker.split(" ")[1]
             print ("marker",marker)
             term = array[1]
+            if len(term)<3:
+                return None
             entry_list = verbEntry(term,uri,marker)
-            print
-            print
+#             print
+#             print
             return entry_list
             
         if (" nn" in array[1]) and ("sub" in array[1] or "obj" in array[1] or " null" in array[1]): 
@@ -90,9 +109,25 @@ def englishMapping(pattern,uri):
                  hm[marker] = ""
             term = array[1]
             term = term.split(" ")[1]
+            if len(term)<3:
+                return None
             if term != "x" and term != "y":
                 entry = NounPPFrame(term,uri,hm)
                 return [entry]
+            
+        if (" nn" in array[1]) and ("dep" in array[1] or " null" in array[1]): 
+            print "case5 - nn case"
+            marker = array[2]
+            if " x " not in marker and " y " not in marker:
+                 marker = marker.split(" ")[1]
+            print ("marker",marker)
+            term = array[1]
+            if len(term)<3:
+                return None
+            entry_list = verbEntry(term,uri,marker)
+#             print
+#             print
+            return entry_list
             
     
     
@@ -269,7 +304,7 @@ def TransitiveFrame(term, reference,marker):
 # #     In order to increase Recall, do not use the marker and create only entries, without marker
     entry = "StateVerb(\""+term+"\",<"+reference+">, propSubj = DirectObject, propObj  = Subject)"
     
-#     if len(marker) == 0:
+#     if len(marker) == 0 or marker.isalpha()== False:
 #         entry = "StateVerb(\""+term+"\",<"+reference+">, propSubj = DirectObject, propObj  = Subject)"
 #         return entry
 #     else:
@@ -309,7 +344,7 @@ def NounPPFrame(term,reference,marker):
     term = term.replace(";","")
     entry = ""
     #beim generieren der Pattern wird entschieden, was fuer ein frame gegeben ist, abhaengig dvon, ob eine praeposition gegeben ist oder nicht
-    if len(marker) == 0:
+    if len(marker) == 0 or marker.isalpha()== False:
         entry = "RelationalNoun(\""+term+"\",<"+reference+">, propSubj = PossessiveAdjunct, propObj  = CopulativeArg)"
         return entry
     else:
@@ -319,15 +354,18 @@ def NounPPFrame(term,reference,marker):
 
 
 def checkForIngForm(string):
+#     star",dbpedia:starring, check, if words then ends with twice the same letter, if so, remove last letter
+
     if string.endswith("ing"):
         string = string[:-3]
-        laenge = len(string)-1
-        a = string[laenge:]
-        b = string[laenge-1:-1]
-        
-        if a == b:
+#         laenge = len(string)-1
+#         a = string[laenge:]
+#         b = string[laenge-1:-1]
+#         
+#         if a == b:
+#             string = string[:-1]
+        if string[:-1].endswith(string[-1:]):
             string = string[:-1]
-        
         return string
         
         

@@ -80,13 +80,24 @@ def combineNNP(array,x_variable,y_variable):
     foundx = False
     foundy = False
     tmp = []
+    counter = 0
     for i in range(0,len(array)-1):
-        if "NNP" in array[i][1]:
+        if "CD" in array[i][1]:
+            counter += 1
+        if ("NNP" in array[i][1] or "NNPS" in array[i][1] or "CD" in array[i][1]) and counter < 2:
             tmp.append(i)
         else:
             if len(tmp) > 1 :
                 cluster.append(tmp)
                 tmp = []
+            else: 
+                tmp = []
+            if counter >= 2:
+                tmp.append(i)
+                counter = 0
+            else:
+                countr = 0
+                
     new_array = []
     for x in cluster:
         string = ""
@@ -99,6 +110,7 @@ def combineNNP(array,x_variable,y_variable):
         if y_variable.lower() in string.lower():
             string = ((y_variable.lower()).replace(" ","")).capitalize()
             foundy = True
+#         string = (string.replace(" ",""),'NNP')
         string = (string,'NNP')
         x.append(string)
         
@@ -120,7 +132,31 @@ def combineNNP(array,x_variable,y_variable):
         else:
             new_array.append(array[i])
             tmp = True
-    return new_array, foundx, foundy
+    
+    if foundx == False or foundy == False:
+        tmp_array = []
+#         print ("y_variable",y_variable)
+#         print ("x_variable",x_variable)
+#         print ("array",array)
+#         print ("new_array",new_array)
+#         print ("foundx",foundx)
+#         print ("foundy",foundy)
+#         print
+#         print
+        
+        for e in new_array:
+            
+            if e[0] == y_variable and foundy == False:
+                tmp_array.append((y_variable.replace(" ","").capitalize(),"NNP"))
+                foundy = True
+            elif e[0] == x_variable and foundx == False:
+                tmp_array.append((x_variable.replace(" ","").capitalize(),"NNP"))
+                foundx = True
+            else:
+                tmp_array.append((e[0],e[1]))
+        return tmp_array, foundx, foundy
+    else:
+        return new_array, foundx, foundy
         
 
 def lookupSortAndParse(term_list,index,live_index, flag,uri):
@@ -288,6 +324,7 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
      
     print "found "+str(overall_sentences)+" sentences"
     print "found "+str(len(hm))+" combination of pairs and sentences"
+#     raw_input("wait")
     #German Umlaute
 #    for key in hm:
 #        print (key.replace("\xc3\xa4","ae").replace("\xc3\x9f","ss").replace("\xc3\xbc","ue"),hm[key])

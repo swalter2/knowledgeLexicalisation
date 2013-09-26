@@ -9,7 +9,7 @@ from subprocess import Popen, PIPE, STDOUT
 
 
 #from LexiconGeneration.Parser import MaltParser
-from LexiconGeneration.Index import Index, LiveIndex, AnchorIndex, Index_WithID
+from LexiconGeneration.Index import Index, LiveIndex, AnchorIndex, Index_WithID, TaggedIndex
 
 #m_parser = None
 index = None
@@ -95,11 +95,11 @@ def _init_():
     if config.get('system_language', 'language') == "English":
         path_to_index = config.get('index', 'wikipedia_index_english');
         path_to_parsed_sentences_index = config.get('index', 'wikipedia_live_index_english')
-    if config.get("index","advancedEnglishIndex") == "True" and config.get('system_language', 'language') == "English":
-        path_to_parsed_sentences_index = config.get('index', 'wikipedia_live_index_english')
-        path_to_index = config.get('index', 'advanced_wikipedia_index_english')
-        
-        special = True
+#     if config.get("index","advancedEnglishIndex") == "True" and config.get('system_language', 'language') == "English":
+#         path_to_parsed_sentences_index = config.get('index', 'wikipedia_live_index_english')
+#         path_to_index = config.get('index', 'advanced_wikipedia_index_english')
+#         
+#         special = True
     
     elif config.get('system_language', 'language') == "German":
         path_to_index = config.get('index', 'wikipedia_index_german');
@@ -109,7 +109,8 @@ def _init_():
     print ("path_to_parsed_sentences_index",path_to_parsed_sentences_index)
     print ("path_to_index",path_to_index)
     if special == False:
-        index = Index.LuceneIndex(path_to_index)
+        index = TaggedIndex.LuceneIndex(path_to_index)
+#         index = Index.LuceneIndex(path_to_index)
     else:
         index = Index_WithID.LuceneIndex(path_to_index)
         
@@ -157,14 +158,15 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag):
         string =""
         tmp_hm = {}
         print uri
+        number_sentences = 0
         if sparql.askClassProperty(uri) == True:
             path += label+"ClassResults"
             entryArray = LexiconGenerator.createClassEntry(uri,en_de_lexicon)
             for entry in entryArray:
                 lemonEntriesHm[entry] = ""
         else:
-            string, tmp_hm = Approach1.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
-            path += label+"PropertyResults"
+            string, tmp_hm , number_sentences = Approach1.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
+            path += label+"PropertyResults"+str(timestemp[-3:])
             for key in tmp_hm:
                lemonEntriesHm[key] = ""   
                
@@ -400,18 +402,18 @@ def main():
     """
     _init_()
     print "type quit to enter the program"
-    parse_flag = True
+    parse_flag = False
     path = raw_input("Please enter a path where the Lexicon should be saved:  ")
     while True:
         input = raw_input("Please enter a valid DBpedia URI:  ")
-        if input == "quit" or input == "exit":
+        if input == "quit" or input == "exit" or input == "logout":
             print 
             print "Bye Bye!"
             exit(1)
         elif input == "train":
             #run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia-train_de.rdf",path,parse_flag)
-#            run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
-           run_and_evaluate("Datasets/combined","Datasets/dbpedia_en.rdf",path,parse_flag)
+#             run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
+             run_and_evaluate("Datasets/Datatype_in_en_gold","Datasets/dbpedia_en.rdf",path,parse_flag)
 #             run_and_evaluate("Datasets/test.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
         else:
             start_time= time()
