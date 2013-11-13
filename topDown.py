@@ -3,7 +3,7 @@ import os, re, sys, ConfigParser
 from time import time
 from LexiconGeneration import Sparql
 from LexiconGeneration import LexiconGenerator
-from LexiconGeneration import Approach1
+from LexiconGeneration import DependencyApproach, LabelApproach
 from Evaluation import lexiconEvaluation 
 from subprocess import Popen, PIPE, STDOUT
 
@@ -165,7 +165,7 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag):
             for entry in entryArray:
                 lemonEntriesHm[entry] = ""
         else:
-            string, tmp_hm , number_sentences = Approach1.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
+            string, tmp_hm , number_sentences = DependencyApproach.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
             path += label+"PropertyResults"+str(timestemp[-3:])
             for key in tmp_hm:
                lemonEntriesHm[key] = ""   
@@ -258,7 +258,7 @@ def run(uri,path,parse_flag):
        for entry in entryArray:
            lemonEntriesHm[entry] = ""
     else:
-        string, tmp_hm = Approach1.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
+        string, tmp_hm = DependencyApproach.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
         for key in tmp_hm:
            lemonEntriesHm[key] = ""   
        
