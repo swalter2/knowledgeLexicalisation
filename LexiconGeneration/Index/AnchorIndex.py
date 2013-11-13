@@ -154,8 +154,8 @@ class LuceneIndex():
                 doc = searcher.doc(hit.doc)
                 dbpedia_uri = doc["dbpedia_uri"].encode("utf-8")
                 if dbpedia_uri == uri_old:
-                    result.append([doc["anchor"].encode("utf-8"), doc["anchor_uri"].encode("utf-8"), dbpedia_uri, doc["number"].encode("utf-8")])
-            result = sorted(result, key = itemgetter(1), reverse=True)
+                    result.append([doc["anchor"].encode("utf-8"), doc["anchor_uri"].encode("utf-8"), dbpedia_uri, int(doc["number"].encode("utf-8"))])
+            result = sorted(result, key = itemgetter(3), reverse=True)
             if len(result) > number:
                 return result[0:number]
         
