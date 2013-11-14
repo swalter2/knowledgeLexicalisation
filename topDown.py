@@ -159,16 +159,17 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag):
         tmp_hm = {}
         print uri
         number_sentences = 0
-        if sparql.askClassProperty(uri) == True:
-            path += label+"ClassResults"
-            entryArray = LexiconGenerator.createClassEntry(uri,en_de_lexicon)
-            for entry in entryArray:
-                lemonEntriesHm[entry] = ""
-        else:
-            string, tmp_hm , number_sentences = DependencyApproach.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
-            path += label+"PropertyResults"+str(timestemp[-3:])
-            for key in tmp_hm:
-               lemonEntriesHm[key] = ""   
+        
+        #Label Approach
+        lexiconArray = LabelApproach.start(uri)
+        for entry in lexiconArray:
+            lemonEntriesHm[entry] = ""
+        
+        #Dependency Approach
+        string, tmp_hm , number_sentences = DependencyApproach.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
+        path += label+"PropertyResults"+str(timestemp[-3:])
+        for key in tmp_hm:
+           lemonEntriesHm[key] = ""   
                
         os.mkdir(path)
         string += "Time for this property: "+str((time()-t1)/60.0)+" minutes"
