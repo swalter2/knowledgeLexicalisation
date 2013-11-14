@@ -12,8 +12,7 @@ def start(uri):
         
     #one for classes
     if sparql.askClassProperty(uri) == True:
-        label_list = []
-        label_list.append(label)
+        label_list = [label]
         label_list.extend(wf.returnNoun(label))
         for entry in label_list:
             for x in LexiconGenerator.createClassEntry(uri,entry):
@@ -21,7 +20,11 @@ def start(uri):
     
     #one for properties
     else:
-        pass
+        label_list = [label]
+        label_list.extend(wf.returnNoun(label))
+        for entry in label_list:
+            for x in LexiconGenerator.createClassEntry(entry,uri,{}):
+                list_of_entries.append(x)
     
     
     return list_of_entries
