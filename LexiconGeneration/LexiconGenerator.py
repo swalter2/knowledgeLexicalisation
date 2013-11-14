@@ -282,7 +282,7 @@ def createClassEntry(uri,label):
     """
     #sparql = Sparql.Connection()
     #label = sparql.getLabel(uri)[0]
-    return ["ClassNoun(\""+ label+"\",<"+uri+">)"]
+    return "ClassNoun(\""+ label+"\",<"+uri+">)"
 
 
 
