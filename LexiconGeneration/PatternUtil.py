@@ -3,15 +3,7 @@ import os, sys, ConfigParser
 from Index import IndexUtils
 from Util import  WordnetFunctions
 import Sparql
-from nltk.stem.wordnet import WordNetLemmatizer
 
-
-
-
-#def d_print(string, debug):
-#    if debug == True:
-#        print(string)
-#        
 
 
 
@@ -95,8 +87,6 @@ def create_html_table(lexico_array,hm_res_sentences,path,name,version):
     return web_string
 
 def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
-    lmtzr = WordNetLemmatizer()
-    #Note: the NumberOfPatterns in the function call is later replaced by a procent value, depending on the number of patterns included into the system
     print "Number of patterns: "+str(len(hm))
     config = ConfigParser.ConfigParser()
     config.read('config.conf')
@@ -188,64 +178,10 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
                 
     
             
-#         """
-#         Different selecting strategies based on the patterns
-#         
-#         """
-#         ##########################
-#         ## Take all pattern with a certain percentage 
-#         ##########################
-# #        if (((value/(overall_pattern_numer+0.0))*100) > procentOfPatterns and best_counter < max_counter+1) or overall_pattern_numer == len(hm):
-#         
-#         ##########################
-#         ## Take only the top 100 pattern
-#         ##########################
-# #        if best_counter < 101:   
-#         
-#         ##########################
-#         ## Take only the top 10 pattern
-#         ##########################
-# #         if best_counter < 11:
-#         
-#         ##########################
-#         ## Take every pattern which exists at least twice
-#         ## and ignore pattern which exists only once
-#         ##########################
-#         if value > 2:
-# 
-# 
-#             try:
-#                 entry_array=LexiconGenerator.createLexiconEntry(key, uri, False)
-#                 for entry in entry_array:
-#                     tmp_array = []
-#                     tmp_array.append(entry)
-#                     tmp_array.append(key)
-#                     tmp_array.append(value)
-#                     lexico_array.append(tmp_array)
-#                 if entry == None:
-#                     print "V1:Entry could not be created for pattern: "+key +"  "+str(value)
-#                     print
-#             except:
-#                 print "V2:Entry could not be created for pattern: "+key +"  "+str(value)
-#                 print
-#                 print
-# 
-#         else:
-#             pattern_once += 1
-   
-    tmp_entries = StandardLexiconEntries.createEntries(uri,en_de_lexicon)
-    for x in tmp_entries:
-        print ("additional entry",x)
-        tmp_array = []
-        tmp_array.append(x)
-        tmp_array.append("Created by Guessing")
-        tmp_array.append(1)
-        lexico_array.append(tmp_array)
-
-    f_out = open("/home/swalter/lementries","w")
-    for x in lexico_array:
-        f_out.write(x[0]+"\n")
-    f_out.close()
+    #f_out = open("/home/swalter/lementries","w")
+    #for x in lexico_array:
+    #    f_out.write(x[0]+"\n")
+    #f_out.close()
     return lexico_array , pattern_once
 
 

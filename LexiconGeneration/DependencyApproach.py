@@ -470,22 +470,7 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
     lemonEntriesHm = {}
     for item in lexico_array:
         lemonEntriesHm[item[0]]=""
-        
-    ##################################
-    ##################################
-    #
-    #Problem: Sometimes NO Sentence is found, or used => No Pattern => No entry
-    #=> guess entry for Noun and if possible verb
-    #
-    ##################################
-    ##################################
-#     if total_number_sentence <= 20 or len(lemonEntriesHm) == 0:
-#         tmp_entry = StandardLexiconEntries.createAllEntries(uri,en_de_lexicon)
-#         for x in tmp_entry:
-#             lemonEntriesHm[x]=""
 
-
-    print "created standard entries"
 
     web_string = "<table><tr><td style=\"width: 50%;\"> "
     try:
