@@ -256,24 +256,33 @@ def createLexiconEntry(pattern,uri,Wiktionary, term = None):
 
 
 
-def createClassEntry(uri,en_target_lexicon):
+#def createClassEntry(uri,en_target_lexicon):
+#    """
+#    Creates a standard class entry for a given URI.
+#    As label for the entry, the label from the URI is taken (sparql.getLabel)
+#    """
+#    
+#    sparql = Sparql.Connection()
+#    label = sparql.getLabel(uri)[0]
+##    result_array = []
+#    array = wn.return_synsetsNoun(label)
+#    for entry in array:
+#        for x in StandardLexiconEntries.createLabel(entry,en_target_lexicon):
+#            x = x.replace("_"," ")#
+#
+#            lexEntry = "ClassNoun(\""+ x+"\",<"+uri+">)"
+#            result_array.append(lexEntry)
+#    return result_array
+
+
+def createClassEntry(uri,label):
     """
     Creates a standard class entry for a given URI.
     As label for the entry, the label from the URI is taken (sparql.getLabel)
     """
-    
-    sparql = Sparql.Connection()
-    label = sparql.getLabel(uri)[0]
-    result_array = []
-    array = wn.return_synsetsNoun(label)
-    for entry in array:
-        for x in StandardLexiconEntries.createLabel(entry,en_target_lexicon):
-            x = x.replace("_"," ")
-
-            lexEntry = "ClassNoun(\""+ x+"\",<"+uri+">)"
-            result_array.append(lexEntry)
-    return result_array
-
+    #sparql = Sparql.Connection()
+    #label = sparql.getLabel(uri)[0]
+    return ["ClassNoun(\""+ label+"\",<"+uri+">)"]
 
 
 

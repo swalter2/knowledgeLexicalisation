@@ -102,6 +102,16 @@ def return_synsets(label):
         
     return result
 
+def return_Noun(label):
+    hm = {}
+    for s in wn.synsets(label,pos=wn.NOUN):
+        for item in s.lemma_names:
+            hm[item]=""
+    for key in hm:
+        result.append(key.replace("_"," "))
+    
+    return result
+
 
 def return_synsetsNoun(label):
     
