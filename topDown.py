@@ -160,16 +160,18 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag):
         print uri
         number_sentences = 0
         
+        path += uri.replace("http://dbpedia.org/ontology/","").replace("http://dbpedia.org/property/","")+"Results"
+        
         #Label Approach
         lexiconArray = LabelApproach.start(uri)
         for entry in lexiconArray:
             lemonEntriesHm[entry] = ""
         
         #Dependency Approach
-        string, tmp_hm , number_sentences = DependencyApproach.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
-        path += label+"PropertyResults"+str(timestemp[-3:])
-        for key in tmp_hm:
-           lemonEntriesHm[key] = ""   
+        #string, tmp_hm , number_sentences = DependencyApproach.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
+        #path += label+"PropertyResults"+str(timestemp[-3:])
+        #for key in tmp_hm:
+        #   lemonEntriesHm[key] = ""   
                
         os.mkdir(path)
         string += "Time for this property: "+str((time()-t1)/60.0)+" minutes"
@@ -401,7 +403,7 @@ def main():
     Main function - does not take any input from command line.
     All settings has to be done in the config.conf
     """
-    _init_()
+    #_init_()
     print "type quit to enter the program"
     parse_flag = False
     path = raw_input("Please enter a path where the Lexicon should be saved:  ")
@@ -414,7 +416,7 @@ def main():
         elif input == "train":
             #run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia-train_de.rdf",path,parse_flag)
 #             run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
-             run_and_evaluate("Datasets/Datatype_in_en_gold","Datasets/dbpedia_en.rdf",path,parse_flag)
+             run_and_evaluate("Datasets/LargeScaleTest","Datasets/dbpedia_en.rdf",path,parse_flag)
 #             run_and_evaluate("Datasets/test.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
         else:
             start_time= time()

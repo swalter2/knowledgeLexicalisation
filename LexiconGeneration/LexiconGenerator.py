@@ -307,7 +307,7 @@ def TransitiveFrame(term, reference,marker):
     """
     Creates an TransitiveFrame entry for a given label, reference and marker
     """
-    print ("Marker in transitive frame",marker)
+    #print ("Marker in transitive frame",marker)
     term = term.replace(";","")
 # #     In order to increase, accuracy, use the marker.
 # #     In order to increase Recall, do not use the marker and create only entries, without marker
