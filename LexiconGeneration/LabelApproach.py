@@ -20,11 +20,17 @@ def start(uri):
     
     #one for properties
     else:
+        #Noun
         label_list = [label]
         label_list.extend(wf.returnNoun(label))
         for entry in label_list:
             for x in LexiconGenerator.createClassEntry(entry,uri,{}):
                 list_of_entries.append(x)
     
+        #Verb
+        label_list = [label]
+        label_list.extend(wf.returnVerb(label))
+        for entry in label_list:
+            list_of_entries.append(LexiconGenerator.TransitiveFrame(entry,uri,{}))
     
     return list_of_entries

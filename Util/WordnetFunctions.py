@@ -112,6 +112,16 @@ def return_Noun(label):
     
     return result
 
+def return_Verb(label):
+    hm = {}
+    for s in wn.synsets(label,pos=wn.Verb):
+        for item in s.lemma_names:
+            hm[item]=""
+    for key in hm:
+        result.append(key.replace("_"," "))
+    
+    return result
+
 
 def return_synsetsNoun(label):
     
