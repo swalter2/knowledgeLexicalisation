@@ -283,7 +283,7 @@ def evaluate(path_user_lexicon,Train_evaluation,path_goldstandard, number_of_uri
 
     Laenge_Goldstandard = number_of_uris
 ##for TEST!!!
-#    Laenge_Goldstandard = len(hm_UL)
+    Laenge_GoldstandardPrecision = len(hm_UL)
 
 
     
@@ -381,9 +381,12 @@ def evaluate(path_user_lexicon,Train_evaluation,path_goldstandard, number_of_uri
 
 
 #TODO: Warum werden vier EIntraege bei dataset/classes ignoriert, denn adding_counter ist vier kleiner als len(classes) 
-    global_Recall = global_Recall/adding_counter
-    global_Precision = global_Precision/adding_counter
-    global_FMeasure = global_FMeasure/adding_counter
+#     global_Recall = global_Recall/adding_counter
+    global_Recall = global_Recall/Laenge_Goldstandard
+#     global_Precision = global_Precision/adding_counter
+    global_Precision = (global_Precision+(Laenge_Goldstandard - Laenge_GoldstandardPrecision))/Laenge_Goldstandard
+    global_FMeasure = (2*global_Recall*global_Precision)/(global_Recall+0.0+global_Precision)
+#     global_FMeasure = global_FMeasure/adding_counter
     global_Accuracy = global_Accuracy/adding_counter
 
     
