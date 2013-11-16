@@ -91,6 +91,7 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
     config = ConfigParser.ConfigParser()
     config.read('config.conf')
     procentOfPatterns = config.getfloat("entries", "PatternProcent")
+    topkentries = procentOfPatterns
     lexico_array = []
     sparql = Sparql.Connection()
     pattern_once = 0
@@ -165,8 +166,9 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
 
     lem_counter = 0
     for key, value in sorted(lem_entries_hm.iteritems(), key=lambda x:x[1], reverse = True):
+#         print key
         lem_counter += 1
-        if lem_counter < 21:
+        if lem_counter < topkentries:
             tmp_array = []
             tmp_array.append(key)
             tmp_array.append("")
