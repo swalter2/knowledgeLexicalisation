@@ -168,7 +168,9 @@ def start(uri,keystore,index):
                 list_of_entries.append(LexiconGenerator.NounPPFrame(key,uri,{}))
                 
                 
-        label_list = [label]
+        label_list = []
+        if label.endswith("ing"):
+            label_list.append(checkForIngForm(string))
         label_list.extend(wf.return_Verb(label))
         nld_list = {}
         for entry in label_list:
@@ -222,3 +224,16 @@ def getEntities(path,number = 100):
             else:
                 array.append(line)
     return array
+
+
+def checkForIngForm(string):
+    if string.endswith("ing"):
+        string = string[:-3]
+#             string = string[:-1]
+        if string[:-1].endswith(string[-1:]):
+            string = string[:-1]
+        return string
+        
+        
+    else:
+        return string
