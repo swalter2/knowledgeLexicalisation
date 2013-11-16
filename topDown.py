@@ -123,13 +123,23 @@ def _init_():
     print "initialisation done"
     
     
+def load_keystore():
+    f = open("/home/swalter/Dropbox/Public/keystore","r")
+    hm = {}
+    for line in f:
+        line = line.replace("\n","")
+        tmp = line.split("\t")
+        hm[tmp[1]] = tmp[0]
+    f.close()
+    return hm
     
 
 
-def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag):
-
+def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag, experiment = "BOTH"):
+    print "got here"
     sparql=Sparql.Connection()
     t1= time()
+    keystore = load_keystore()
     
     
     timestemp = str(t1)
@@ -163,15 +173,17 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag):
         path += uri.replace("http://dbpedia.org/ontology/","").replace("http://dbpedia.org/property/","")+"Results"
         
         #Label Approach
-        lexiconArray = LabelApproach.start(uri)
-        for entry in lexiconArray:
-            lemonEntriesHm[entry] = ""
+        if experiment == "BOTH" or experiment == "LABEL":
+            lexiconArray = LabelApproach.start(uri,keystore,index)
+            for entry in lexiconArray:
+                lemonEntriesHm[entry] = ""
         
         #Dependency Approach
-        #string, tmp_hm , number_sentences = DependencyApproach.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
-        #path += label+"PropertyResults"+str(timestemp[-3:])
-        #for key in tmp_hm:
-        #   lemonEntriesHm[key] = ""   
+        if experiment == "BOTH" or experiment == "DEPEND":
+            string, tmp_hm , number_sentences = DependencyApproach.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
+            path += label+"PropertyResults"+str(timestemp[-3:])
+            for key in tmp_hm:
+               lemonEntriesHm[key] = ""   
                
         os.mkdir(path)
         string += "Time for this property: "+str((time()-t1)/60.0)+" minutes"
@@ -223,68 +235,6 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag):
 
     print "\n\n DONE"
     
-    
-
-def run(uri,path,parse_flag):
-    """
-    Executes the patterngeneration process.
-    Input is the given URI, the path where the results has to be parsed, and also the parse_flag, which indicates,if new sentences have to be parsed (TRUE),
-    or if already parsed sentences from the Index will be used(FALSE).
-    """
-    sparql=Sparql.Connection()
-    t1= time()
-    label = sparql.getLabel(uri)[0]
-    label = label.replace(" ","+")
-    
-    
-    timestemp = str(t1)
-    timestemp = timestemp.replace(".","")
-    timestemp = timestemp[2:9]
-    if not path.endswith("/"):
-        path += "/"
-    
-    path += label+timestemp+"/"
-    os.mkdir(path)
-     
-    original_path = path
-    os.mkdir(path+"Result")
-
-    lemonEntriesHm = {}
-
-    web_string = "<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=ISO-8859-1\"><title>Pattern overview</title></head><body><h2>Pattern overview</h2>"
-   
-    string =""
-    tmp_hm = {}
-   
-    if sparql.askClassProperty(uri) == True:
-       entryArray = LexiconGenerator.createClassEntry(uri,en_de_lexicon)
-       for entry in entryArray:
-           lemonEntriesHm[entry] = ""
-    else:
-        string, tmp_hm = DependencyApproach.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
-        for key in tmp_hm:
-           lemonEntriesHm[key] = ""   
-       
-    #######################
-    #
-    # Write Lexicon
-    #
-    #######################    
-    write_lexicon(original_path,lemonEntriesHm)
-   
-
-    string += "Time for this property: "+str((time()-t1)/60.0)+" minutes"
-    string += "<p><a href=\"Lemon"+label+"\"> LemonEntry for "+label+" </a></p>"
-   
-    web_string += "<p> <p>"+string+"</p>  </p>"
-   
-    web_string += "</body></html>"
-   
-    f=file(path+"index.html","w")
-    f.write(web_string)
-    f.close()
-
-    print "\n\n DONE"
     
     
     
@@ -403,7 +353,7 @@ def main():
     Main function - does not take any input from command line.
     All settings has to be done in the config.conf
     """
-    #_init_()
+    _init_()
     print "type quit to enter the program"
     parse_flag = False
     path = raw_input("Please enter a path where the Lexicon should be saved:  ")
@@ -416,7 +366,7 @@ def main():
         elif input == "train":
             #run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia-train_de.rdf",path,parse_flag)
 #             run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
-             run_and_evaluate("Datasets/LargeScaleTest","Datasets/dbpedia_en.rdf",path,parse_flag)
+             run_and_evaluate("Datasets/train","Datasets/dbpedia_en.rdf",path,parse_flag)
 #             run_and_evaluate("Datasets/test.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
         else:
             start_time= time()
@@ -439,5 +389,80 @@ if __name__ == "__main__":
 
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+# OLD:
+# 
+# def run(uri,path,parse_flag):
+#     """
+#     Executes the patterngeneration process.
+#     Input is the given URI, the path where the results has to be parsed, and also the parse_flag, which indicates,if new sentences have to be parsed (TRUE),
+#     or if already parsed sentences from the Index will be used(FALSE).
+#     """
+#     sparql=Sparql.Connection()
+#     t1= time()
+#     label = sparql.getLabel(uri)[0]
+#     label = label.replace(" ","+")
+#     
+#     
+#     timestemp = str(t1)
+#     timestemp = timestemp.replace(".","")
+#     timestemp = timestemp[2:9]
+#     if not path.endswith("/"):
+#         path += "/"
+#     
+#     path += label+timestemp+"/"
+#     os.mkdir(path)
+#      
+#     original_path = path
+#     os.mkdir(path+"Result")
+# 
+#     lemonEntriesHm = {}
+# 
+#     web_string = "<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=ISO-8859-1\"><title>Pattern overview</title></head><body><h2>Pattern overview</h2>"
+#    
+#     string =""
+#     tmp_hm = {}
+#    
+#     if sparql.askClassProperty(uri) == True:
+#        entryArray = LexiconGenerator.createClassEntry(uri,en_de_lexicon)
+#        for entry in entryArray:
+#            lemonEntriesHm[entry] = ""
+#     else:
+#         string, tmp_hm = DependencyApproach.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
+#         for key in tmp_hm:
+#            lemonEntriesHm[key] = ""   
+#        
+#     #######################
+#     #
+#     # Write Lexicon
+#     #
+#     #######################    
+#     write_lexicon(original_path,lemonEntriesHm)
+#    
+# 
+#     string += "Time for this property: "+str((time()-t1)/60.0)+" minutes"
+#     string += "<p><a href=\"Lemon"+label+"\"> LemonEntry for "+label+" </a></p>"
+#    
+#     web_string += "<p> <p>"+string+"</p>  </p>"
+#    
+#     web_string += "</body></html>"
+#    
+#     f=file(path+"index.html","w")
+#     f.write(web_string)
+#     f.close()
+# 
+#     print "\n\n DONE"
+#     
 
 

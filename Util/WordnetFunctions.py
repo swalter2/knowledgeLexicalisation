@@ -108,7 +108,7 @@ def return_Noun(label):
     counter = 0
     for s in wn.synsets(label,pos=wn.NOUN):
         counter +=1
-        if counter <= 1:
+        if counter <= 5:
             for item in s.lemma_names:
                 hm[item]=""
     for key in hm:
@@ -122,7 +122,7 @@ def return_Verb(label):
     counter = 0
     for s in wn.synsets(label,pos=wn.VERB):
         counter +=1
-        if counter <= 1:
+        if counter <= 5:
             for item in s.lemma_names:
                 hm[item]=""
     for key in hm:

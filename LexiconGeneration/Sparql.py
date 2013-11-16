@@ -6,8 +6,8 @@ class Connection():
     SPARQL class which provides the connection between system and SPARQL-endpoint
     """
     
-    endpoint = "http://vtentacle.techfak.uni-bielefeld.de:443/sparql/"
-    #endpoint = "http://dbpedia.org/sparql/"
+    #endpoint = "http://vtentacle.techfak.uni-bielefeld.de:443/sparql/"
+    endpoint = "http://dbpedia.org/sparql/"
     sparql = SPARQLWrapper(endpoint)
     
     sparql_wiktionary = SPARQLWrapper("http://wiktionary.dbpedia.org/sparql")
@@ -258,6 +258,42 @@ class Connection():
                 POS = (result["POS"]["value"])
                 result_array.append([y,POS])
 #                 print [str(lexword),str(y)]
+            except:
+                pass
+        return result_array
+    
+    
+    def getClassEntity(self,string):
+        """
+         Returns information for a given keyword from DBpedia Wiktionary
+        """
+        query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> select distinct ?label  where { ?entity rdf:type <"+string+">. ?entity rdfs:label ?label. FILTER (lang(?label) = 'en')} LIMIT 100"
+#         print("query",query)
+        self.sparql.setQuery(query)
+        self.sparql.setReturnFormat(JSON)
+        results = self.sparql.query().convert()
+        result_array = []
+        for result in results["results"]["bindings"]:
+            try:
+                result_array.append((result["label"]["value"]))
+            except:
+                pass
+        return result_array
+    
+    def getPropertyEntity(self,string):
+        """
+         Returns information for a given keyword from DBpedia Wiktionary
+        """
+        query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> select distinct ?label  where { ?entity <"+string+"> ?x. ?entity rdfs:label ?label. FILTER (lang(?label) = 'en')} LIMIT 50"
+#         print("query",query)
+        self.sparql.setQuery(query)
+        self.sparql.setReturnFormat(JSON)
+        results = self.sparql.query().convert()
+#         print results
+        result_array = []
+        for result in results["results"]["bindings"]:
+            try:
+                result_array.append((result["label"]["value"]))
             except:
                 pass
         return result_array

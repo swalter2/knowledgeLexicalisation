@@ -73,7 +73,7 @@ class LuceneIndex():
             qp = QueryParser(Version.LUCENE_35, "key", analyzer)
             qp.setDefaultOperator(qp.Operator.AND)
             query = qp.parse(key)
-            print ("query",query)
+#             print ("query",query)
                         
             hits = searcher.search(query, MAX)
 

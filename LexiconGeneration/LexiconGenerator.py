@@ -11,15 +11,34 @@ language = None
 
 # 0 x _ nnp nnp _ 1 nsubj _ _  1 married _ vbd vbd _ 2 rcmod _ _  2 y _ nnp nnp _ 3 dobj _ _
 
+def old(term,uri,marker):
+    entry = []
+    if term.endswith("ed"):
+        if len(term[:-1]) > 2:
+            entry.append(TransitiveFrame(term[:-1], uri,marker))
+        if len(term[:-2]) > 2:
+            entry.append(TransitiveFrame(term[:-2], uri,marker))
+    elif term.endswith("s"):
+        term = term[:-1]
+        if len(term) > 2:
+            entry.append(TransitiveFrame(term, uri,marker))
+    else:
+        if len(term) > 2:
+            entry.append(TransitiveFrame(term, uri,marker))
+    return entry
+
 def verbEntry(term,uri,marker):
+    hm = {}
     sparql = Sparql.Connection()
     if " " in term:
         term = term.split(" ")[1]
-#     term = checkForIngForm(term)
+    term = checkForIngForm(term)
     entry = []
     wiktionary_informations = []
+    old_entries = old(term,uri,marker)
+    for x in old_entries:
+        hm[x]= ""
     try:
-        hm = {}
         wiktionary_informations = sparql.getWiktionaryInformationsNEW(term)
         hm[TransitiveFrame(term, uri,marker)] = ""
         for x in wiktionary_informations:
@@ -38,12 +57,14 @@ def verbEntry(term,uri,marker):
                     hm[TransitiveFrame(term, uri,marker)] = ""
                 if "Noun" in x[1]:
                     hm[NounPPFrame(term,uri,{})] = ""
-        for key in hm:
-            entry.append(key)
+        
     except:
         print "Unexpected error in verbEntry:", sys.exc_info()[0]
-        entry.append(TransitiveFrame(term, uri,marker))
+        hm[TransitiveFrame(term, uri,marker)] = ""
         
+    for key in hm:
+        entry.append(key)
+            
     return entry
 
 # def verbEntry(term,uri,marker):
@@ -398,15 +419,8 @@ def NounPPFrame(term,reference,marker):
 
 
 def checkForIngForm(string):
-#     star",dbpedia:starring, check, if words then ends with twice the same letter, if so, remove last letter
-
     if string.endswith("ing"):
         string = string[:-3]
-#         laenge = len(string)-1
-#         a = string[laenge:]
-#         b = string[laenge-1:-1]
-#         
-#         if a == b:
 #             string = string[:-1]
         if string[:-1].endswith(string[-1:]):
             string = string[:-1]
