@@ -472,20 +472,21 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
         lemonEntriesHm[item[0]]=""
 
 
-    web_string = "<table><tr><td style=\"width: 50%;\"> "
-    try:
-        web_string += PatternUtil.create_html_table(lexico_array,hm_res_sentences,path,name,1)
-    except:
-        web_string += "No entry for the property "+uri+" could be created"
-    web_string += "</td><td> "
-    
-    web_string += "</td></tr></table> "
-    
-    
-    
-    web_table0 = "<TABLE border=\"1\"><TR><TH>Property <TH>N. of overall Sentences<TH>N. of generated patterns<TH>N. of used patterns <TH><TR><TH><a href=\""+uri+"\">"+name+"</a><TD>"+str(total_number_sentence)+"<TD>"+str(overall_pattern_numer)+"<TD>"+str((len(hm)))+"<TD>"+"</a>"+"</TABLE>"
-    
-    web = web_table0+web_string
+#     web_string = "<table><tr><td style=\"width: 50%;\"> "
+#     try:
+#         web_string += PatternUtil.create_html_table(lexico_array,hm_res_sentences,path,name,1)
+#     except:
+#         web_string += "No entry for the property "+uri+" could be created"
+#     web_string += "</td><td> "
+#     
+#     web_string += "</td></tr></table> "
+#     
+#     
+#     
+#     web_table0 = "<TABLE border=\"1\"><TR><TH>Property <TH>N. of overall Sentences<TH>N. of generated patterns<TH>N. of used patterns <TH><TR><TH><a href=\""+uri+"\">"+name+"</a><TD>"+str(total_number_sentence)+"<TD>"+str(overall_pattern_numer)+"<TD>"+str((len(hm)))+"<TD>"+"</a>"+"</TABLE>"
+#     
+#     web = web_table0+web_string
+    web = ""
     
     #print "Number of used sentences: "+str(len(hm_res_sentences))
     print "created html side"

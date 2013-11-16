@@ -163,39 +163,46 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag, exper
 #         path += label+"Results"
         
     
-        web_string = "<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=ISO-8859-1\"><title>Pattern overview</title></head><body><h2>Pattern overview</h2>"
+#         web_string = "<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=ISO-8859-1\"><title>Pattern overview</title></head><body><h2>Pattern overview</h2>"
        
         string =""
         tmp_hm = {}
         print uri
         number_sentences = 0
         
-        path += uri.replace("http://dbpedia.org/ontology/","").replace("http://dbpedia.org/property/","")+"Results"
+#         path += uri.replace("http://dbpedia.org/ontology/","").replace("http://dbpedia.org/property/","")+"Results"
         
         #Label Approach
         if experiment == "BOTH" or experiment == "LABEL":
             lexiconArray = LabelApproach.start(uri,keystore,index)
+            tmp_entry = {}
             for entry in lexiconArray:
                 lemonEntriesHm[entry] = ""
+                tmp_entry[entry] = ""
+            write_pattern_lexicon(path+"LABEL"+uri.replace("http://dbpedia.org/ontology/","").replace("http://dbpedia.org/property/",""),tmp_entry)
         
         #Dependency Approach
         if (experiment == "BOTH" or experiment == "DEPEND") and sparql.askClassProperty(uri)==False:
             string, tmp_hm , number_sentences = DependencyApproach.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
-            path += label+"PropertyResults"+str(timestemp[-3:])
+#             path += label+"PropertyResults"+str(timestemp[-3:])
+            tmp_entry = {}
             for key in tmp_hm:
-               lemonEntriesHm[key] = ""   
+               lemonEntriesHm[key] = "" 
+               tmp_entry[entry] = "" 
+            write_pattern_lexicon(path+"LABEL"+uri.replace("http://dbpedia.org/ontology/","").replace("http://dbpedia.org/property/",""),tmp_entry)
+ 
                
-        os.mkdir(path)
-        string += "Time for this property: "+str((time()-t1)/60.0)+" minutes"
-        string += "<p><a href=\"Lemon"+label+"\"> LemonEntry for "+label+" </a></p>"
-   
-        web_string += "<p> <p>"+string+"</p>  </p>"
-   
-        web_string += "</body></html>"
-   
-        f=file(path+"index.html","w")
-        f.write(web_string)
-        f.close()
+# #         os.mkdir(path)
+#         string += "Time for this property: "+str((time()-t1)/60.0)+" minutes"
+#         string += "<p><a href=\"Lemon"+label+"\"> LemonEntry for "+label+" </a></p>"
+#    
+#         web_string += "<p> <p>"+string+"</p>  </p>"
+#    
+#         web_string += "</body></html>"
+#    
+#         f=file(path+"index.html","w")
+#         f.write(web_string)
+#         f.close()
        
     #######################
     #

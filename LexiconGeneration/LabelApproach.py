@@ -170,7 +170,7 @@ def start(uri,keystore,index):
                 
         label_list = []
         if label.endswith("ing"):
-            label_list.append(checkForIngForm(string))
+            label_list.append(checkForIngForm(label))
         label_list.extend(wf.return_Verb(label))
         nld_list = {}
         for entry in label_list:
