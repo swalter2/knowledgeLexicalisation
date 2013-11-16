@@ -105,9 +105,12 @@ def return_synsets(label):
 def return_Noun(label):
     hm = {}
     result = []
+    counter = 0
     for s in wn.synsets(label,pos=wn.NOUN):
-        for item in s.lemma_names:
-            hm[item]=""
+        counter +=1
+        if counter <= 1:
+            for item in s.lemma_names:
+                hm[item]=""
     for key in hm:
         result.append(key.replace("_"," "))
     
@@ -116,9 +119,12 @@ def return_Noun(label):
 def return_Verb(label):
     hm = {}
     result = []
+    counter = 0
     for s in wn.synsets(label,pos=wn.VERB):
-        for item in s.lemma_names:
-            hm[item]=""
+        counter +=1
+        if counter <= 1:
+            for item in s.lemma_names:
+                hm[item]=""
     for key in hm:
         result.append(key.replace("_"," "))
     

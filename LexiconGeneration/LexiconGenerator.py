@@ -6,45 +6,80 @@ from Util import Levenshtein
 import Sparql
 from Util import WordnetFunctions as wn
 import StandardLexiconEntries
-import ConfigParser
+import ConfigParser, sys
 language = None
 
 # 0 x _ nnp nnp _ 1 nsubj _ _  1 married _ vbd vbd _ 2 rcmod _ _  2 y _ nnp nnp _ 3 dobj _ _
 
 def verbEntry(term,uri,marker):
     sparql = Sparql.Connection()
-    term = term.split(" ")[1]
-    term = checkForIngForm(term)
+    if " " in term:
+        term = term.split(" ")[1]
+#     term = checkForIngForm(term)
     entry = []
     wiktionary_informations = []
     try:
-        wiktionary_informations = sparql.getWiktionaryInformations(term)
+        hm = {}
+        wiktionary_informations = sparql.getWiktionaryInformationsNEW(term)
+        hm[TransitiveFrame(term, uri,marker)] = ""
+        for x in wiktionary_informations:
+            if " + " in x[0]:
+                tmp = x[0].split(" + ")[0]
+                if "Adjective" in x[1]:
+                    hm[AdjectivePPFrame(tmp, uri,marker)] = ""
+                if "Verb" in x[1]:
+                    hm[TransitiveFrame(tmp, uri,marker)] = ""
+                if "Noun" in x[1]:
+                    hm[NounPPFrame(tmp,uri,{})] = ""
+            else:
+                if "Adjective" in x[1]:
+                    hm[AdjectivePPFrame(term, uri,marker)] = ""
+                if "Verb" in x[1]:
+                    hm[TransitiveFrame(term, uri,marker)] = ""
+                if "Noun" in x[1]:
+                    hm[NounPPFrame(term,uri,{})] = ""
+        for key in hm:
+            entry.append(key)
     except:
-        print "Unexpected error:", sys.exc_info()[0]
-        wiktionary_informations = []
-    if len(wiktionary_informations) == 0:
+        print "Unexpected error in verbEntry:", sys.exc_info()[0]
+        entry.append(TransitiveFrame(term, uri,marker))
         
-        if term.endswith("ed"):
-#             term = term[:-2]
-            entry.append(TransitiveFrame(term[:-1], uri,marker))
-#             entry.append(AdjectivePPFrame(term[:-1], uri,marker))
-            entry.append(TransitiveFrame(term[:-2], uri,marker))
-#             entry.append(AdjectivePPFrame(term[:-2], uri,marker))
-        elif term.endswith("s"):
-            term = term[:-1]
-            entry.append(TransitiveFrame(term, uri,marker))
-#             entry.append(AdjectivePPFrame(term, uri,marker))
-        else:
-            entry.append(TransitiveFrame(term, uri,marker))
-#             entry.append(AdjectivePPFrame(term, uri,marker))
-    else:
-        for e in wiktionary_informations:
-            if e[0] == "verb" and "," not in e[1]:
-                entry.append(TransitiveFrame(e[1], uri,marker))
-                entry.append(AdjectivePPFrame(e[1], uri,marker))
-#     print ("entry",entry)  
-#     print  
     return entry
+
+# def verbEntry(term,uri,marker):
+#     sparql = Sparql.Connection()
+#     term = term.split(" ")[1]
+#     term = checkForIngForm(term)
+#     entry = []
+#     wiktionary_informations = []
+#     try:
+#         wiktionary_informations = sparql.getWiktionaryInformations(term)
+#     except:
+#         print "Unexpected error:", sys.exc_info()[0]
+#         wiktionary_informations = []
+#     if len(wiktionary_informations) == 0:
+#         
+#         if term.endswith("ed"):
+# #             term = term[:-2]
+#             entry.append(TransitiveFrame(term[:-1], uri,marker))
+# #             entry.append(AdjectivePPFrame(term[:-1], uri,marker))
+#             entry.append(TransitiveFrame(term[:-2], uri,marker))
+# #             entry.append(AdjectivePPFrame(term[:-2], uri,marker))
+#         elif term.endswith("s"):
+#             term = term[:-1]
+#             entry.append(TransitiveFrame(term, uri,marker))
+# #             entry.append(AdjectivePPFrame(term, uri,marker))
+#         else:
+#             entry.append(TransitiveFrame(term, uri,marker))
+# #             entry.append(AdjectivePPFrame(term, uri,marker))
+#     else:
+#         for e in wiktionary_informations:
+#             if e[0] == "verb" and "," not in e[1]:
+#                 entry.append(TransitiveFrame(e[1], uri,marker))
+#                 entry.append(AdjectivePPFrame(e[1], uri,marker))
+# #     print ("entry",entry)  
+# #     print  
+#     return entry
 
 def englishMapping(pattern,uri):
     array = pattern.split("  ")

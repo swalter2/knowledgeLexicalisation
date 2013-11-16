@@ -241,3 +241,24 @@ class Connection():
         return result_array
  
 
+    def getWiktionaryInformationsNEW(self,string):
+        """
+         Returns information for a given keyword from DBpedia Wiktionary
+        """
+        query = "select distinct ?y ?POS  FROM <http://wiktionary.dbpedia.org> where {?lexword <http://www.w3.org/2000/01/rdf-schema#label> \""+string+"\"@en . OPTIONAL{?lexword <http://wiktionary.dbpedia.org/terms/hasEtymology> ?y . FILTER ( lang(?y) = 'en').}?lexword <http://wiktionary.dbpedia.org/terms/hasPoS> ?POS }"
+#         print("query",query)
+        self.sparql_wiktionary.setQuery(query)
+        self.sparql_wiktionary.setReturnFormat(JSON)
+        results = self.sparql_wiktionary.query().convert()
+        result_array = []
+        for result in results["results"]["bindings"]:
+            try:
+                #print result
+                y= (result["y"]["value"])
+                POS = (result["POS"]["value"])
+                result_array.append([y,POS])
+#                 print [str(lexword),str(y)]
+            except:
+                pass
+        return result_array
+ 
