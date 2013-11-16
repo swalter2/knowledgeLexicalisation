@@ -1,5 +1,6 @@
 import Sparql, LexiconGenerator
 from Util import  WordnetFunctions as wf
+import sys, re, ConfigParser
 
 
 #http://en.wikipedia.org/wiki/Levenshtein_distance
@@ -37,31 +38,59 @@ def load_keystore():
     return hm
 
 def generateTextClass(sparql,uri,keystore,index):
+    config = ConfigParser.ConfigParser()
+    config.read('config.conf')  
     print "generate text"
-    sentence_list = []
-    sentence_hm = {}
-    tmp = sparql.getClassEntity(uri)
-    print "returned entity"
-    for x in tmp:
+    PropertyEntities = []
+    path_to_resource = config.get("index", "resource_folder")
+    tmp_path = path_to_resource+"/"+uri.replace("http://dbpedia.org/ontology/","CLASS")
+    print "Look in path "+tmp_path
+    try:
+        with open(tmp_path,"r"):
+            print "Get entities for "+uri+" from resource folder"
+            PropertyEntities = getEntities(tmp_path)
+
+    except IOError:
+        print "Get entities for "+uri+" from the SPARQL endpoint"
+        PropertyEntities = sparql.getClassEntity(uri)
+            
+    word_list = []
+    word_hm = {}
+    for x in PropertyEntities:
         try:
             list = index.searchKey(keystore[x])
             for x in list:
-                sentence_hm[x] = ""
+                for i in x:
+                    word_hm[i[0]] = ""
 
         except:
             pass
         
-    for key in sentence_hm:
-        sentence_list.append(key)
-    #Filter POS tags out and return only list of words and make sure, each word occurs only once!!
-    return sentence_list
+    for key in word_hm:
+        word_list.append(key)
+    return word_list
+
 
 def generateTextProperty(sparql,uri,keystore,index):
+    config = ConfigParser.ConfigParser()
+    config.read('config.conf')  
     print "generate text"
+    PropertyEntities = []
+    path_to_resource = config.get("index", "resource_folder")
+    tmp_path = path_to_resource+"/"+uri.replace("http://dbpedia.org/ontology/","")
+    print "Look in path "+tmp_path
+    try:
+        with open(tmp_path,"r"):
+            print "Get entities for "+uri+" from resource folder"
+            PropertyEntities = getEntities(tmp_path)
+
+    except IOError:
+        print "Get entities for "+uri+" from the SPARQL endpoint"
+        PropertyEntities = sparql.getPropertyEntity(uri)
+            
     word_list = []
     word_hm = {}
-    tmp = sparql.getPropertyEntity(uri)
-    for x in tmp:
+    for x in PropertyEntities:
         try:
             list = index.searchKey(keystore[x])
             for x in list:
@@ -76,8 +105,6 @@ def generateTextProperty(sparql,uri,keystore,index):
     return word_list
     
 def start(uri,keystore,index):
-#     keystore = load_keystore()
-#     print "load keystore"
     list_of_entries = []
     sparql = Sparql.Connection()
     label = sparql.getLabel(uri)[0]
@@ -172,3 +199,26 @@ def start(uri,keystore,index):
         list_of_entries.append(key)
     
     return list_of_entries
+
+
+
+def getEntities(path,number = 100):
+    f_in = open(path,"r")
+    array = []
+    counter = 0
+    for line in f_in:
+        counter += 1
+        if counter < number:
+            line = line.replace("\n","")
+            if " ## " in line:
+                tmp = line.split(" ## ")
+                try:
+                    x = tmp[0]
+                    y = tmp[1]
+                    array.append(x)
+                    array.append(y)
+                except:
+                    pass
+            else:
+                array.append(line)
+    return array

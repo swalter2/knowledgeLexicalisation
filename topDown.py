@@ -366,7 +366,7 @@ def main():
         elif input == "train":
             #run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia-train_de.rdf",path,parse_flag)
 #             run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
-             run_and_evaluate("Datasets/train","Datasets/dbpedia_en.rdf",path,parse_flag)
+             run_and_evaluate("Datasets/train","Datasets/dbpedia_en.rdf",path,parse_flag,"LABEL")
 #             run_and_evaluate("Datasets/test.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
         else:
             start_time= time()

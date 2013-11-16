@@ -267,7 +267,7 @@ class Connection():
         """
          Returns information for a given keyword from DBpedia Wiktionary
         """
-        query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> select distinct ?label  where { ?entity rdf:type <"+string+">. ?entity rdfs:label ?label. FILTER (lang(?label) = 'en')} LIMIT 100"
+        query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> select distinct ?label  where { ?entity rdf:type <"+string+">. ?entity rdfs:label ?label. FILTER (lang(?label) = 'en')} LIMIT 300"
 #         print("query",query)
         self.sparql.setQuery(query)
         self.sparql.setReturnFormat(JSON)
