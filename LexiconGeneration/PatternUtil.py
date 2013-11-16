@@ -145,14 +145,14 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
             print "V3:Entry could not be created for pattern: "+key +"  "+str(value)
             print
             print
-    f = open("/home/swalter/wrongpattern","w")
-    for key in f_hm:
-        f.write(key+"\n")
-    f.close()
-    f = open("/home/swalter/rightpattern","w")
-    for blub in blub_array:
-        f.write(str(blub)+"\n")
-    f.close()
+#     f = open("/home/swalter/wrongpattern","w")
+#     for key in f_hm:
+#         f.write(key+"\n")
+#     f.close()
+#     f = open("/home/swalter/rightpattern","w")
+#     for blub in blub_array:
+#         f.write(str(blub)+"\n")
+#     f.close()
             
 #     for entry in lem_entries_hm:
 #         if value > 2:
