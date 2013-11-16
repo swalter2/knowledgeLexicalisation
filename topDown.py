@@ -179,7 +179,7 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag, exper
                 lemonEntriesHm[entry] = ""
         
         #Dependency Approach
-        if experiment == "BOTH" or experiment == "DEPEND":
+        if (experiment == "BOTH" or experiment == "DEPEND") and sparql.askClassProperty(uri)==False:
             string, tmp_hm , number_sentences = DependencyApproach.creatingLexiconEntry_for_singleURI(False, uri, parse_flag, path, index,parsed_sentence_index,anchor_index,en_de_lexicon)
             path += label+"PropertyResults"+str(timestemp[-3:])
             for key in tmp_hm:
@@ -366,7 +366,7 @@ def main():
         elif input == "train":
             #run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia-train_de.rdf",path,parse_flag)
 #             run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
-             run_and_evaluate("Datasets/train","Datasets/dbpedia_en.rdf",path,parse_flag,"LABEL")
+             run_and_evaluate("Datasets/test","Datasets/dbpedia_en.rdf",path,parse_flag,"LABEL")
 #             run_and_evaluate("Datasets/test.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
         else:
             start_time= time()
