@@ -116,7 +116,7 @@ def start(uri,keystore,index):
     #one for classes
     if sparql.askClassProperty(uri) == True:
         words = generateTextClass(sparql,uri,keystore,index)
-        list_of_entries.append(LexiconGenerator.NounPPFrame(label,uri,{}))
+        list_of_entries.append(LexiconGenerator.createClassEntry(uri,entry))
         label_list = [label]
         label_list.extend(wf.return_Noun(label))
         nld_list = {}
