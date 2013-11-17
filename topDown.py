@@ -373,7 +373,7 @@ def main():
         elif input == "train":
             #run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia-train_de.rdf",path,parse_flag)
 #             run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
-             #run_and_evaluate("Datasets/Datatype_in_en_gold","Datasets/dbpedia_en.rdf",path,parse_flag,"LABEL")
+             run_and_evaluate("Datasets/Datatype_in_en_gold","Datasets/dbpedia_en.rdf",path,parse_flag,"LABEL")
              run_and_evaluate("Datasets/Datatype_in_en_gold","Datasets/dbpedia_en.rdf",path,parse_flag,"DEPEND")
              run_and_evaluate("Datasets/Datatype_in_en_gold","Datasets/dbpedia_en.rdf",path,parse_flag,"BOTH")
              run_and_evaluate("Datasets/checkedObject","Datasets/dbpedia_en.rdf",path,parse_flag,"LABEL")
