@@ -179,7 +179,7 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag, exper
             for entry in lexiconArray:
                 lemonEntriesHm[entry] = ""
                 tmp_entry[entry] = ""
-            write_pattern_lexicon(path+"LABEL"+uri.replace("http://dbpedia.org/ontology/","").replace("http://dbpedia.org/property/",""),tmp_entry)
+            write_pattern_lexicon(path+experiment+uri.replace("http://dbpedia.org/ontology/","").replace("http://dbpedia.org/property/",""),tmp_entry)
         
         #Dependency Approach
         if (experiment == "BOTH" or experiment == "DEPEND") and sparql.askClassProperty(uri)==False:
@@ -188,8 +188,8 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag, exper
             tmp_entry = {}
             for key in tmp_hm:
                lemonEntriesHm[key] = "" 
-               tmp_entry[entry] = "" 
-            write_pattern_lexicon(path+"LABEL"+uri.replace("http://dbpedia.org/ontology/","").replace("http://dbpedia.org/property/",""),tmp_entry)
+               tmp_entry[key] = "" 
+            write_pattern_lexicon(path+experiment+uri.replace("http://dbpedia.org/ontology/","").replace("http://dbpedia.org/property/",""),tmp_entry)
  
                
 # #         os.mkdir(path)
@@ -373,7 +373,12 @@ def main():
         elif input == "train":
             #run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia-train_de.rdf",path,parse_flag)
 #             run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
-             run_and_evaluate("Datasets/test","Datasets/dbpedia_en.rdf",path,parse_flag,"LABEL")
+             #run_and_evaluate("Datasets/Datatype_in_en_gold","Datasets/dbpedia_en.rdf",path,parse_flag,"LABEL")
+             run_and_evaluate("Datasets/Datatype_in_en_gold","Datasets/dbpedia_en.rdf",path,parse_flag,"DEPEND")
+             run_and_evaluate("Datasets/Datatype_in_en_gold","Datasets/dbpedia_en.rdf",path,parse_flag,"BOTH")
+             run_and_evaluate("Datasets/checkedObject","Datasets/dbpedia_en.rdf",path,parse_flag,"LABEL")
+             run_and_evaluate("Datasets/checkedObject","Datasets/dbpedia_en.rdf",path,parse_flag,"DEPEND")
+             run_and_evaluate("Datasets/checkedObject","Datasets/dbpedia_en.rdf",path,parse_flag,"BOTH")
 #             run_and_evaluate("Datasets/test.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
         else:
             start_time= time()
