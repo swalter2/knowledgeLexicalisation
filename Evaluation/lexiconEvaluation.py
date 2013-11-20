@@ -385,7 +385,10 @@ def evaluate(path_user_lexicon,Train_evaluation,path_goldstandard, number_of_uri
     global_Recall = global_Recall/Laenge_Goldstandard
 #     global_Precision = global_Precision/adding_counter
     global_Precision = (global_Precision+(Laenge_Goldstandard - Laenge_GoldstandardPrecision))/Laenge_Goldstandard
-    global_FMeasure = (2*global_Recall*global_Precision)/(global_Recall+0.0+global_Precision)
+    if global_Recall == 0 or global_Precision == 0:
+        global_FMeasure = 0
+    else:
+        global_FMeasure = (2*global_Recall*global_Precision)/(global_Recall+0.0+global_Precision)
 #     global_FMeasure = global_FMeasure/adding_counter
     global_Accuracy = global_Accuracy/adding_counter
 
