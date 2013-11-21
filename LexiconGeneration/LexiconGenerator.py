@@ -1,7 +1,8 @@
 """
 Generates lemon lexicon entries out of given patterns
 """
-from nltk.stem.wordnet import WordNetLemmatizer
+#from nltk.stem.wordnet import WordNetLemmatizer
+from nltk.stem import WordNetLemmatizer
 from Util import Levenshtein
 import Sparql
 from Util import WordnetFunctions as wn
@@ -14,54 +15,83 @@ from nltk.stem import SnowballStemmer
 
 
 def verbEntry(term,uri,marker):
-    stemmer = SnowballStemmer("english")
+    #stemmer = SnowballStemmer("english")
     #stemmer.stem("married")
+    wnl = WordNetLemmatizer()
     hm = {}
     sparql = Sparql.Connection()
     if " " in term:
         term = term.split(" ")[1]
-    term_array = [term]
-    if term.endswith("ing") or term.endswith("ed") or term.endswith("s"):
-        st = stemmer.stem(term)
-        term_array.append(st)
-    #term = checkForIngForm(term)
-    entry = []
-    wiktionary_informations = []
-    #old_entries = old(term,uri,marker)
-    #for x in old_entries:
-    #    hm[x]= ""
-    #hm[TransitiveFrame(term, uri,marker)] = ""
-    for term in term_array:
-        try:
-            wiktionary_informations = sparql.getWiktionaryInformationsNEW(term)
-            #hm[TransitiveFrame(term, uri,marker)] = ""
-            for x in wiktionary_informations:
-    #             print ("x",x)
-    #             raw_input("wait")
-                if " + " in x[0] and "," not in x[0] and "*" not in x[0]:
-                    tmp = x[0].split(" + ")[0]
-#                     if "Adjective" in x[1]:
-#                         hm[AdjectivePPFrame(tmp, uri,marker)] = ""
-                    if "Verb" in x[1]:
-                        hm[TransitiveFrame(tmp, uri,marker)] = ""
-#                     if "Noun" in x[1]:
-#                         hm[NounPPFrame(tmp,uri,{})] = ""
-                elif "," not in x[0] and "*" not in x[0]:
-#                     if "Adjective" in x[1]:
-#                         hm[AdjectivePPFrame(term, uri,marker)] = ""
-                    if "Verb" in x[1]:
-                        hm[TransitiveFrame(term, uri,marker)] = ""
-#                     if "Noun" in x[1]:
-#                         hm[NounPPFrame(term,uri,{})] = ""
-            
-        except:
-            print "Unexpected error in verbEntry:", sys.exc_info()[0]
-            hm[TransitiveFrame(term, uri,marker)] = ""
+        
+    stem = wnl.lemmatize(term)
+    wiktionary_informations = sparql.getWiktionaryInformationsNEW(stem)
+    for x in wiktionary_informations:
+        if " + " in x[0] and "," not in x[0] and "*" not in x[0]:
+            tmp = x[0].split(" + ")[0]
+#             if "Adjective" in x[1]:
+#                 hm[AdjectivePPFrame(tmp, uri,marker)] = ""
+            if "Verb" in x[1]:
+                hm[TransitiveFrame(tmp, uri,marker)] = ""
+#             if "Noun" in x[1]:
+#                 hm[NounPPFrame(tmp,uri,{})] = ""
+        elif "," not in x[0] and "*" not in x[0]:
+#             if "Adjective" in x[1]:
+#                 hm[AdjectivePPFrame(term, uri,marker)] = ""
+            if "Verb" in x[1]:
+                hm[TransitiveFrame(term, uri,marker)] = ""
+#             if "Noun" in x[1]:
+#                 hm[NounPPFrame(term,uri,{})] = ""
+
+    if len(wiktionary_informations) == 0:
+        hm[TransitiveFrame(stem, uri,marker)]
         
     for key in hm:
         entry.append(key)
             
     return entry
+    
+#     term_array = [term]
+#     if term.endswith("ing") or term.endswith("ed") or term.endswith("s"):
+#         st = stemmer.stem(term)
+#         term_array.append(st)
+#     #term = checkForIngForm(term)
+#     entry = []
+#     wiktionary_informations = []
+#     #old_entries = old(term,uri,marker)
+#     #for x in old_entries:
+#     #    hm[x]= ""
+#     hm[TransitiveFrame(term, uri,marker)] = ""
+#     for term in term_array:
+#         try:
+#             wiktionary_informations = sparql.getWiktionaryInformationsNEW(term)
+#             #hm[TransitiveFrame(term, uri,marker)] = ""
+#             for x in wiktionary_informations:
+#     #             print ("x",x)
+#     #             raw_input("wait")
+#                 if " + " in x[0] and "," not in x[0] and "*" not in x[0]:
+#                     tmp = x[0].split(" + ")[0]
+# #                     if "Adjective" in x[1]:
+# #                         hm[AdjectivePPFrame(tmp, uri,marker)] = ""
+#                     if "Verb" in x[1]:
+#                         hm[TransitiveFrame(tmp, uri,marker)] = ""
+# #                     if "Noun" in x[1]:
+# #                         hm[NounPPFrame(tmp,uri,{})] = ""
+#                 elif "," not in x[0] and "*" not in x[0]:
+# #                     if "Adjective" in x[1]:
+# #                         hm[AdjectivePPFrame(term, uri,marker)] = ""
+#                     if "Verb" in x[1]:
+#                         hm[TransitiveFrame(term, uri,marker)] = ""
+# #                     if "Noun" in x[1]:
+# #                         hm[NounPPFrame(term,uri,{})] = ""
+#             
+#         except:
+#             print "Unexpected error in verbEntry:", sys.exc_info()[0]
+#             hm[TransitiveFrame(term, uri,marker)] = ""
+#         
+#     for key in hm:
+#         entry.append(key)
+#             
+#     return entry
 
 # def verbEntry(term,uri,marker):
 #     sparql = Sparql.Connection()
