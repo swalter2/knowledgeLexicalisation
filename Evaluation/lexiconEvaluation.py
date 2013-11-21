@@ -402,8 +402,10 @@ def evaluate(path_user_lexicon,Train_evaluation,path_goldstandard, number_of_uri
     #Train_evaluation == False -> TEST-Datei
     
     system_time = datetime.datetime.now()
-    filename_out_txt=path_user_lexicon.split('.')[0]+"_out.txt"
-    filename_out_html=path_user_lexicon.split('.')[0]+"_out.html"
+#     filename_out_txt=path_user_lexicon.split('.')[0]+"_out.txt"
+#     filename_out_html=path_user_lexicon.split('.')[0]+"_out.html"
+    filename_out_txt=path_user_lexicon.replace("http://dbpedia.org/ontology/","")+"_out.txt"
+    filename_out_html=path_user_lexicon.replace("http://dbpedia.org/ontology/","")+"_out.html"
     #filename_out_html="upload/out"+str(system_time)+".html"
 
     if Train_evaluation == True:
