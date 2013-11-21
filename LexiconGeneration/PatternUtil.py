@@ -112,15 +112,16 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
     #highest value first
     lem_entries_hm = {}
     f_hm = {}
-    try:
-        f = open("/home/swalter/wrongpattern","r")
-        for line in f:
-            f_hm[line.replace("\n","")] = ""
-        f.close()
-    except:
-        pass
+    patterns_without_entry = []
+#     try:
+#         f = open("/home/swalter/wrongpattern","r")
+#         for line in f:
+#             f_hm[line.replace("\n","")] = ""
+#         f.close()
+#     except:
+#         pass
             
-    blub_array = []
+#     blub_array = []
     for key, value_pattern in sorted(hm.iteritems(), key=lambda x:x[1], reverse = True):
         best_counter += 1
         """
@@ -128,21 +129,22 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
         
         """
         try:
+            entry_array = []
             entry_array=LexiconGenerator.createLexiconEntry(key, uri, False)
             for entry in entry_array:
-                blub_array.append((key,entry))
                 if lem_entries_hm.has_key(entry):
                     value = lem_entries_hm[entry]
-#                     value += 1
                     value += value_pattern
                     lem_entries_hm[entry] = value
                 else:
                     lem_entries_hm[entry] = value_pattern
-#                     lem_entries_hm[entry] = 1
+
+            if len(entry_array) == 0:
+                patterns_without_entry.append([key,value_pattern])
 
         except:
-            f_hm[key]=""
-            print "V3:Entry could not be created for pattern: "+key +"  "+str(value)
+            patterns_without_entry.append([key,value_pattern])
+            print "V3:Entry could not be created for pattern: "+key +"  "+str(value_pattern)
             print
             print
 #     f = open("/home/swalter/wrongpattern","w")
@@ -184,7 +186,7 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
     #for x in lexico_array:
     #    f_out.write(x[0]+"\n")
     #f_out.close()
-    return lexico_array , pattern_once
+    return lexico_array , pattern_once, patterns_without_entry
 
 
     

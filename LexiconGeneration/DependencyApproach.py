@@ -276,7 +276,7 @@ def normalisePattern(pattern):
     return new_pattern
 
 def createPatternFile(uri, path, name, hm):
-    f = file(path + "PatternList" + name + ".txt", "w")
+    f = file(path + "PatternList" + name.replace("http://dbpedia.org/ontology","") + ".txt", "w")
     write_string = ""
 #     overall_pattern_number = 0
 #     for key, value in hm.iteritems():
@@ -312,13 +312,14 @@ def createPatternFile(uri, path, name, hm):
             
     
     for key, value in sorted(hm_test.iteritems(), key=lambda x:x[1], reverse=True):
-        p = value / (overall_pattern_number + 0.0)
-        p_prime = (value - alpha) / (overall_pattern_number + 0.0)
-        p_3 = (overall_pattern_number + 0.0)/value
+#         p = value / (overall_pattern_number + 0.0)
+#         p_prime = (value - alpha) / (overall_pattern_number + 0.0)
+#         p_3 = (overall_pattern_number + 0.0)/value
         
         #write_string+="Pattern: "+key+"\t Occurrences: "+str(value)+"\t P(x|Property): "+str(p)+"\n"
-        write_string += key + "\t" + str(value) + "\t" + uri + "\t" + str(math.log(p)) + "\t" + str(math.log(p_prime)) +"  "+ str(math.log(p_3)) +"\n"
-    
+#         write_string += key + "\t" + str(value) + "\t" + uri + "\t" + str(math.log(p)) + "\t" + str(math.log(p_prime)) +"  "+ str(math.log(p_3)) +"\n"
+        write_string += key + "\t" + str(value) + "\t" + uri +"\n"
+
     write_string = "Overall number: " + str(overall_pattern_number) + " Different patterns: " + str(different_pattern) + "\n\n\n" + write_string
     f.write(write_string)
     f.close()
@@ -462,10 +463,19 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
     
     hm , overall_pattern_numer = createPatternFile(uri, path, name, hm)
     
+    
+    
     print "Created Pattern File"
-    lexico_array, tmp_pattern_once = PatternUtil.create_lexico_array(hm,uri,1,en_de_lexicon)
+    lexico_array, tmp_pattern_once, patterns_without_entry = PatternUtil.create_lexico_array(hm,uri,1,en_de_lexicon)
     pattern_once += tmp_pattern_once
     
+    
+    f_out = file(path + "NotUsedPattern" + name.replace("http://dbpedia.org/ontology","") + ".txt", "w")#
+    write_string = ""
+    for pattern_entry in patterns_without_entry:
+        write_string += pattern_entry[0] + "\t" + str(pattern_entry[1]) + "\t" + uri +"\n"
+    f_out.write(write_string)
+    f_out.close()
     
     lemonEntriesHm = {}
     for item in lexico_array:

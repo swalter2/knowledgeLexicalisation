@@ -10,40 +10,57 @@ import StandardLexiconEntries
 import ConfigParser, sys
 language = None
 from nltk.stem import SnowballStemmer
+from nltk.corpus import wordnet as wordnet
 
 
 
+# >>> from nltk.corpus import wordnet as wn
+# >>> wn.morphy('denied', wn.VERB)
+# 'deny'
+# >>> wn.morphy('commanded', wn.VERB)
+# 'command'
+# >>> wn.morphy('married', wn.VERB)
+# 'marry'
+# >>> wn.morphy('hello', wn.VERB)
 
 def verbEntry(term,uri,marker):
     #stemmer = SnowballStemmer("english")
     #stemmer.stem("married")
+    
+    
     wnl = WordNetLemmatizer()
     hm = {}
     sparql = Sparql.Connection()
     if " " in term:
         term = term.split(" ")[1]
         
-    stem = wnl.lemmatize(term)
-    wiktionary_informations = sparql.getWiktionaryInformationsNEW(stem)
-    for x in wiktionary_informations:
-        if " + " in x[0] and "," not in x[0] and "*" not in x[0]:
-            tmp = x[0].split(" + ")[0]
-#             if "Adjective" in x[1]:
-#                 hm[AdjectivePPFrame(tmp, uri,marker)] = ""
-            if "Verb" in x[1]:
-                hm[TransitiveFrame(tmp, uri,marker)] = ""
-#             if "Noun" in x[1]:
-#                 hm[NounPPFrame(tmp,uri,{})] = ""
-        elif "," not in x[0] and "*" not in x[0]:
-#             if "Adjective" in x[1]:
-#                 hm[AdjectivePPFrame(term, uri,marker)] = ""
-            if "Verb" in x[1]:
-                hm[TransitiveFrame(term, uri,marker)] = ""
-#             if "Noun" in x[1]:
-#                 hm[NounPPFrame(term,uri,{})] = ""
+    tmp = wordnet.morphy(term, wordnet.VERB)
+    if tmp != None:
+        hm[TransitiveFrame(tmp, uri,marker)] = ""
+        
+    else:
 
-    if len(wiktionary_informations) == 0:
-        hm[TransitiveFrame(stem, uri,marker)]  = ""
+        stem = wnl.lemmatize(term)
+        wiktionary_informations = sparql.getWiktionaryInformationsNEW(stem)
+        for x in wiktionary_informations:
+            if " + " in x[0] and "," not in x[0] and "*" not in x[0]:
+                tmp = x[0].split(" + ")[0]
+    #             if "Adjective" in x[1]:
+    #                 hm[AdjectivePPFrame(tmp, uri,marker)] = ""
+                if "Verb" in x[1]:
+                    hm[TransitiveFrame(tmp, uri,marker)] = ""
+    #             if "Noun" in x[1]:
+    #                 hm[NounPPFrame(tmp,uri,{})] = ""
+            elif "," not in x[0] and "*" not in x[0]:
+    #             if "Adjective" in x[1]:
+    #                 hm[AdjectivePPFrame(term, uri,marker)] = ""
+                if "Verb" in x[1]:
+                    hm[TransitiveFrame(term, uri,marker)] = ""
+    #             if "Noun" in x[1]:
+    #                 hm[NounPPFrame(term,uri,{})] = ""
+    
+        if len(wiktionary_informations) == 0:
+            hm[TransitiveFrame(stem, uri,marker)]  = ""
         
     entry = []
     for key in hm:
@@ -140,7 +157,7 @@ def englishMapping(pattern,uri):
             print "case1"
             term = array[1]
             if len(term)<3:
-                return None
+                return []
             entry_list = verbEntry(term,uri,"")
             return entry_list
             
@@ -149,7 +166,7 @@ def englishMapping(pattern,uri):
             term = array[1]
             term = term.split(" ")[1]
             if len(term)<3:
-                return None
+                return []
             if term != "x" and term != "y":
                 entry = NounPPFrame(term,uri,{})
                 return [entry]
@@ -158,7 +175,7 @@ def englishMapping(pattern,uri):
             print "case6 - nn case"
             term = array[1]
             if len(term)<3:
-                return None
+                return []
             entry_list = verbEntry(term,uri,"")
 #             print
 #             print
@@ -177,7 +194,7 @@ def englishMapping(pattern,uri):
             print ("marker",marker)
             term = array[1]
             if len(term)<3:
-                return None
+                return []
             entry_list = verbEntry(term,uri,marker)
 #             print
 #             print
@@ -193,7 +210,7 @@ def englishMapping(pattern,uri):
             term = array[1]
             term = term.split(" ")[1]
             if len(term)<3:
-                return None
+                return []
             if term != "x" and term != "y":
                 entry = NounPPFrame(term,uri,hm)
                 return [entry]
@@ -206,7 +223,7 @@ def englishMapping(pattern,uri):
             print ("marker",marker)
             term = array[1]
             if len(term)<3:
-                return None
+                return []
             entry_list = verbEntry(term,uri,marker)
 #             print
 #             print
@@ -333,7 +350,7 @@ def createLexiconEntry(pattern,uri,Wiktionary, term = None):
         language = "German"
         return germanMapping(pattern,uri)
     else:
-        return None
+        return []
         
     
 
