@@ -43,7 +43,7 @@ def verbEntry(term,uri,marker):
 #                 hm[NounPPFrame(term,uri,{})] = ""
 
     if len(wiktionary_informations) == 0:
-        hm[TransitiveFrame(stem, uri,marker)]
+        hm[TransitiveFrame(stem, uri,marker)]  = ""
         
     entry = []
     for key in hm:
