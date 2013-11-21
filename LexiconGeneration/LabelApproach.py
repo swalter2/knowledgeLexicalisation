@@ -1,6 +1,8 @@
 import Sparql, LexiconGenerator
 from Util import  WordnetFunctions as wf
 import sys, re, ConfigParser
+from nltk.stem import WordNetLemmatizer
+import Sparql
 
 
 #http://en.wikipedia.org/wiki/Levenshtein_distance
@@ -104,6 +106,44 @@ def generateTextProperty(sparql,uri,keystore,index):
         word_list.append(key)
     return word_list
     
+    
+def labelBasedEntry(term,uri):
+    wnl = WordNetLemmatizer()
+    hm = {}
+    sparql = Sparql.Connection()
+    if " " in term:
+        term = term.split(" ")[1]
+        
+    stem = wnl.lemmatize(term)
+    wiktionary_informations = sparql.getWiktionaryInformationsNEW(stem)
+    for x in wiktionary_informations:
+        if " + " in x[0] and "," not in x[0] and "*" not in x[0]:
+            tmp = x[0].split(" + ")[0]
+            if "Adjective" in x[1]:
+                hm[LexiconGenerator.AdjectivePPFrame(tmp, uri,{})] = ""
+            if "Verb" in x[1]:
+                hm[LexiconGenerator.TransitiveFrame(tmp, uri,{})] = ""
+            if "Noun" in x[1]:
+                hm[LexiconGenerator.NounPPFrame(tmp,uri,{})] = ""
+        elif "," not in x[0] and "*" not in x[0]:
+            if "Adjective" in x[1]:
+                hm[LexiconGenerator.AdjectivePPFrame(term, uri,{})] = ""
+            if "Verb" in x[1]:
+                hm[LexiconGenerator.TransitiveFrame(term, uri,{})] = ""
+            if "Noun" in x[1]:
+                hm[LexiconGenerator.NounPPFrame(term,uri,{})] = ""
+
+    if len(wiktionary_informations) == 0:
+        hm[LexiconGenerator.TransitiveFrame(stem, uri,{})]  = ""
+        hm[LexiconGenerator.NounPPFrame(stem,uri,{})] = ""
+        
+    entry = []
+    for key in hm:
+        entry.append(key)
+            
+    return entry
+
+
 def start(uri,keystore,index):
     list_of_entries = []
     sparql = Sparql.Connection()
@@ -121,6 +161,7 @@ def start(uri,keystore,index):
         list_of_entries.append(LexiconGenerator.createClassEntry(uri,label))
         nld_list = {}
         for entry in label_list:
+            print entry
             value = 0
             for word in words:
                 try:
@@ -136,7 +177,8 @@ def start(uri,keystore,index):
         counter = 0
         for key, value in sorted(nld_list.iteritems(), key=lambda x:x[1], reverse = True):
             counter +=1
-            if counter <=3:
+            if counter <=10:
+                print (key,value)
                 list_of_entries.append(LexiconGenerator.createClassEntry(uri,entry))
     
     #one for properties
@@ -144,6 +186,7 @@ def start(uri,keystore,index):
         words = generateTextProperty(sparql,uri,keystore,index)
 
         #Noun
+        #list_of_entries.extend(labelBasedEntry(label,uri))
         list_of_entries.append(LexiconGenerator.NounPPFrame(label,uri,{}))
         label_list = [label]
         label_list.extend(wf.return_Noun(label))
@@ -164,13 +207,15 @@ def start(uri,keystore,index):
         counter = 0
         for key, value in sorted(nld_list.iteritems(), key=lambda x:x[1], reverse = True):
             counter +=1
-            if counter <=3:
+            if counter <=10:
                 list_of_entries.append(LexiconGenerator.NounPPFrame(key,uri,{}))
                 
                 
         label_list = []
-        if label.endswith("ing"):
-            label_list.append(checkForIngForm(label))
+#         if label.endswith("ing"):
+#             label_list.append(checkForIngForm(label))
+        list_of_entries.append(LexiconGenerator.TransitiveFrame(label,uri,{}))
+        #list_of_entries.extend(labelBasedEntry(label,uri))
         label_list.extend(wf.return_Verb(label))
         nld_list = {}
         for entry in label_list:
@@ -189,7 +234,7 @@ def start(uri,keystore,index):
         counter = 0
         for key, value in sorted(nld_list.iteritems(), key=lambda x:x[1], reverse = True):
             counter +=1
-            if counter <=3:
+            if counter <=10:
                 list_of_entries.append(LexiconGenerator.TransitiveFrame(key,uri,{}))
                 
     
@@ -199,7 +244,7 @@ def start(uri,keystore,index):
     list_of_entries = []
     for key in hm:
         list_of_entries.append(key)
-    
+    print
     return list_of_entries
 
 
@@ -213,6 +258,8 @@ def getEntities(path,number = 100):
         if counter < number:
             line = line.replace("\n","")
             if " ## " in line:
+                #because now we add two
+                counter += 1
                 tmp = line.split(" ## ")
                 try:
                     x = tmp[0]
