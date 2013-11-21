@@ -45,6 +45,7 @@ def verbEntry(term,uri,marker):
     if len(wiktionary_informations) == 0:
         hm[TransitiveFrame(stem, uri,marker)]
         
+    entry = []
     for key in hm:
         entry.append(key)
             
