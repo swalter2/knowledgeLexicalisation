@@ -383,7 +383,12 @@ def evaluate(path_user_lexicon,Train_evaluation,path_goldstandard, number_of_uri
 #TODO: Warum werden vier EIntraege bei dataset/classes ignoriert, denn adding_counter ist vier kleiner als len(classes) 
 #     global_Recall = global_Recall/adding_counter
     global_Recall = global_Recall/Laenge_Goldstandard
-#     global_Precision = global_Precision/adding_counter
+    print ("global_Precision",global_Precision)
+    print ("Laenge_Goldstandard",Laenge_Goldstandard)
+    print ("Laenge_GoldstandardPrecision",Laenge_GoldstandardPrecision)
+    print ("(Laenge_Goldstandard - Laenge_GoldstandardPrecision)",(Laenge_Goldstandard - Laenge_GoldstandardPrecision))
+    print ("adding_counter",adding_counter)
+    #global_Precision = global_Precision+((Laenge_Goldstandard - Laenge_GoldstandardPrecision)+0.0)/Laenge_Goldstandard
     global_Precision = (global_Precision+(Laenge_Goldstandard - Laenge_GoldstandardPrecision))/Laenge_Goldstandard
     if global_Recall == 0 or global_Precision == 0:
         global_FMeasure = 0
