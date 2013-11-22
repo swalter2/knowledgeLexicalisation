@@ -88,7 +88,7 @@ def combineNNP(array,x_variable,y_variable):
             tmp.append(i)
         else:
             if len(tmp) > 1 :
-                print ("cluster", tmp)
+#                 print ("cluster", tmp)
                 cluster.append(tmp)
                 tmp = []
             else: 
