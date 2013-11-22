@@ -70,21 +70,30 @@ def verbEntry(term,uri,marker):
     
 
 def englishMapping(pattern,uri):
+    uri = uri.replace("http://dbpedia.org/ontology/","dbpedia:")
     array = pattern.split("  ")
     print pattern
 #     raw_input("wait")
     if len(array) == 3:
 #         print "in 3"
         
-        if (" vbd" in array[1] or " vbn" in array[1] or " vbz" in array[1]) and (" rcmod" in array[1] or " null" in array[1]):
+        if (" vbd" in array[1] or " vbz" in array[1]) and (" rcmod" in array[1] or " null" in array[1]):
 #             print "case1"
             term = array[1]
             if len(term)<3:
                 return []
             entry_list = verbEntry(term,uri,"")
             return entry_list
+        
+#         elif (" vbn" in array[1]) and (" dep" in array[1] or  " rcmod" in array[1] or " null" in array[1]):
+#             term = array[1]
+#             term = term.split(" ")[1]
+#             if len(term)<3:
+#                 return []
+#             return [AdjectivePredicateFrame(term,uri)]
+        
             
-        if (" nn" in array[1])  and ("sub" in array[1] or "obj" in array[1] or " null" in array[1]): 
+        elif (" nn" in array[1])  and ("sub" in array[1] or "obj" in array[1] or " null" in array[1]): 
 #             print "case4"
             term = array[1]
             term = term.split(" ")[1]
@@ -94,7 +103,7 @@ def englishMapping(pattern,uri):
                 entry = NounPPFrame(term,uri,{})
                 return [entry]
             
-        if (" nn" in array[1]) and ("dep" in array[1] or " null" in array[1]): 
+        elif (" nn" in array[1]) and ("dep" in array[1] or " null" in array[1]): 
 #             print "case6 - nn case"
             term = array[1]
             if len(term)<3:
@@ -102,28 +111,43 @@ def englishMapping(pattern,uri):
             entry_list = verbEntry(term,uri,"")
 
             return entry_list
+
         
 #          if " nn "
             
     if len(array) == 4:
-#         print "in 4"
-#         0 x _ nnp nnp _ 1 nsubjpass _ _  1 born _ vbn vbn _ 2 dep _ _  2 on _ in in _ 3 prep _ _  3 y _ nnp nnp _ 4 pobj _ _    3
-        if (" vbd" in array[1] or " vbn" in array[1] or " vbz" in array[1]) and (" dep" in array[1] or  " rcmod" in array[1] or " null" in array[1]):
-#         if (" vbd" in array[1] and " rcmod" in array[1]) or (" vbn" in array[1] and " rcmod" in array[1]):
-#             print "case2"
+#         if "born" in pattern:
+#             print("pattern",pattern)
+#             print ("array",array)
+#             print ("array[1]",array[1])
+#             raw_input("wait")
+            
+        if (" vbd" in array[1] or " vbz" in array[1]) and (" dep" in array[1] or  " rcmod" in array[1] or " null" in array[1]):
             marker = array[2]
             if " x " not in marker and " y " not in marker:
                  marker = marker.split(" ")[1]
-#             print ("marker",marker)
             term = array[1]
             if len(term)<3:
                 return []
             entry_list = verbEntry(term,uri,marker)
-#             print
-#             print
+#             if "born" in pattern:
+#                 print "in Verb case"
+#                 print("entry_list",entry_list)
+#                 raw_input("wait")
             return entry_list
+        
+        elif (" vbn" in array[1]) and (" dep" in array[1] or  " rcmod" in array[1] or " null" in array[1]):
+            marker = array[2]
+            if " x " not in marker and " y " not in marker:
+                 marker = marker.split(" ")[1]
+            term = array[1]
+            term = term.split(" ")[1]
+            if len(term)<3:
+                return []
+            return [AdjectivePredicateFrameMarker(term,uri,marker)]
+        
             
-        if (" nn" in array[1]) and ("sub" in array[1] or "obj" in array[1] or " null" in array[1]): 
+        elif (" nn" in array[1]) and ("sub" in array[1] or "obj" in array[1] or " null" in array[1]): 
 #             print "case3"
             marker = array[2]
             hm = {}
@@ -138,7 +162,7 @@ def englishMapping(pattern,uri):
                 entry = NounPPFrame(term,uri,hm)
                 return [entry]
             
-        if (" nn" in array[1]) and ("dep" in array[1] or " null" in array[1]): 
+        elif (" nn" in array[1]) and ("dep" in array[1] or " null" in array[1]): 
 #             print "case5 - nn case"
             marker = array[2]
             if " x " not in marker and " y " not in marker:
@@ -235,7 +259,7 @@ def NounPossisiveFrame(term,reference):
     Creates an NounPossisiveFrame  entry for a given label and reference with a standard "of" marker
     """
     term = term.replace(";","")
-    entry = "RelationalNoun(\""+term+"\",<"+reference+">, propSubj = PossessiveAdjunct, propObj  = CopulativeArg)"
+    entry = "RelationalNoun(\""+term+"\","+reference+", propSubj = PossessiveAdjunct, propObj  = CopulativeArg)"
     return entry
 
 def NounPossisiveFrameWithoutMarker(term,reference):
@@ -243,7 +267,7 @@ def NounPossisiveFrameWithoutMarker(term,reference):
     Creates an NounPossisiveFrame  entry for a given label and reference, but without any marker
     """
     term = term.replace(";","")
-    entry = "RelationalNoun(\""+term+"\",<"+reference+">, propSubj = PossessiveAdjunct, propObj  = CopulativeArg)"
+    entry = "RelationalNoun(\""+term+"\","+reference+", propSubj = PossessiveAdjunct, propObj  = CopulativeArg)"
     return entry
 
   
@@ -255,7 +279,7 @@ def TransitiveFrame(term, reference,marker):
     term = term.replace(";","")
 # #     In order to increase, accuracy, use the marker.
 # #     In order to increase Recall, do not use the marker and create only entries, without marker
-    entry = "StateVerb(\""+term+"\",<"+reference+">, propSubj = DirectObject, propObj  = Subject)"
+    entry = "StateVerb(\""+term+"\","+reference+", propSubj = DirectObject, propObj  = Subject)"
     
 #     if len(marker) == 0 or marker.isalpha()== False:
 #         entry = "StateVerb(\""+term+"\",<"+reference+">, propSubj = DirectObject, propObj  = Subject)"
@@ -267,13 +291,22 @@ def TransitiveFrame(term, reference,marker):
     return entry
 
 
-def AdjectivePredicateFrame(term, reference, marker):
+def AdjectivePredicateFrame(term, reference, marker=None):
     """
     Creates an AdjectivePredicateFrame entry for a given label, reference and marker
     """
     
     term = term.replace(";","")
-    entry = "RelationalAdjective(\""+term+"\",<"+reference+">, relationalArg = PrepositionalObject(\"to\"))"
+    entry = "RelationalAdjective(\""+term+"\","+reference+",relationalArg = PrepositionalObject(\"to\"))"
+    return entry
+
+def AdjectivePredicateFrameMarker(term, reference, marker):
+    """
+    Creates an AdjectivePredicateFrame entry for a given label, reference and marker
+    """
+    
+    term = term.replace(";","")
+    entry = "RelationalAdjective(\""+term+"\","+reference+", relationalArg = PrepositionalObject(\""+marker+"\"))"
     return entry
 
 
@@ -282,7 +315,7 @@ def AdjectivePPFrame(term, reference, marker):
     Creates an AdjectivePPFrame entry for a given label, reference and marker
     """
     term = term.replace(";","")
-    entry = "RelationalAdjective(\""+term+"\",<"+reference+">, relationalArg = PrepositionalObject(\"to\"))"
+    entry = "RelationalAdjective(\""+term+"\","+reference+", relationalArg = PrepositionalObject(\"to\"))"
     return entry
 
 
@@ -298,10 +331,10 @@ def NounPPFrame(term,reference,marker):
     entry = ""
     #beim generieren der Pattern wird entschieden, was fuer ein frame gegeben ist, abhaengig dvon, ob eine praeposition gegeben ist oder nicht
     if len(marker) == 0 or marker.isalpha()== False:
-        entry = "RelationalNoun(\""+term+"\",<"+reference+">, propSubj = PossessiveAdjunct, propObj  = CopulativeArg)"
+        entry = "RelationalNoun(\""+term+"\","+reference+", propSubj = PossessiveAdjunct, propObj  = CopulativeArg)"
         return entry
     else:
-        entry = "RelationalNoun(\""+term+"\",<"+reference+">, propSubj = PrepositionalObject(\""+marker_a[0]+"\"), propObj  = CopulativeArg)"
+        entry = "RelationalNoun(\""+term+"\","+reference+", propSubj = PrepositionalObject(\""+marker_a[0]+"\"), propObj  = CopulativeArg)"
         return entry
 
 
