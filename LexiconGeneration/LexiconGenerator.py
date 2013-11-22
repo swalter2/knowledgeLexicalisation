@@ -68,93 +68,16 @@ def verbEntry(term,uri,marker):
             
     return entry
     
-#     term_array = [term]
-#     if term.endswith("ing") or term.endswith("ed") or term.endswith("s"):
-#         st = stemmer.stem(term)
-#         term_array.append(st)
-#     #term = checkForIngForm(term)
-#     entry = []
-#     wiktionary_informations = []
-#     #old_entries = old(term,uri,marker)
-#     #for x in old_entries:
-#     #    hm[x]= ""
-#     hm[TransitiveFrame(term, uri,marker)] = ""
-#     for term in term_array:
-#         try:
-#             wiktionary_informations = sparql.getWiktionaryInformationsNEW(term)
-#             #hm[TransitiveFrame(term, uri,marker)] = ""
-#             for x in wiktionary_informations:
-#     #             print ("x",x)
-#     #             raw_input("wait")
-#                 if " + " in x[0] and "," not in x[0] and "*" not in x[0]:
-#                     tmp = x[0].split(" + ")[0]
-# #                     if "Adjective" in x[1]:
-# #                         hm[AdjectivePPFrame(tmp, uri,marker)] = ""
-#                     if "Verb" in x[1]:
-#                         hm[TransitiveFrame(tmp, uri,marker)] = ""
-# #                     if "Noun" in x[1]:
-# #                         hm[NounPPFrame(tmp,uri,{})] = ""
-#                 elif "," not in x[0] and "*" not in x[0]:
-# #                     if "Adjective" in x[1]:
-# #                         hm[AdjectivePPFrame(term, uri,marker)] = ""
-#                     if "Verb" in x[1]:
-#                         hm[TransitiveFrame(term, uri,marker)] = ""
-# #                     if "Noun" in x[1]:
-# #                         hm[NounPPFrame(term,uri,{})] = ""
-#             
-#         except:
-#             print "Unexpected error in verbEntry:", sys.exc_info()[0]
-#             hm[TransitiveFrame(term, uri,marker)] = ""
-#         
-#     for key in hm:
-#         entry.append(key)
-#             
-#     return entry
-
-# def verbEntry(term,uri,marker):
-#     sparql = Sparql.Connection()
-#     term = term.split(" ")[1]
-#     term = checkForIngForm(term)
-#     entry = []
-#     wiktionary_informations = []
-#     try:
-#         wiktionary_informations = sparql.getWiktionaryInformations(term)
-#     except:
-#         print "Unexpected error:", sys.exc_info()[0]
-#         wiktionary_informations = []
-#     if len(wiktionary_informations) == 0:
-#         
-#         if term.endswith("ed"):
-# #             term = term[:-2]
-#             entry.append(TransitiveFrame(term[:-1], uri,marker))
-# #             entry.append(AdjectivePPFrame(term[:-1], uri,marker))
-#             entry.append(TransitiveFrame(term[:-2], uri,marker))
-# #             entry.append(AdjectivePPFrame(term[:-2], uri,marker))
-#         elif term.endswith("s"):
-#             term = term[:-1]
-#             entry.append(TransitiveFrame(term, uri,marker))
-# #             entry.append(AdjectivePPFrame(term, uri,marker))
-#         else:
-#             entry.append(TransitiveFrame(term, uri,marker))
-# #             entry.append(AdjectivePPFrame(term, uri,marker))
-#     else:
-#         for e in wiktionary_informations:
-#             if e[0] == "verb" and "," not in e[1]:
-#                 entry.append(TransitiveFrame(e[1], uri,marker))
-#                 entry.append(AdjectivePPFrame(e[1], uri,marker))
-# #     print ("entry",entry)  
-# #     print  
-#     return entry
 
 def englishMapping(pattern,uri):
     array = pattern.split("  ")
     print pattern
 #     raw_input("wait")
     if len(array) == 3:
-        print "in 3"
+#         print "in 3"
         
         if (" vbd" in array[1] or " vbn" in array[1] or " vbz" in array[1]) and (" rcmod" in array[1] or " null" in array[1]):
-            print "case1"
+#             print "case1"
             term = array[1]
             if len(term)<3:
                 return []
@@ -162,7 +85,7 @@ def englishMapping(pattern,uri):
             return entry_list
             
         if (" nn" in array[1])  and ("sub" in array[1] or "obj" in array[1] or " null" in array[1]): 
-            print "case4"
+#             print "case4"
             term = array[1]
             term = term.split(" ")[1]
             if len(term)<3:
@@ -172,26 +95,26 @@ def englishMapping(pattern,uri):
                 return [entry]
             
         if (" nn" in array[1]) and ("dep" in array[1] or " null" in array[1]): 
-            print "case6 - nn case"
+#             print "case6 - nn case"
             term = array[1]
             if len(term)<3:
                 return []
             entry_list = verbEntry(term,uri,"")
-#             print
-#             print
+
             return entry_list
         
 #          if " nn "
             
     if len(array) == 4:
-        print "in 4"
-        if (" vbd" in array[1] or " vbn" in array[1] or " vbz" in array[1]) and (" rcmod" in array[1] or " null" in array[1]):
+#         print "in 4"
+#         0 x _ nnp nnp _ 1 nsubjpass _ _  1 born _ vbn vbn _ 2 dep _ _  2 on _ in in _ 3 prep _ _  3 y _ nnp nnp _ 4 pobj _ _    3
+        if (" vbd" in array[1] or " vbn" in array[1] or " vbz" in array[1]) and (" dep" in array[1] or  " rcmod" in array[1] or " null" in array[1]):
 #         if (" vbd" in array[1] and " rcmod" in array[1]) or (" vbn" in array[1] and " rcmod" in array[1]):
-            print "case2"
+#             print "case2"
             marker = array[2]
             if " x " not in marker and " y " not in marker:
                  marker = marker.split(" ")[1]
-            print ("marker",marker)
+#             print ("marker",marker)
             term = array[1]
             if len(term)<3:
                 return []
@@ -201,7 +124,7 @@ def englishMapping(pattern,uri):
             return entry_list
             
         if (" nn" in array[1]) and ("sub" in array[1] or "obj" in array[1] or " null" in array[1]): 
-            print "case3"
+#             print "case3"
             marker = array[2]
             hm = {}
             if " x " not in marker and " y " not in marker:
@@ -216,11 +139,11 @@ def englishMapping(pattern,uri):
                 return [entry]
             
         if (" nn" in array[1]) and ("dep" in array[1] or " null" in array[1]): 
-            print "case5 - nn case"
+#             print "case5 - nn case"
             marker = array[2]
             if " x " not in marker and " y " not in marker:
                  marker = marker.split(" ")[1]
-            print ("marker",marker)
+#             print ("marker",marker)
             term = array[1]
             if len(term)<3:
                 return []
@@ -232,69 +155,8 @@ def englishMapping(pattern,uri):
     
     
     return []
-# def englishMapping(pattern,uri):
-#     sparql = Sparql.Connection()
-#     marker = {}
-#     lmtzr = WordNetLemmatizer()
-#     term = ""
-#     for item in pattern.split("  "):
-#             
-#         if ("in" in item.split(" ")[3].lower() or "to" in item.split(" ")[3].lower()) and item.split(" ")[1]!="x" and item.split(" ")[1]!="y":
-#             marker[item.split(" ")[1]]=""
-#             
-#         elif item.split(" ")[1]!="x" and item.split(" ")[1]!="y":
-#                 term += item+"  "
-#     if term.endswith("  "):
-#         term = term[:-2]
-#                 
-#  
-#     entry_term = ""
-#     if "  " in term:
-#         for x in term.split("  "):
-#             entry_term += x.split(" ")[1]+" "
-#         if entry_term.endswith(" "):
-#             entry_term = entry_term[:-1]
-#     else:
-#         entry_term = term.split(" ")[1]
-#     
-# 
-#     if " vb" in term:
-# #         if marker.has_key("to") or "vbn" in term  or "vbg" in term  or "vbd" in term  or marker.has_key("on"):
-#         if entry_term.endswith("ing"):
-#             entry_term = checkForIngForm(entry_term)
-#             return [TransitiveFrame(entry_term, uri,marker)]
-#         else:
-#             wiktionary_informations = []
-#             try:
-#                 wiktionary_informations = sparql.getWiktionaryInformations(entry_term)
-#             except:
-#                 print "Unexpected error:", sys.exc_info()[0]
-#                 wiktionary_informations = []
-#             if len(wiktionary_informations) == 0:
-#     #                 lemma = lmtzr.lemmatize(entry_term,"v")
-#                 return [TransitiveFrame(entry_term, uri,marker)]
-#     #                 return [AdjectivePredicateFrame(entry_term,uri, marker),TransitiveFrame(entry_term, uri,marker),TransitiveFrame(lemma, uri,marker)]
-#             else:
-#                 tmp = []
-#                 for entry in wiktionary_informations:
-#     #                     raw_input("wait")
-#     # and "," not in entry[1]: in order to avoid entries like From  apperen, aperen, from  aparoir
-#                     if entry[0] == "verb" and "," not in entry[1]:
-#                         tmp.append(TransitiveFrame(entry[1], uri,marker))
-#                     if entry[0] == "adjective" and "," not in entry[1]:
-#                         tmp.append(AdjectivePredicateFrame(entry[1], uri,marker))
-#                 return tmp
-#                     
-# #         else:
-# #             return [TransitiveFrame(entry_term, uri,marker)]
-# #             
-# #         print
-#     else:
-#         if marker.has_key("of"):  
-#             return [NounPossisiveFrame(entry_term,uri)]
-#         else:
-#             return [NounPPFrame(entry_term,uri,marker)]
-#     return []
+
+
         
 
 def germanMapping(pattern,uri):
@@ -355,24 +217,6 @@ def createLexiconEntry(pattern,uri,Wiktionary, term = None):
     
 
 
-
-#def createClassEntry(uri,en_target_lexicon):
-#    """
-#    Creates a standard class entry for a given URI.
-#    As label for the entry, the label from the URI is taken (sparql.getLabel)
-#    """
-#    
-#    sparql = Sparql.Connection()
-#    label = sparql.getLabel(uri)[0]
-##    result_array = []
-#    array = wn.return_synsetsNoun(label)
-#    for entry in array:
-#        for x in StandardLexiconEntries.createLabel(entry,en_target_lexicon):
-#            x = x.replace("_"," ")#
-#
-#            lexEntry = "ClassNoun(\""+ x+"\",<"+uri+">)"
-#            result_array.append(lexEntry)
-#    return result_array
 
 
 def createClassEntry(uri,label):
