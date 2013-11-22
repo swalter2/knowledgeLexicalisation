@@ -82,12 +82,13 @@ def combineNNP(array,x_variable,y_variable):
     tmp = []
     counter = 0
     for i in range(0,len(array)-1):
-        if "CD" in array[i][1]:
-            counter += 1
+#         if "CD" in array[i][1]:
+#             counter += 1
         if ("NNP" in array[i][1] or "NNPS" in array[i][1] or "CD" in array[i][1]) and counter < 2:
             tmp.append(i)
         else:
             if len(tmp) > 1 :
+                print ("cluster", tmp)
                 cluster.append(tmp)
                 tmp = []
             else: 
@@ -96,7 +97,7 @@ def combineNNP(array,x_variable,y_variable):
                 tmp.append(i)
                 counter = 0
             else:
-                countr = 0
+                counter = 0
                 
     new_array = []
     for x in cluster:
