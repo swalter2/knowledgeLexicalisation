@@ -19,7 +19,6 @@ http://dbpedia.org/ontology/languageFamily
 http://dbpedia.org/ontology/programmeFormat
 http://dbpedia.org/ontology/college
 http://dbpedia.org/ontology/successor
-http://dbpedia.org/ontology/phylum
 http://dbpedia.org/ontology/precursor
 http://dbpedia.org/ontology/bandMember
 http://dbpedia.org/ontology/county
@@ -91,7 +90,6 @@ http://dbpedia.org/ontology/birthPlace
 http://dbpedia.org/ontology/associatedMusicalArtist
 http://dbpedia.org/ontology/parent
 http://dbpedia.org/ontology/company
-http://dbpedia.org/ontology/class
 http://dbpedia.org/ontology/broadcastNetwork
 http://dbpedia.org/ontology/license
 http://dbpedia.org/ontology/computingPlatform
@@ -401,7 +399,6 @@ http://dbpedia.org/ontology/PlayboyPlaymate
 http://dbpedia.org/ontology/FictionalCharacter
 http://dbpedia.org/ontology/AmericanFootballTeam
 http://dbpedia.org/ontology/Actor
-http://dbpedia.org/ontology/Name
 http://dbpedia.org/ontology/AmericanFootballLeague
 http://dbpedia.org/ontology/ReligiousBuilding
 http://dbpedia.org/ontology/PaintballLeague

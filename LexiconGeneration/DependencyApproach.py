@@ -42,23 +42,22 @@ def createTermsForObjectProperty(PropertyEntities, anchor_index):
     """
     Use additional 
     """
-    if len(PropertyEntities)/2 > 40000:
-        result = []
-        for item in range(0,len(PropertyEntities),2):
-            x = PropertyEntities[item]
-            y = PropertyEntities[item+1]
-            x = x.encode("ascii","ignore")
-            y = y.encode("ascii","ignore")
-            if "(" in x:
-                x = x.split("(")[0]
-            if "(" in y:
-                y = y.split("(")[0]
-            result.append([x+" "+y,x,y])
-        return result
+#     if len(PropertyEntities)/2 > 40000:
+#         result = []
+#         for item in range(0,len(PropertyEntities),2):
+#             x = PropertyEntities[item]
+#             y = PropertyEntities[item+1]
+#             x = x.encode("ascii","ignore")
+#             y = y.encode("ascii","ignore")
+#             if "(" in x:
+#                 x = x.split("(")[0]
+#             if "(" in y:
+#                 y = y.split("(")[0]
+#             result.append([x+" "+y,x,y])
+#         return result
     
-    
+    print "len PropertyEntities: "+str(len(PropertyEntities)/2)
     for item in range(0,len(PropertyEntities),2):
-        
         x = None
         y = None 
         x = PropertyEntities[item]
@@ -114,7 +113,7 @@ def createTermsForObjectProperty(PropertyEntities, anchor_index):
                                 pass
                             else:
                                 term_list.append([term,xentry,yentry])
-#    print "len term_list: "+str(len(term_list))
+    print "len term_list: "+str(len(term_list))
     return term_list
 
 
@@ -293,7 +292,8 @@ def createPatternFile(uri, path, name, hm):
             different_pattern += 1
             hm_new[key] = value
             
-            new_pattern = normalisePattern(key)
+#             new_pattern = normalisePattern(key)
+            new_pattern = key
             if hm_test.has_key(new_pattern):
                 hm_test[new_pattern] = hm_test[new_pattern]+value
             else:
