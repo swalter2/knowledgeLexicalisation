@@ -165,6 +165,7 @@ class Connection():
         """
         Checks, if a given property is from the type class
         """
+        print ("uri",uri)
         uri = uri.replace("http://dbpedia.org/ontology/","")
         if uri[0].isupper():
             return True

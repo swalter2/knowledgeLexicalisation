@@ -70,7 +70,7 @@ def verbEntry(term,uri,marker):
     
 
 def englishMapping(pattern,uri):
-    uri = uri.replace("http://dbpedia.org/ontology/","dbpedia:")
+#     uri = uri.replace("http://dbpedia.org/ontology/","dbpedia:")
     array = pattern.split("  ")
     print pattern
 #     raw_input("wait")
@@ -250,8 +250,8 @@ def createClassEntry(uri,label):
     """
     #sparql = Sparql.Connection()
     #label = sparql.getLabel(uri)[0]
-    uri = uri.replace("http://dbpedia.org/ontology/","dbpedia:")
-    return "ClassNoun(\""+ label+"\","+uri+")"
+#     uri = uri.replace("http://dbpedia.org/ontology/","dbpedia:")
+    return "ClassNoun(\""+ label+"\",<"+uri+">)"
 
 
 
@@ -259,20 +259,20 @@ def NounPossisiveFrame(term,reference):
     """
     Creates an NounPossisiveFrame  entry for a given label and reference with a standard "of" marker
     """
-    reference = reference.replace("http://dbpedia.org/ontology/","dbpedia:")
+#     reference = reference.replace("http://dbpedia.org/ontology/","dbpedia:")
 
     term = term.replace(";","")
-    entry = "RelationalNoun(\""+term+"\","+reference+", propSubj = PossessiveAdjunct, propObj  = CopulativeArg)"
+    entry = "RelationalNoun(\""+term+"\",<"+reference+">, propSubj = PossessiveAdjunct, propObj  = CopulativeArg)"
     return entry
 
 def NounPossisiveFrameWithoutMarker(term,reference):
     """
     Creates an NounPossisiveFrame  entry for a given label and reference, but without any marker
     """
-    reference = reference.replace("http://dbpedia.org/ontology/","dbpedia:")
+#     reference = reference.replace("http://dbpedia.org/ontology/","dbpedia:")
 
     term = term.replace(";","")
-    entry = "RelationalNoun(\""+term+"\","+reference+", propSubj = PossessiveAdjunct, propObj  = CopulativeArg)"
+    entry = "RelationalNoun(\""+term+"\",<"+reference+">, propSubj = PossessiveAdjunct, propObj  = CopulativeArg)"
     return entry
 
   
@@ -282,17 +282,17 @@ def TransitiveFrame(term, reference,marker):
     """
     #print ("Marker in transitive frame",marker)
     term = term.replace(";","")
-    reference = reference.replace("http://dbpedia.org/ontology/","dbpedia:")
+#     reference = reference.replace("http://dbpedia.org/ontology/","dbpedia:")
 
 # #     In order to increase, accuracy, use the marker.
 # #     In order to increase Recall, do not use the marker and create only entries, without marker
 #     entry = "StateVerb(\""+term+"\","+reference+", propSubj = DirectObject, propObj  = Subject)"
     
     if len(marker) == 0 or marker.isalpha()== False:
-        entry = "StateVerb(\""+term+"\","+reference+", propSubj = DirectObject, propObj  = Subject)"
+        entry = "StateVerb(\""+term+"\",<"+reference+">, propSubj = DirectObject, propObj  = Subject)"
         return entry
     else:
-        entry = "StateVerb(\""+term+"\","+reference+",propObj  = PrepositionalObject(\""+marker+"\"))"
+        entry = "StateVerb(\""+term+"\",<"+reference+">,propObj  = PrepositionalObject(\""+marker+"\"))"
 
 
     return entry
@@ -302,21 +302,21 @@ def AdjectivePredicateFrame(term, reference, marker=None):
     """
     Creates an AdjectivePredicateFrame entry for a given label, reference and marker
     """
-    reference = reference.replace("http://dbpedia.org/ontology/","dbpedia:")
+#     reference = reference.replace("http://dbpedia.org/ontology/","dbpedia:")
 
     term = term.replace(";","")
-    entry = "RelationalAdjective(\""+term+"\","+reference+",relationalArg = PrepositionalObject(\"to\"))"
+    entry = "RelationalAdjective(\""+term+"\",<"+reference+">,relationalArg = PrepositionalObject(\"to\"))"
     return entry
 
 def AdjectivePredicateFrameMarker(term, reference, marker):
     """
     Creates an AdjectivePredicateFrame entry for a given label, reference and marker
     """
-    reference = reference.replace("http://dbpedia.org/ontology/","dbpedia:")
+#     reference = reference.replace("http://dbpedia.org/ontology/","dbpedia:")
 
     term = term.replace(";","")
     if marker.isalpha()== False:
-        entry = "RelationalAdjective(\""+term+"\","+reference+", relationalArg = PrepositionalObject(\""+marker+"\"))"
+        entry = "RelationalAdjective(\""+term+"\",<"+reference+">, relationalArg = PrepositionalObject(\""+marker+"\"))"
         return entry
     else:
         return []
@@ -326,10 +326,10 @@ def AdjectivePPFrame(term, reference, marker):
     """
     Creates an AdjectivePPFrame entry for a given label, reference and marker
     """
-    reference = reference.replace("http://dbpedia.org/ontology/","dbpedia:")
+#     reference = reference.replace("http://dbpedia.org/ontology/","dbpedia:")
 
     term = term.replace(";","")
-    entry = "RelationalAdjective(\""+term+"\","+reference+", relationalArg = PrepositionalObject(\"to\"))"
+    entry = "RelationalAdjective(\""+term+"\",<"+reference+">, relationalArg = PrepositionalObject(\"to\"))"
     return entry
 
 
@@ -338,7 +338,7 @@ def NounPPFrame(term,reference,marker):
     """
     Creates an NounPPFrame entry for a given label, reference and marker
     """
-    reference = reference.replace("http://dbpedia.org/ontology/","dbpedia:")
+#     reference = reference.replace("http://dbpedia.org/ontology/","dbpedia:")
 
     marker_a = []
     for key in marker:
@@ -347,10 +347,10 @@ def NounPPFrame(term,reference,marker):
     entry = ""
     #beim generieren der Pattern wird entschieden, was fuer ein frame gegeben ist, abhaengig dvon, ob eine praeposition gegeben ist oder nicht
     if len(marker) == 0 or marker.isalpha()== False:
-        entry = "RelationalNoun(\""+term+"\","+reference+", propSubj = PossessiveAdjunct, propObj  = CopulativeArg)"
+        entry = "RelationalNoun(\""+term+"\",<"+reference+">, propSubj = PossessiveAdjunct, propObj  = CopulativeArg)"
         return entry
     else:
-        entry = "RelationalNoun(\""+term+"\","+reference+", propSubj = PrepositionalObject(\""+marker_a[0]+"\"), propObj  = CopulativeArg)"
+        entry = "RelationalNoun(\""+term+"\",<"+reference+">, propSubj = PrepositionalObject(\""+marker_a[0]+"\"), propObj  = CopulativeArg)"
         return entry
 
 

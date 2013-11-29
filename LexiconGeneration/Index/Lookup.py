@@ -235,34 +235,14 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
             result = []
             if x != y and x.lower() not in y.lower() and y.lower() not in x.lower():
                 if special == True:
-#                     print "start special search"
                     result= index.search(key_list,special)
-#                     print "returned "+str(len(result))+" sentences for special search"
+
                     print
                 else:
-#                     print "start normal index search"
+
                     result= index.search(term,special)
                     overall_sentences += len(result)
-#                     print "returned "+str(len(result)) + " sentences"
-#                 tmp = result
-#                 result = []
-#                 for t in tmp:
-#                     #To Deal with German Umlaute
-#                     t = t.replace("\xc3\xa4","ae")
-#                     t = t.replace("\xc3\x9f","ss")
-#                     t = t.replace("\xc3\xbc","ue")
-#                     t = t.replace("\xc3\xb6","oe")
-#                     t = t.replace("\xe2\x80\x9e","\"")
-#                     t = t.replace("\xe2\x80\x9c","\"")
-#                     t = t.replace("\xc3\xba","u")
-#                     t = t.replace("\xe2\x80\x9e","\"")
-#                     t = t.replace("\xe2\x80\x99","'")
-#                     t = t.replace("\xe2\x80\x93","-")
-#                     t = t.replace("\xe2\x80\x94","-")
-#                     t = t.replace("\xe2\x80\x95","-")
-#                     result.append(t)
-                        
-#            print str(len(result))+" number of sentences found in Corpus"
+
             for line_array in result:
                 found_x = False
                 found_y = False
@@ -270,49 +250,7 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
 #                 print line_array
                 line = ""
                 for e in line_array:
-                    line += e[0]+" "
-
-#                 replacementX = x.replace(" ","")
-#                 
-#                 if x in line:
-#                     line = line.replace(x,replacementX.capitalize())
-#                 else:
-#                     found_x = False
-#                 
-#                 replacementY = y.replace(" ","")
-#                 
-#                 if y in line: 
-#                     line = line.replace(y,replacementY.capitalize())
-#                     
-#                 else:
-#                     found_y = False
-# 
-#                 if found_x == True and found_y == False:
-#                     if " " in y:
-#                         searchY = y.split(" ")[0]
-#                         if searchY in line:
-#                             if searchY != x:
-#                                 line = line.replace(" "+searchY+" ",replacementY.capitalize())
-#                                 found_y = True
-#                             else:
-#                                 if " he " in line or " she " in line or " it " in line:
-#                                     line = line.replace(" he ",replacementY.capitalize())
-#                                     line = line.replace(" she ",replacementY.capitalize())
-#                                     line = line.replace(" it ",replacementY.capitalize())
-#                                     found_y = True  
-#                 if found_x == False and found_y == True:
-#                     if " " in x:
-#                         searchX = x.split(" ")[0]
-#                         if searchX in line:
-#                             if searchX != y:
-#                                 line = line.replace(" "+searchX+" ",replacementX.capitalize())
-#                                 found_x = True
-#                             else:
-#                                 if " he " in line or " she " in line or " it " in line:
-#                                   line = line.replace(" he ",replacementX.capitalize())
-#                                   line = line.replace(" she ",replacementX.capitalize())
-#                                   line = line.replace(" it ",replacementX.capitalize())
-#                                   found_x = True  
+                    line += e[0]+" " 
                         
                 if found_x == True and found_y == True:
                     #Use each line only for one x-y pair
@@ -325,11 +263,7 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
      
     print "found "+str(overall_sentences)+" sentences"
     print "found "+str(len(hm))+" combination of pairs and sentences"
-#     raw_input("wait")
-    #German Umlaute
-#    for key in hm:
-#        print (key.replace("\xc3\xa4","ae").replace("\xc3\x9f","ss").replace("\xc3\xbc","ue"),hm[key])
-#    print
+
         
     if len(hm) > 0:
         tolerance = (len(hm)+0.0)/100*tolerance_procent
@@ -366,11 +300,12 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
     """
     sfile="/tmp/tmp.txt"
     
-    sentence_value = 10000
+    sentence_value = 20000
     """
     parses always x sentences at once.
     For other languages, here it has to be checked, which language is given and which parser has to be used.
     """    
+    tolerance = 0.0
     if len(parse_list)>tolerance:
 #        raw_input(str(sentence_value))
         if len(parse_list) < sentence_value:

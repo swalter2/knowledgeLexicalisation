@@ -286,8 +286,6 @@ def evaluate(path_user_lexicon,Train_evaluation,path_goldstandard, number_of_uri
     Laenge_GoldstandardPrecision = len(hm_UL)
 
 
-    
-        
     ################## First Recall/Precision over given lexicon entries ##########################
     
     global_Recall = 0
@@ -319,6 +317,9 @@ def evaluate(path_user_lexicon,Train_evaluation,path_goldstandard, number_of_uri
                 #only use each user triple once!! otherwise there can be a higher recall than one!
                 signature = str(user_lex.getPartOfSpeech())+" "+user_lex.getCanonicalForm().lower()+" "+str(user_lex.getSense())
                 signature_ml = str(gold.getPartOfSpeech())+" "+gold.getCanonicalForm().lower()+" "+str(gold.getSense())
+#                 print ("signature",signature)
+#                 print ("signature_ml",signature_ml)
+#                 print
 
                 if signature not in signature_hm and signature_ml not in signature_ml_hm and gold.getPartOfSpeech() == user_lex.getPartOfSpeech() and user_lex.getCanonicalForm().lower() == gold.getCanonicalForm().lower() and user_lex.getSense()== gold.getSense():
                     numberOfCorrectEntries_lexicon+=1
