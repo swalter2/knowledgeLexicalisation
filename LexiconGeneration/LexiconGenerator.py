@@ -35,7 +35,7 @@ def verbEntry(term,uri,marker):
         term = term.split(" ")[1]
         
     tmp = wordnet.morphy(term, wordnet.VERB)
-    if tmp != None:
+    if tmp != None and len(tmp)>2:
         hm[TransitiveFrame(tmp, uri,marker)] = ""
         
     else:
@@ -45,14 +45,14 @@ def verbEntry(term,uri,marker):
         for x in wiktionary_informations:
             if " + " in x[0] and "," not in x[0] and "*" not in x[0]:
                 tmp = x[0].split(" + ")[0]
-                if "Verb" in x[1] and len(term)>2:
+                if "Verb" in x[1] and len(tmp)>2:
                     hm[TransitiveFrame(tmp, uri,marker)] = ""
 
             elif "," not in x[0] and "*" not in x[0]:
                 if "Verb" in x[1] and len(term)>2:
                     hm[TransitiveFrame(term, uri,marker)] = ""
     
-        if len(wiktionary_informations) == 0:
+        if len(wiktionary_informations) == 0 and len(stem)>2:
             hm[TransitiveFrame(stem, uri,marker)]  = ""
         
     entry = []
