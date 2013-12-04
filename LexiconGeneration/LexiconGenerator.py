@@ -45,19 +45,12 @@ def verbEntry(term,uri,marker):
         for x in wiktionary_informations:
             if " + " in x[0] and "," not in x[0] and "*" not in x[0]:
                 tmp = x[0].split(" + ")[0]
-    #             if "Adjective" in x[1]:
-    #                 hm[AdjectivePPFrame(tmp, uri,marker)] = ""
-                if "Verb" in x[1]:
+                if "Verb" in x[1] and len(term)>2:
                     hm[TransitiveFrame(tmp, uri,marker)] = ""
-    #             if "Noun" in x[1]:
-    #                 hm[NounPPFrame(tmp,uri,{})] = ""
+
             elif "," not in x[0] and "*" not in x[0]:
-    #             if "Adjective" in x[1]:
-    #                 hm[AdjectivePPFrame(term, uri,marker)] = ""
-                if "Verb" in x[1]:
+                if "Verb" in x[1] and len(term)>2:
                     hm[TransitiveFrame(term, uri,marker)] = ""
-    #             if "Noun" in x[1]:
-    #                 hm[NounPPFrame(term,uri,{})] = ""
     
         if len(wiktionary_informations) == 0:
             hm[TransitiveFrame(stem, uri,marker)]  = ""
@@ -72,29 +65,25 @@ def verbEntry(term,uri,marker):
 def englishMapping(pattern,uri):
 #     uri = uri.replace("http://dbpedia.org/ontology/","dbpedia:")
     array = pattern.split("  ")
-    print pattern
-#     raw_input("wait")
+
     if len(array) == 3:
-#         print "in 3"
         
         if (" vbd" in array[1] or " vbz" in array[1]) and (" rcmod" in array[1] or " null" in array[1]):
-#             print "case1"
             term = array[1]
             if len(term)<3:
                 return []
             entry_list = verbEntry(term,uri,"")
             return entry_list
         
-#         elif (" vbn" in array[1]) and (" dep" in array[1] or  " rcmod" in array[1] or " null" in array[1]):
-#             term = array[1]
-#             term = term.split(" ")[1]
-#             if len(term)<3:
-#                 return []
-#             return [AdjectivePredicateFrame(term,uri)]
+        elif (" vbn" in array[1]) and (" dep" in array[1] or  " rcmod" in array[1] or " null" in array[1]):
+            term = array[1]
+            term = term.split(" ")[1]
+            if len(term)<3:
+                return []
+            return [AdjectivePredicateFrameMarker(term,uri,"to")]
         
             
         elif (" nn" in array[1])  and ("sub" in array[1] or "obj" in array[1] or " null" in array[1]): 
-#             print "case4"
             term = array[1]
             term = term.split(" ")[1]
             if len(term)<3:
@@ -104,7 +93,6 @@ def englishMapping(pattern,uri):
                 return [entry]
             
         elif (" nn" in array[1]) and ("dep" in array[1] or " null" in array[1]): 
-#             print "case6 - nn case"
             term = array[1]
             if len(term)<3:
                 return []
@@ -113,14 +101,8 @@ def englishMapping(pattern,uri):
             return entry_list
 
         
-#          if " nn "
             
     if len(array) == 4:
-#         if "born" in pattern:
-#             print("pattern",pattern)
-#             print ("array",array)
-#             print ("array[1]",array[1])
-#             raw_input("wait")
             
         if (" vbd" in array[1] or " vbz" in array[1]) and (" dep" in array[1] or  " rcmod" in array[1] or " null" in array[1]):
             marker = array[2]
@@ -130,10 +112,7 @@ def englishMapping(pattern,uri):
             if len(term)<3:
                 return []
             entry_list = verbEntry(term,uri,marker)
-#             if "born" in pattern:
-#                 print "in Verb case"
-#                 print("entry_list",entry_list)
-#                 raw_input("wait")
+
             return entry_list
         
         elif (" vbn" in array[1]) and (" dep" in array[1] or  " rcmod" in array[1] or " null" in array[1]):
@@ -148,7 +127,6 @@ def englishMapping(pattern,uri):
         
             
         elif (" nn" in array[1]) and ("sub" in array[1] or "obj" in array[1] or " null" in array[1]): 
-#             print "case3"
             marker = array[2]
             hm = {}
             if " x " not in marker and " y " not in marker:
@@ -163,17 +141,13 @@ def englishMapping(pattern,uri):
                 return [entry]
             
         elif (" nn" in array[1]) and ("dep" in array[1] or " null" in array[1]): 
-#             print "case5 - nn case"
             marker = array[2]
             if " x " not in marker and " y " not in marker:
                  marker = marker.split(" ")[1]
-#             print ("marker",marker)
             term = array[1]
             if len(term)<3:
                 return []
             entry_list = verbEntry(term,uri,marker)
-#             print
-#             print
             return entry_list
             
     
