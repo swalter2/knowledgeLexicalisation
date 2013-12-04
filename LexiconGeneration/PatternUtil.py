@@ -113,15 +113,7 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
     lem_entries_hm = {}
     f_hm = {}
     patterns_without_entry = []
-#     try:
-#         f = open("/home/swalter/wrongpattern","r")
-#         for line in f:
-#             f_hm[line.replace("\n","")] = ""
-#         f.close()
-#     except:
-#         pass
-            
-#     blub_array = []
+
     for key, value_pattern in sorted(hm.iteritems(), key=lambda x:x[1], reverse = True):
         best_counter += 1
         """
@@ -144,17 +136,7 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
 
         except:
             patterns_without_entry.append([key,value_pattern])
-            print "V3:Entry could not be created for pattern: "+key +"  "+str(value_pattern)
-            print
-            print
-#     f = open("/home/swalter/wrongpattern","w")
-#     for key in f_hm:
-#         f.write(key+"\n")
-#     f.close()
-#     f = open("/home/swalter/rightpattern","w")
-#     for blub in blub_array:
-#         f.write(str(blub)+"\n")
-#     f.close()
+
             
 #     for entry in lem_entries_hm:
 #         if value > 2:
@@ -181,11 +163,7 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
             
                 
     
-            
-    #f_out = open("/home/swalter/lementries","w")
-    #for x in lexico_array:
-    #    f_out.write(x[0]+"\n")
-    #f_out.close()
+
     return lexico_array , pattern_once, patterns_without_entry
 
 
