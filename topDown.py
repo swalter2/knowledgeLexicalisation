@@ -158,9 +158,6 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag, exper
         property_counter += 1
         uri = line.replace("\n","")
         path = original_path
-        label = sparql.getLabel(uri)[0]
-        label = label.replace(" ","+")
-#         path += label+"Results"
                
         string =""
         tmp_hm = {}
@@ -353,15 +350,7 @@ def main():
             print "Bye Bye!"
             exit(1)
         elif input == "train":
-            #run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia-train_de.rdf",path,parse_flag)
-#             run_and_evaluate("Datasets/dbpedia_train_classes_properties.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
-             run_and_evaluate("Datasets/Datatype_in_en_gold","Datasets/dbpedia_en.rdf",path,parse_flag,"LABEL")
-             run_and_evaluate("Datasets/Datatype_in_en_gold","Datasets/dbpedia_en.rdf",path,parse_flag,"DEPEND")
-             run_and_evaluate("Datasets/Datatype_in_en_gold","Datasets/dbpedia_en.rdf",path,parse_flag,"BOTH")
-             run_and_evaluate("Datasets/checkedObject","Datasets/dbpedia_en.rdf",path,parse_flag,"LABEL")
-             run_and_evaluate("Datasets/checkedObject","Datasets/dbpedia_en.rdf",path,parse_flag,"DEPEND")
-             run_and_evaluate("Datasets/checkedObject","Datasets/dbpedia_en.rdf",path,parse_flag,"BOTH")
-#             run_and_evaluate("Datasets/test.txt","Datasets/dbpedia_en.rdf",path,parse_flag)
+             run_and_evaluate("Datasets/test","Datasets/dbpedia_en.rdf",path,parse_flag,"DEPEND")
         else:
             start_time= time()
             try:

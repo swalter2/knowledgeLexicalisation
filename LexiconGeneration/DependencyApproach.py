@@ -6,6 +6,7 @@ import LexiconGenerator, StandardLexiconEntries
 from nltk.stem.wordnet import WordNetLemmatizer
 import math
 import Sparql
+import codecs
 language = None
 
 
@@ -275,7 +276,7 @@ def normalisePattern(pattern):
     return new_pattern
 
 def createPatternFile(uri, path, name, hm):
-    f = file(path + "PatternList" + name.replace("http://dbpedia.org/ontology","") + ".txt", "w")
+    f_out = codecs.open(path + "PatternList" + name.replace("http://dbpedia.org/ontology","") + ".txt", "w","utf-8")
     write_string = ""
 #     overall_pattern_number = 0
 #     for key, value in hm.iteritems():
@@ -287,7 +288,7 @@ def createPatternFile(uri, path, name, hm):
     hm_test = {}
     for key, value in hm.iteritems():  
               
-        ####SHOULD BE 1
+#         We want to igrnore alle patterns, whcih occour only once in the corpus
         if value > 1:
             different_pattern += 1
             hm_new[key] = value
@@ -309,6 +310,8 @@ def createPatternFile(uri, path, name, hm):
     for key, value in hm_test.iteritems():
         overall_pattern_number += value
     
+    f_out.write("Overall number: " + str(overall_pattern_number) + " Different patterns: " + str(different_pattern) + "\n\n\n")
+
             
     
     for key, value in sorted(hm_test.iteritems(), key=lambda x:x[1], reverse=True):
@@ -318,15 +321,18 @@ def createPatternFile(uri, path, name, hm):
         
         #write_string+="Pattern: "+key+"\t Occurrences: "+str(value)+"\t P(x|Property): "+str(p)+"\n"
 #         write_string += key + "\t" + str(value) + "\t" + uri + "\t" + str(math.log(p)) + "\t" + str(math.log(p_prime)) +"  "+ str(math.log(p_3)) +"\n"
-        write_string += key + "\t" + str(value) + "\t" + uri +"\n"
+        try:
+            f_out.write(key + "\t" + str(value) + "\t" + uri +"\n")
+        except:
+            pass
+#             we do not care about entries, which have wired lemmas
 
-    write_string = "Overall number: " + str(overall_pattern_number) + " Different patterns: " + str(different_pattern) + "\n\n\n" + write_string
-    f.write(write_string)
-    f.close()
+    f_out.write(write_string)
+    f_out.close()
     return hm, overall_pattern_number
 
 def getEntities(path):
-    f_in = open(path,"r")
+    f_in = codecs.open(path,"r","utf-8")
     array = []
     for line in f_in:
         line = line.replace("\n","")
@@ -470,11 +476,12 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
     pattern_once += tmp_pattern_once
     
     
-    f_out = file(path + "NotUsedPattern" + name.replace("http://dbpedia.org/ontology","") + ".txt", "w")#
-    write_string = ""
+    f_out = codecs.open(path + "NotUsedPattern" + name.replace("http://dbpedia.org/ontology","") + ".txt", "w","utf-8")#
     for pattern_entry in patterns_without_entry:
-        write_string += pattern_entry[0] + "\t" + str(pattern_entry[1]) + "\t" + uri +"\n"
-    f_out.write(write_string)
+        try:
+            f_out.write(pattern_entry[0] + "\t" + str(pattern_entry[1]) + "\t" + uri +"\n")
+        except:
+            pass
     f_out.close()
     
     lemonEntriesHm = {}
