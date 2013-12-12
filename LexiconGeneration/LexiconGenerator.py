@@ -289,7 +289,7 @@ def AdjectivePredicateFrameMarker(term, reference, marker):
 #     reference = reference.replace("http://dbpedia.org/ontology/","dbpedia:")
 
     term = term.replace(";","")
-    if marker.isalpha()== False:
+    if marker.isalpha()== True:
         entry = "RelationalAdjective(\""+term+"\",<"+reference+">, relationalArg = PrepositionalObject(\""+marker+"\"))"
         return entry
     else:
