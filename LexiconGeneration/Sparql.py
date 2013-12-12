@@ -128,7 +128,9 @@ class Connection():
         """
         Checks, if a given property is from the type ObjectProperty
         """
-        self.sparql.setQuery("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX owl: <http://www.w3.org/2002/07/owl#>  ASK WHERE {<"+uri+"> rdf:type owl:ObjectProperty}")
+        query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX owl: <http://www.w3.org/2002/07/owl#>  ASK WHERE {<"+uri+"> rdf:type owl:ObjectProperty}"
+        print query
+        self.sparql.setQuery(query)
         self.sparql.setReturnFormat(JSON)
         results = self.sparql.query().convert()
         #print results

@@ -486,7 +486,8 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
     
     lemonEntriesHm = {}
     for item in lexico_array:
-        lemonEntriesHm[item[0]]=""
+#         item[2] == value
+        lemonEntriesHm[item[0]]=item[2]
 
 
 #     web_string = "<table><tr><td style=\"width: 50%;\"> "

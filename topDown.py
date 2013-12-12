@@ -180,6 +180,12 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag, exper
             for key in tmp_hm:
                lemonEntriesHm[key] = "" 
                tmp_entry[key] = "" 
+               
+            f_value_out = open(path+experiment+uri.replace("http://dbpedia.org/ontology/","").replace("http://dbpedia.org/property/","")+"Values","w")
+            for key, value in sorted(tmp_hm.iteritems(), key=lambda x:x[1], reverse = True):
+                f_value_out.write(key+"\t"+str(value)+"\n")
+            f_value_out.close()
+                
             write_pattern_lexicon(path+experiment+uri.replace("http://dbpedia.org/ontology/","").replace("http://dbpedia.org/property/",""),tmp_entry)
  
        
