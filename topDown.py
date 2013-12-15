@@ -164,6 +164,9 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag, exper
         print uri
         number_sentences = 0
                 
+        f_value_out = open(path+experiment+uri.replace("http://dbpedia.org/ontology/","").replace("http://dbpedia.org/property/","")+"Values","w")
+            
+            
         #Label Approach
         if experiment == "BOTH" or experiment == "LABEL":
             lexiconArray = LabelApproach.start(uri,keystore,index)
@@ -171,6 +174,8 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag, exper
             for entry in lexiconArray:
                 lemonEntriesHm[entry] = ""
                 tmp_entry[entry] = ""
+            for key in tmp_entry:
+                f_value_out.write(key+"\ttba\n")
             write_pattern_lexicon(path+experiment+uri.replace("http://dbpedia.org/ontology/","").replace("http://dbpedia.org/property/",""),tmp_entry)
         
         #Dependency Approach
@@ -180,15 +185,14 @@ def run_and_evaluate(list_of_properties,path_goldstandard,path,parse_flag, exper
             for key in tmp_hm:
                lemonEntriesHm[key] = "" 
                tmp_entry[key] = "" 
-               
-            f_value_out = open(path+experiment+uri.replace("http://dbpedia.org/ontology/","").replace("http://dbpedia.org/property/","")+"Values","w")
+                
             for key, value in sorted(tmp_hm.iteritems(), key=lambda x:x[1], reverse = True):
                 f_value_out.write(key+"\t"+str(value)+"\n")
-            f_value_out.close()
-                
+            
             write_pattern_lexicon(path+experiment+uri.replace("http://dbpedia.org/ontology/","").replace("http://dbpedia.org/property/",""),tmp_entry)
  
        
+    f_value_out.close()
     #######################
     #
     # Write Lexicon
@@ -356,7 +360,7 @@ def main():
             print "Bye Bye!"
             exit(1)
         elif input == "train":
-             run_and_evaluate("Datasets/test","Datasets/dbpedia_en.rdf",path,parse_flag,"DEPEND")
+             run_and_evaluate("Datasets/QAList","Datasets/dbpedia_en.rdf",path,parse_flag,"BOTH")
         else:
             start_time= time()
             try:
