@@ -4,7 +4,8 @@ knowledgeLexicalisation
 tool to create lemon lexicons out of natural language sentences, using a top-down or bottom-up approach
 
 
-
+Information
+=======================
 This README is not up-to-date and will be corrected very soon.
 Sorry for the delay.
 
@@ -12,6 +13,8 @@ Sorry for the delay.
 
 
 
+knowledgeLexicalisation -old
+=======================
 
 
 For this system an English Wikipedia corpus, indexed with pylucene 3.5 is needed.
