@@ -5,6 +5,15 @@ tool to create lemon lexicons out of natural language sentences, using a top-dow
 
 
 
+This README is not up-to-date and will be corrected very soon.
+Sorry for the delay.
+
+
+
+
+
+
+
 For this system an English Wikipedia corpus, indexed with pylucene 3.5 is needed.
 This corpus/index can be (already prepared) found here:
 
