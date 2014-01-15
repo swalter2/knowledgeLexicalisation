@@ -7,85 +7,6 @@ import Sparql
 
 
 
-def create_html_table(lexico_array,hm_res_sentences,path,name,version):
-    """
-    Creates the html file, which makes it easier to look at the pattern and the corresponding sentences and lexicon entries
-    """
-    hilfsliste = {}
-    lexico_array_new = []
-    for item in lexico_array:
-        name1 = str(item[0].split("\n")[0])
-        name1 = name1.replace(" a lemon:LexicalEntry ;","")
-        name1 = name1.replace(":","")
-        
-        if name1 in hilfsliste:
-            pass
-        else:
-            hilfsliste[name1] = ""
-            string0 = ""
-            string1 = ""
-            number = 0
-            hilfsarray = []
-            for i in lexico_array:
-                try:
-                    name_t = str(i[0].split("\n")[0])
-                    name_t = name_t.replace(" a lemon:LexicalEntry ;","")
-                    name_t = name_t.replace(":","")
-                    
-                    if str(name1) == str(name_t):
-                        string0 += i[0]+"\n\n\n\n"
-                        string1 += i[1]+"\n"
-                        number += int(i[2])
-                        hilfsarray.append(i[1])
-                except:
-                    pass
-            tmp_array = []
-            tmp_array.append(string0)
-            tmp_array.append(string1)
-            tmp_array.append(number)
-            tmp_array.append(hilfsarray)
-            lexico_array_new.append(tmp_array)
-            
-    web_string = ""
-    counter = 0
-    lexico_array = sort_array(lexico_array_new)
-    web_string += "<TABLE border=\"1\"><TR><TH>#Pattern<TH>Entry"
-    for item in lexico_array:
-        counter += 1
-        if counter < 26:
-            f=file(path+"Result/"+str(version)+name+str(counter),"w")
-            f.write(item[0])
-            f.close()
-            
-            test = item[0].split("\n")[0]
-            test = test.replace("a lemon:LexicalEntry ;","")
-            test = test.replace(":","")
-            
-            f=file(path+"Result/"+str(version)+"P"+name+str(counter),"w")
-            write_string = item[1]
-            write_string += "\n##########################################################\n\n\n"
-            
-            for i in item[3]:
-                #print i
-                
-                ##############################################################
-                #I changed the pattern with a filter, and if so, the new patterns do not exist in the hm_res_sentences.
-                #Therefore use try/catch to overgo the new pattern
-                ##############################################################
-                try:
-                    write_string += hm_res_sentences[i]+"\n\n"
-                except:
-                    pass
-                
-            f.write(write_string)
-            f.close()
-            
-            web_string+="<TR><TH><a href=\""+"Result/"+str(version)+"P"+name+str(counter)+"\">"+str(item[2])+"</a><TD><a href=\""+"Result/"+str(version)+name+str(counter)+"\">"+test+"</a>" #"\">Entry"+str(counter)+ 
-    
-            
-    web_string += "</TABLE>"
-    return web_string
-
 def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
     print "Number of patterns: "+str(len(hm))
     config = ConfigParser.ConfigParser()
@@ -95,6 +16,8 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
     lexico_array = []
     sparql = Sparql.Connection()
     pattern_once = 0
+    
+    mapping_pattern_entry = {}
     
     
     #check here how many hm are given in, and set NumberOfPatterns to at least 0.1% or other value
@@ -124,6 +47,16 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
             entry_array = []
             entry_array=LexiconGenerator.createLexiconEntry(key, uri, False)
             for entry in entry_array:
+                
+                if mapping_pattern_entry.has_key(entry):
+                    tmp_entry = mapping_pattern_entry[entry]
+                    tmp_entry = tmp_entry.append([key,value_pattern])
+                    mapping_pattern_entry[entry]=tmp_entry
+                else:
+                    mapping_pattern_entry[entry]=[[key,value_pattern]]
+                                                      
+                
+                
                 if lem_entries_hm.has_key(entry):
                     value = lem_entries_hm[entry]
                     value += value_pattern
@@ -164,7 +97,7 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
                 
     
 
-    return lexico_array , pattern_once, patterns_without_entry
+    return lexico_array , pattern_once, patterns_without_entry, mapping_pattern_entry
 
 
     

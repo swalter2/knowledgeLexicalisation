@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*- 
+
 import sys, re, ConfigParser
 from Util import CleanUp
 import PatternUtil, PatternFinder
@@ -7,6 +9,7 @@ from nltk.stem.wordnet import WordNetLemmatizer
 import math
 import Sparql
 import codecs
+import Output
 language = None
 
 
@@ -275,61 +278,6 @@ def normalisePattern(pattern):
                         
     return new_pattern
 
-def createPatternFile(uri, path, name, hm):
-    f_out = codecs.open(path + "PatternList" + name.replace("http://dbpedia.org/ontology","") + ".txt", "w","utf-8")
-    write_string = ""
-#     overall_pattern_number = 0
-#     for key, value in hm.iteritems():
-#         overall_pattern_number += value
-        
-        
-    different_pattern = 0
-    hm_new = {}
-    hm_test = {}
-    for key, value in hm.iteritems():  
-              
-#         We want to igrnore alle patterns, whcih occour only once in the corpus
-        if value > 1:
-            different_pattern += 1
-            hm_new[key] = value
-            
-#             new_pattern = normalisePattern(key)
-            new_pattern = key
-            if hm_test.has_key(new_pattern):
-                hm_test[new_pattern] = hm_test[new_pattern]+value
-            else:
-                hm_test[new_pattern] = value
-            
-    
-    hm = {}
-    hm = hm_new
-    hm_new = {}
-    alpha = 0.8
-    
-    overall_pattern_number = 0
-    for key, value in hm_test.iteritems():
-        overall_pattern_number += value
-    
-    f_out.write("Overall number: " + str(overall_pattern_number) + " Different patterns: " + str(different_pattern) + "\n\n\n")
-
-            
-    
-    for key, value in sorted(hm_test.iteritems(), key=lambda x:x[1], reverse=True):
-#         p = value / (overall_pattern_number + 0.0)
-#         p_prime = (value - alpha) / (overall_pattern_number + 0.0)
-#         p_3 = (overall_pattern_number + 0.0)/value
-        
-        #write_string+="Pattern: "+key+"\t Occurrences: "+str(value)+"\t P(x|Property): "+str(p)+"\n"
-#         write_string += key + "\t" + str(value) + "\t" + uri + "\t" + str(math.log(p)) + "\t" + str(math.log(p_prime)) +"  "+ str(math.log(p_3)) +"\n"
-        try:
-            f_out.write(key + "\t" + str(value) + "\t" + uri +"\n")
-        except:
-            pass
-#             we do not care about entries, which have wired lemmas
-
-    f_out.write(write_string)
-    f_out.close()
-    return hm, overall_pattern_number
 
 def getEntities(path):
     f_in = codecs.open(path,"r","utf-8")
@@ -467,14 +415,14 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
 
     pattern_once = 0
     
-    hm , overall_pattern_numer = createPatternFile(uri, path, name, hm)
-    
+    hm , overall_pattern_numer = Output.createPatternFile(uri, path, name, hm)
     
     
     print "Created Pattern File"
-    lexico_array, tmp_pattern_once, patterns_without_entry = PatternUtil.create_lexico_array(hm,uri,1,en_de_lexicon)
-    pattern_once += tmp_pattern_once
-    
+    lexico_array, tmp_pattern_once, patterns_without_entry , mapping_pattern_entry_list = PatternUtil.create_lexico_array(hm,uri,1,en_de_lexicon)
+    pattern_once += tmp_pattern_once   
+        
+    Output.generate_html(mapping_pattern_entry_list,hm_res_sentences,path,name)
     
     f_out = codecs.open(path + "NotUsedPattern" + name.replace("http://dbpedia.org/ontology","") + ".txt", "w","utf-8")#
     for pattern_entry in patterns_without_entry:
@@ -489,21 +437,6 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
 #         item[2] == value
         lemonEntriesHm[item[0]]=item[2]
 
-
-#     web_string = "<table><tr><td style=\"width: 50%;\"> "
-#     try:
-#         web_string += PatternUtil.create_html_table(lexico_array,hm_res_sentences,path,name,1)
-#     except:
-#         web_string += "No entry for the property "+uri+" could be created"
-#     web_string += "</td><td> "
-#     
-#     web_string += "</td></tr></table> "
-#     
-#     
-#     
-#     web_table0 = "<TABLE border=\"1\"><TR><TH>Property <TH>N. of overall Sentences<TH>N. of generated patterns<TH>N. of used patterns <TH><TR><TH><a href=\""+uri+"\">"+name+"</a><TD>"+str(total_number_sentence)+"<TD>"+str(overall_pattern_numer)+"<TD>"+str((len(hm)))+"<TD>"+"</a>"+"</TABLE>"
-#     
-#     web = web_table0+web_string
     web = ""
     
     #print "Number of used sentences: "+str(len(hm_res_sentences))

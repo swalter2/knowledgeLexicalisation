@@ -1,4 +1,6 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*- 
+
 import os, re, sys, ConfigParser
 from time import time
 from LexiconGeneration import Sparql
