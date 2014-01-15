@@ -82,7 +82,7 @@ def _init_():
     global index
     global parsed_sentence_index
     global en_de_lexicon
-    en_de_lexicon = generateEnDeLexicon()
+    #en_de_lexicon = generateEnDeLexicon()
     
     config = ConfigParser.ConfigParser()
     config.read('config.conf')
