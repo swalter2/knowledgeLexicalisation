@@ -3,8 +3,13 @@ import codecs, os
 
 
 def generate_html(mapping_pattern_entry_list,sentence_list,path,name):
-    path_folder = path+"html/"
-    f_out = codecs.open(path + "PatternList" + name.replace("http://dbpedia.org/ontology","") + ".html", "w","utf-8")
+    
+    name = name.replace("http://dbpedia.org/ontology","")
+    name = name.replace("http:dbpedia.orgontology","")
+    
+    path_folder = path+"html"+name+"/"
+    
+    f_out = codecs.open(path + "PatternList" + name + ".html", "w","utf-8")
     
     os.mkdir(path_folder)
     
@@ -36,7 +41,22 @@ def generate_html(mapping_pattern_entry_list,sentence_list,path,name):
         except:
             pass
     
-    string = "<html><head><title>Beschreibung der Seite</title></head><body>"
+
+    string ="<html>"
+    string+="<head>"
+    string+="<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">"
+    string+="<title> ATOLL </title>"
+    string+="<style>"
+    string+="a { color: #000000;"
+    string+="text-decoration:none; }"
+    string+="padding:15px;"
+    string+="position:absolute;"
+    string+="left: 300px;"
+    string+="top:100px; }"
+    string+="</style>"
+    string+="</head>"
+    string+="<body>"
+    string+="<div id=\"terminal-start\">"
 
     counter = 0
     for key, value_pattern in sorted(lexicon_entry_list.iteritems(), key=lambda x:x[1], reverse = True):
@@ -55,7 +75,7 @@ def generate_html(mapping_pattern_entry_list,sentence_list,path,name):
         string += "<a href=\""+file_name+"\">"+key+"</a> "+ str(value_pattern)+ "<br>"
 
 
-    string += "</body> </html>"
+    string += " </div> </body> </html>"
     
     f_out.write(string)
     f_out.close()
@@ -64,13 +84,24 @@ def generate_html(mapping_pattern_entry_list,sentence_list,path,name):
 
 
 
-
+def pattern_error(patterns_without_entry,path,name):
+    name = name.replace("http://dbpedia.org/ontology","")
+    name = name.replace("http:dbpedia.orgontology","")
+    f_out = codecs.open(path + "NotUsedPattern" + name + ".txt", "w","utf-8")#
+    for pattern_entry in patterns_without_entry:
+        try:
+            f_out.write(pattern_entry[0] + "\t" + str(pattern_entry[1]) + "\t" + uri +"\n")
+        except:
+            pass
+    f_out.close()
 
 
 
 
 def createPatternFile(uri, path, name, hm):
-    f_out = codecs.open(path + "PatternList" + name.replace("http://dbpedia.org/ontology","") + ".txt", "w","utf-8")
+    name = name.replace("http://dbpedia.org/ontology","")
+    name = name.replace("http:dbpedia.orgontology","")
+    f_out = codecs.open(path + "PatternList" + name + ".txt", "w","utf-8")
     write_string = ""
 #     overall_pattern_number = 0
 #     for key, value in hm.iteritems():

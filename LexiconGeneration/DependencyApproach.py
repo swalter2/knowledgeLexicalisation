@@ -424,13 +424,9 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
         
     Output.generate_html(mapping_pattern_entry_list,hm_res_sentences,path,name)
     
-    f_out = codecs.open(path + "NotUsedPattern" + name.replace("http://dbpedia.org/ontology","") + ".txt", "w","utf-8")#
-    for pattern_entry in patterns_without_entry:
-        try:
-            f_out.write(pattern_entry[0] + "\t" + str(pattern_entry[1]) + "\t" + uri +"\n")
-        except:
-            pass
-    f_out.close()
+    Output.pattern_error(patterns_without_entry,path,name)
+
+
     
     lemonEntriesHm = {}
     for item in lexico_array:
