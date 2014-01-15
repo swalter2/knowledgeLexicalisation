@@ -55,6 +55,8 @@ def generate_html(mapping_pattern_entry_list,sentence_list,path,name):
     string+="<body>"
     string+="<div id=\"terminal-start\">"
 
+
+    string+="<table border=\"8\" cellspacing=\"10\" cellpadding=\"20\">"
     counter = 0
     for key, value_pattern in sorted(lexicon_entry_list.iteritems(), key=lambda x:x[1], reverse = True):
         output = ""
@@ -78,10 +80,10 @@ def generate_html(mapping_pattern_entry_list,sentence_list,path,name):
         f_output.write(output)
         f_output.close()
         counter += 1
-        string += "<a href=\""+file_name+"\">"+key+"</a> "+ str(value_pattern)+ "<br>"
+        string += "<tr> <td> <a href=\""+file_name+"\">"+key+"</a></td> <td>"+ str(value_pattern)+ "</td> </tr>"
 
 
-    string += " </div> </body> </html>"
+    string += " </table> </div> </body> </html>"
     
     f_out.write(string)
     f_out.close()
