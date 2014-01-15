@@ -250,95 +250,7 @@ def write_pattern_lexicon(original_path,lemonEntriesHm):
     f_out.close()
     
     
-def write_lexicon(original_path,lemonEntriesHm):
-    """
-    Writes the Lemonentries to a file on a given path
-    Turtle syntax
-    """
-    f_out = file(original_path+"LemLexicon.ttl","w")
-    
-    lexicon = "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n"
-    
-    lexicon += "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n"
-    lexicon += "@prefix lexinfo: <http://www.lexinfo.net/ontology/2.0/lexinfo#> .\n"
-    lexicon += "@prefix lemon: <http://www.monnet-project.eu/lemon#> .\n"
-    lexicon += "@prefix foaf: <http://www.mindswap.org/2003/owl/foaf#> .\n"
-    lexicon += "@prefix isocat: <http://www.isocat.org/datcat/> .\n"
-    lexicon += "@prefix : <http://sc.cit-ec.uni-bielefeld.de/lexica/automatic/dbpedia#>.\n "
-    lexicon += "\t :lexicon a lemon:Lexicon ;\n"
-    lexicon += "\t lemon:language \"en\" ;\n"
-    
-    print "number of lex entries: "+str(len(lemonEntriesHm))
-    punkt_counter = 0
-    for key in lemonEntriesHm: 
-        punkt_counter +=1
-        try:
-            term = createEntryTerm(key)
-            if term != "" :
-                string = term +str(punkt_counter)
-                if string.endswith(" "):
-                    string = string[:-1]
-                if re.search("[^a-zA-Z0-9_]",string) == None:
-                    try:
-#                        string.decode('ascii')
-                        string = string.encode("ascii","ignore")
-                        if punkt_counter == len(lemonEntriesHm):
-                            lexicon += "\t lemon:entry :"+string+" .\n"
-                        else:
-                            lexicon += "\t lemon:entry :"+string+" ;\n"
-                    except:
-                        pass
-        except:
-            #pass
-            print "error with entry: "+key
 
-    if lexicon.endswith(";\n"):
-        lexicon = lexicon[:-2]
-        lexicon += ".\n"
-    punkt_counter = 0
-    for key in lemonEntriesHm:
-        punkt_counter +=1
-        try:
-            term = createEntryTerm(key)
-            if term != "" :
-                
-                replace_string = term
-                if replace_string.endswith(" "):
-                    replace_string = replace_string[:-1]
-                if re.search("[^a-zA-Z0-9_]",replace_string) == None:
-                    try:
-#                        replace_string.decode('ascii')
-                        replace_string = replace_string.encode("ascii","ignore")
-                        string = key.replace(":"+replace_string,":"+replace_string+str(punkt_counter))
-                        lexicon+=string+"\n\n"
-                    except:
-                        pass
-        except:
-            #pass
-            print "error with entry: "+key
-    
-    f_out.write(lexicon)
-    f_out.close()
-    
-    
-   
-   
-   
-def createEntryTerm(entry):
-    try:
-        compare_item = str(entry).split(";")[0]
-        compare_item = compare_item.lower()
-        compare_item = compare_item.replace("a lemon:lexicalentry","")
-        compare_item = compare_item.replace(":","")
-        compare_item = compare_item.replace(" ","")
-        compare_item = compare_item.replace("\xc3\xbc","ue")
-        compare_item = compare_item.replace("\xc3\xa4","ae")
-        compare_item = compare_item.replace("\xc3\x9f","ss")
-        compare_item = compare_item.replace("\xc3\xb6","oe")
-        return compare_item
-    except:
-        return entry 
-    
     
     ################################################################
     
@@ -360,7 +272,7 @@ def main():
             print "Bye Bye!"
             exit(1)
         elif input == "train":
-             run_and_evaluate("Datasets/QAList","Datasets/dbpedia_en.rdf",path,parse_flag,"BOTH")
+             run_and_evaluate("Datasets/test","Datasets/dbpedia_en.rdf",path,parse_flag,"BOTH")
         else:
             start_time= time()
             try:
@@ -387,7 +299,97 @@ if __name__ == "__main__":
         
         
         
-        
+      
+      
+      # def write_lexicon(original_path,lemonEntriesHm):
+#     """
+#     Writes the Lemonentries to a file on a given path
+#     Turtle syntax
+#     """
+#     f_out = file(original_path+"LemLexicon.ttl","w")
+#     
+#     lexicon = "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n"
+#     
+#     lexicon += "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n"
+#     lexicon += "@prefix lexinfo: <http://www.lexinfo.net/ontology/2.0/lexinfo#> .\n"
+#     lexicon += "@prefix lemon: <http://www.monnet-project.eu/lemon#> .\n"
+#     lexicon += "@prefix foaf: <http://www.mindswap.org/2003/owl/foaf#> .\n"
+#     lexicon += "@prefix isocat: <http://www.isocat.org/datcat/> .\n"
+#     lexicon += "@prefix : <http://sc.cit-ec.uni-bielefeld.de/lexica/automatic/dbpedia#>.\n "
+#     lexicon += "\t :lexicon a lemon:Lexicon ;\n"
+#     lexicon += "\t lemon:language \"en\" ;\n"
+#     
+#     print "number of lex entries: "+str(len(lemonEntriesHm))
+#     punkt_counter = 0
+#     for key in lemonEntriesHm: 
+#         punkt_counter +=1
+#         try:
+#             term = createEntryTerm(key)
+#             if term != "" :
+#                 string = term +str(punkt_counter)
+#                 if string.endswith(" "):
+#                     string = string[:-1]
+#                 if re.search("[^a-zA-Z0-9_]",string) == None:
+#                     try:
+# #                        string.decode('ascii')
+#                         string = string.encode("ascii","ignore")
+#                         if punkt_counter == len(lemonEntriesHm):
+#                             lexicon += "\t lemon:entry :"+string+" .\n"
+#                         else:
+#                             lexicon += "\t lemon:entry :"+string+" ;\n"
+#                     except:
+#                         pass
+#         except:
+#             #pass
+#             print "error with entry: "+key
+# 
+#     if lexicon.endswith(";\n"):
+#         lexicon = lexicon[:-2]
+#         lexicon += ".\n"
+#     punkt_counter = 0
+#     for key in lemonEntriesHm:
+#         punkt_counter +=1
+#         try:
+#             term = createEntryTerm(key)
+#             if term != "" :
+#                 
+#                 replace_string = term
+#                 if replace_string.endswith(" "):
+#                     replace_string = replace_string[:-1]
+#                 if re.search("[^a-zA-Z0-9_]",replace_string) == None:
+#                     try:
+# #                        replace_string.decode('ascii')
+#                         replace_string = replace_string.encode("ascii","ignore")
+#                         string = key.replace(":"+replace_string,":"+replace_string+str(punkt_counter))
+#                         lexicon+=string+"\n\n"
+#                     except:
+#                         pass
+#         except:
+#             #pass
+#             print "error with entry: "+key
+#     
+#     f_out.write(lexicon)
+#     f_out.close()
+#     
+#     
+#    
+#    
+#    
+# def createEntryTerm(entry):
+#     try:
+#         compare_item = str(entry).split(";")[0]
+#         compare_item = compare_item.lower()
+#         compare_item = compare_item.replace("a lemon:lexicalentry","")
+#         compare_item = compare_item.replace(":","")
+#         compare_item = compare_item.replace(" ","")
+#         compare_item = compare_item.replace("\xc3\xbc","ue")
+#         compare_item = compare_item.replace("\xc3\xa4","ae")
+#         compare_item = compare_item.replace("\xc3\x9f","ss")
+#         compare_item = compare_item.replace("\xc3\xb6","oe")
+#         return compare_item
+#     except:
+#         return entry 
+#       
         
         
         
