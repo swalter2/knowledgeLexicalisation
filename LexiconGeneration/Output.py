@@ -3,10 +3,7 @@ import codecs, os
 
 
 def generate_html(mapping_pattern_entry_list,sentence_list,path,name):
-    
-    name = name.replace("http://dbpedia.org/ontology","")
-    name = name.replace("http:dbpedia.orgontology","")
-    
+#     
     path_folder = path+"html"+name+"/"
     
     f_out = codecs.open(path + "PatternList" + name + ".html", "w","utf-8")
@@ -64,9 +61,18 @@ def generate_html(mapping_pattern_entry_list,sentence_list,path,name):
         try:
             for entry in mapping_pattern_entry_list[key]:
                 for x in entry:
-                    output += str(x)+"  "
+                    output +=x +"\n\n"
+                    for t in sentence_list[x].split("   "):
+                        if "  " in t:
+                            for t_1 in t.split("  "):
+                                output +=t_1 +"\n"
+                        else:
+                            output +=t +"\n"
+                    output += "\n\n"
+                        
         except:
             pass
+        output = key+" "+ str(value_pattern)+"\n\n"+output
         file_name = path_folder +str(counter)+".txt"
         f_output = codecs.open(file_name, "w","utf-8")
         f_output.write(output)
@@ -85,8 +91,7 @@ def generate_html(mapping_pattern_entry_list,sentence_list,path,name):
 
 
 def pattern_error(patterns_without_entry,path,name):
-    name = name.replace("http://dbpedia.org/ontology","")
-    name = name.replace("http:dbpedia.orgontology","")
+
     f_out = codecs.open(path + "NotUsedPattern" + name + ".txt", "w","utf-8")#
     for pattern_entry in patterns_without_entry:
         try:
@@ -99,8 +104,7 @@ def pattern_error(patterns_without_entry,path,name):
 
 
 def createPatternFile(uri, path, name, hm):
-    name = name.replace("http://dbpedia.org/ontology","")
-    name = name.replace("http:dbpedia.orgontology","")
+
     f_out = codecs.open(path + "PatternList" + name + ".txt", "w","utf-8")
     write_string = ""
 #     overall_pattern_number = 0

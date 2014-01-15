@@ -299,11 +299,18 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
     lmtzr = WordNetLemmatizer()
     global deBug 
     deBug = debug
-    if ontology_prefix == None:
-        name = (uri.replace("http://dbpedia.org/ontology/","")).replace("/","")
-        name = (uri.replace("http://dbpedia.org/property/","")).replace("/","")
-    else:
-        name = (uri.replace(ontology_prefix,"")).replace("/","")
+    name = (uri.replace("http://dbpedia.org/ontology/",""))
+    name = (uri.replace("http://dbpedia.org/property/",""))
+    name = name.replace("/","")
+    name = name.replace("http:dbpedia.orgontology","")
+    name = name.replace("http:dbpedia.orgproperty","")
+#     if ontology_prefix == None:
+#         name = (uri.replace("http://dbpedia.org/ontology/",""))
+#         name = (uri.replace("http://dbpedia.org/property/",""))
+#         name = name.replace("/","")
+#     else:
+#         name = (uri.replace(ontology_prefix,""))
+#         name = name.replace("/","")
     sparql=Sparql.Connection()
     
     global language
