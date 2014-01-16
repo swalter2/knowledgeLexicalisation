@@ -47,13 +47,18 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
             entry_array = []
             entry_array=LexiconGenerator.createLexiconEntry(key, uri, False)
             for entry in entry_array:
-                
-                if mapping_pattern_entry.has_key(entry):
-                    tmp_entry = mapping_pattern_entry[entry]
-                    tmp_entry = tmp_entry.append([key,value_pattern])
-                    mapping_pattern_entry[entry]=tmp_entry
-                else:
-                    mapping_pattern_entry[entry]=[[key,value_pattern]]
+                #print entry,value_pattern
+                try:
+                    if mapping_pattern_entry.has_key(entry):
+                        tmp_entry = []
+                        tmp_entry = mapping_pattern_entry[entry]
+                        tmp_entry.append([key,value_pattern])
+                        mapping_pattern_entry[entry]=tmp_entry
+                    else:
+                        mapping_pattern_entry[entry]=[[key,value_pattern]]
+                except:
+                    print "Unexpected error in mapping pattern to entry:", sys.exc_info()[0]
+                    print
                                                       
                 
                 
@@ -95,7 +100,6 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
             pattern_once += 1
             
                 
-    
 
     return lexico_array , pattern_once, patterns_without_entry, mapping_pattern_entry
 
