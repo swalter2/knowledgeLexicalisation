@@ -8,7 +8,6 @@ http://dbpedia.org/ontology/RecordLabel
 http://dbpedia.org/ontology/genre
 http://dbpedia.org/ontology/currency
 http://dbpedia.org/ontology/Book
-http://dbpedia.org/ontology/author
 http://dbpedia.org/ontology/director
 http://dbpedia.org/ontology/developer
 http://dbpedia.org/ontology/keyPerson
@@ -29,7 +28,6 @@ http://dbpedia.org/ontology/deathCause
 http://dbpedia.org/ontology/crosses
 http://dbpedia.org/ontology/Film
 http://dbpedia.org/ontology/starring
-http://dbpedia.org/ontology/author
 http://dbpedia.org/ontology/sourceCountry
 http://dbpedia.org/ontology/height
 http://dbpedia.org/ontology/TelevisionShow
