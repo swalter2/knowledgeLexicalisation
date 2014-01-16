@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*- 
-import codecs, os
+import codecs, os, ConfigParser
 
 
-def generate_html(mapping_pattern_entry_list,sentence_list,path,name):
+def generate_html(mapping_pattern_entry_list,sentence_list,lem_entries_hm,path,name):
 #     
+    config = ConfigParser.ConfigParser()
+    config.read('config.conf')
+    topkentries = config.getfloat("entries", "PatternProcent")
     path_folder = path+"html"+name+"/"
     
     os.mkdir(path_folder)
@@ -12,15 +15,6 @@ def generate_html(mapping_pattern_entry_list,sentence_list,path,name):
     
     lexicon_entry_list = {}
     
-#     for key,value in mapping_pattern_entry_list.iteritems():
-#         try:
-#             for entry in value:
-#                 try:
-#                     print hm_res_sentences[entry[0]] 
-#                 except: 
-#                     pass
-#         except:
-#             pass
 
     for key,value in mapping_pattern_entry_list.iteritems():
         try:
@@ -58,30 +52,33 @@ def generate_html(mapping_pattern_entry_list,sentence_list,path,name):
 
     string+="<table border=\"8\" cellspacing=\"10\" cellpadding=\"20\">"
     counter = 0
+    lem_counter = 0
     for key, value_pattern in sorted(lexicon_entry_list.iteritems(), key=lambda x:x[1], reverse = True):
         output = ""
-        try:
-            for entry in mapping_pattern_entry_list[key]:
-                for x in entry:
-                    output +=x +"\n\n"
-                    for t in sentence_list[x].split("   "):
-                        if "  " in t:
-                            for t_1 in t.split("  "):
-                                output +=t_1 +"\n"
-                        else:
-                            output +=t +"\n"
-                    output += "\n\n"
-                        
-        except:
-            pass
-        output = key+" "+ str(value_pattern)+"\n\n"+output
-        file_name = path_folder +str(counter)+".txt"
-        file_name2 = str(counter)+".txt"
-        f_output = codecs.open(file_name, "w","utf-8")
-        f_output.write(output)
-        f_output.close()
-        counter += 1
-        string += "<tr> <td> <a href=\""+file_name2+"\">"+key+"</a></td> <td>"+ str(value_pattern)+ "</td> </tr>"
+        if lem_counter <= topkentries:
+            try:
+                for entry in mapping_pattern_entry_list[key]:
+                    for x in entry:
+                        output +=x +"\n\n"
+                        for t in sentence_list[x].split("   "):
+                            if "  " in t:
+                                for t_1 in t.split("  "):
+                                    output +=t_1 +"\n"
+                            else:
+                                output +=t +"\n"
+                        output += "\n\n"
+                            
+            except:
+                pass
+            lem_counter +=1
+            output = key+" "+ str(value_pattern)+"\n\n"+output
+            file_name = path_folder +str(counter)+".txt"
+            file_name2 = str(counter)+".txt"
+            f_output = codecs.open(file_name, "w","utf-8")
+            f_output.write(output)
+            f_output.close()
+            counter += 1
+            string += "<tr> <td> <a href=\""+file_name2+"\">"+key+"</a></td> <td>"+ str(value_pattern)+ "</td> </tr>"
 
 
     string += " </table> </div> </body> </html>"

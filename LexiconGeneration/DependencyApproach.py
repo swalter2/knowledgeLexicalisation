@@ -427,18 +427,18 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
     
     print "Created Pattern File"
     lexico_array, tmp_pattern_once, patterns_without_entry , mapping_pattern_entry_list = PatternUtil.create_lexico_array(hm,uri,1,en_de_lexicon)
-    pattern_once += tmp_pattern_once   
-        
-    Output.generate_html(mapping_pattern_entry_list,hm_res_sentences,path,name)
-    
-    Output.pattern_error(patterns_without_entry,path,name)
-
-
+    pattern_once += tmp_pattern_once    
     
     lemonEntriesHm = {}
     for item in lexico_array:
 #         item[2] == value
         lemonEntriesHm[item[0]]=item[2]
+
+
+    Output.generate_html(mapping_pattern_entry_list,hm_res_sentences,lemonEntriesHm,path,name)
+    
+    Output.pattern_error(patterns_without_entry,path,name)
+
 
     web = ""
     
