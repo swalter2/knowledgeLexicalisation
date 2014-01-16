@@ -6,9 +6,9 @@ def generate_html(mapping_pattern_entry_list,sentence_list,path,name):
 #     
     path_folder = path+"html"+name+"/"
     
-    f_out = codecs.open(path + "PatternList" + name + ".html", "w","utf-8")
-    
     os.mkdir(path_folder)
+    
+    f_out = codecs.open(path_folder + "PatternList" + name + ".html", "w","utf-8")
     
     lexicon_entry_list = {}
     
@@ -76,11 +76,12 @@ def generate_html(mapping_pattern_entry_list,sentence_list,path,name):
             pass
         output = key+" "+ str(value_pattern)+"\n\n"+output
         file_name = path_folder +str(counter)+".txt"
+        file_name2 = str(counter)+".txt"
         f_output = codecs.open(file_name, "w","utf-8")
         f_output.write(output)
         f_output.close()
         counter += 1
-        string += "<tr> <td> <a href=\""+file_name+"\">"+key+"</a></td> <td>"+ str(value_pattern)+ "</td> </tr>"
+        string += "<tr> <td> <a href=\""+file_name2+"\">"+key+"</a></td> <td>"+ str(value_pattern)+ "</td> </tr>"
 
 
     string += " </table> </div> </body> </html>"

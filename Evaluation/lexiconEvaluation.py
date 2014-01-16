@@ -437,7 +437,11 @@ def create_html_file(global_Recall,global_Precision,global_FMeasure,global_Accur
     counter = 0
     for uri,recall,precision,fmeasure,accuracy in results_each_uri:
         counter += 1
-        string_bla="<tr><td>"+str(counter)+"</td><td>"+uri+"</td><td>"+str(recall)+"</td><td>"+str(precision)+"</td><td>"+str(fmeasure)+"</td><td>"+str(accuracy)+"</td></tr>"       
+        #set here uri as reference to htmlfolder and html file
+        name = uri.replace("http://dbpedia.org/ontology/","")
+        name = name.replace("http://dbpedia.org/property/","")
+        file_name_html = "html"+name+"/"+ "PatternList" + name + ".html"
+        string_bla="<tr><td>"+str(counter)+"</td><td><a href=\""+file_name_html+"\">"+uri+"</a></td><td>"+str(recall)+"</td><td>"+str(precision)+"</td><td>"+str(fmeasure)+"</td><td>"+str(accuracy)+"</td></tr>"       
         string+=string_bla                                                                                            
 
     outfile=open(filename,"w")
