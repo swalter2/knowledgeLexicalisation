@@ -1,5 +1,5 @@
 import urllib
-import re
+import re, codecs
 from SPARQLWrapper import SPARQLWrapper, JSON
 class Connection():
     """
@@ -88,7 +88,7 @@ class Connection():
         print "getPairs Done"
         tmp_path = path_to_save.replace("http://dbpedia.org/property/","")
         tmp_path = tmp_path.replace("http://dbpedia.org/ontology/","")
-        f_out = open(tmp_path,"w")
+        f_out = codecs.open(tmp_path,"w","utf-8")
         for x in write_array:
             f_out.write(x+"\n")
         f_out.close()
