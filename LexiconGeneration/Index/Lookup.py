@@ -74,7 +74,49 @@ def load_file_return_list_of_sentences(file_path):
     f.close()
     return sentence_list
 
-def combineNNP(array,x_variable,y_variable):
+def simpleCombineNNP(array,x_variable,y_variable):
+    print "In German case - only consider 'double names' such as Barack Obama"
+    sentence = str(array)
+    foundx = False
+    foundy = False
+    if len(x_variable.split(" "))>1 and len(y_variable.split(" "))>1:
+        for i in range(0,len(array)-1):
+            tmp = array[i]
+            tmp1 = array[i+1]
+            x = x_variable.split(" ")
+            y = y_variable.split(" ")
+            if tmp[0] in x[0] and  tmp1[0] in x[1]:
+                toReplace = "('"+tmp[0]+"', '"+tmp[1]+"'), ('"+tmp1[0]+"', '"+tmp1[1]+"')"
+                replaceWith = "('"+tmp[0]+tmp1[0]+"', 'NE')"
+                sentence = sentence.replace(toReplace,replaceWith)
+                foundx = True
+                print ("sentence after x",sentence)
+                print ("foundx",foundx)
+                
+            if tmp[0] in y[0] and  tmp1[0] in y[1]:
+                toReplace = "('"+tmp[0]+"', '"+tmp[1]+"'), ('"+tmp1[0]+"', '"+tmp1[1]+"')"
+                replaceWith = "('"+tmp[0]+tmp1[0]+"', 'NE')"
+                sentence = sentence.replace(toReplace,replaceWith)
+                foundy = True
+                print ("sentence after y",sentence)
+                print ("foundy",foundy)
+                
+                
+        if foundx == True and foundy == True:
+            print ("final sentence",sentence)
+            return eval(sentence),True,True
+        else:
+            return array,False,False
+            
+            
+    else:
+        return array,False , False
+    
+def combineNNP(array,x_variable,y_variable,language):
+    print ("in combine NNP",language)
+    if language=="German":
+        return simpleCombineNNP(array,x_variable,y_variable)
+    
     # 1. Combine all NNP
     cluster = []
     foundx = False
@@ -173,6 +215,7 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
     config = ConfigParser.ConfigParser()
     config.read('config.conf')
 #    procentOfDataset = config.getint("entries", "ProcentOfCorpus")
+    language = config.get('system_language', 'language')
     procentOfDataset = 100
     overall_sentences = 0
     special = False
@@ -240,13 +283,16 @@ def lookupSortAndParse(term_list,index,live_index, flag,uri):
                     print
                 else:
 
+                    #print ("search term",term)
                     result= index.search(term,special)
+                    #print "len result: "+str(len(result))
                     overall_sentences += len(result)
 
             for line_array in result:
                 found_x = False
                 found_y = False
-                line_array,found_x,found_y = combineNNP(line_array,x,y)
+                print line_array,x,y,language
+                line_array,found_x,found_y = combineNNP(line_array,x,y,language)
 #                 print line_array
                 line = ""
                 for e in line_array:

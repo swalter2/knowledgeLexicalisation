@@ -411,7 +411,7 @@ def evaluate(path_user_lexicon,Train_evaluation,path_goldstandard, number_of_uri
 
     if Train_evaluation == True:
         #create html
-        create_html_file(global_Recall,global_Precision,global_FMeasure,global_Accuracy,results_each_uri,filename_out_html)
+        create_html_file(global_Recall,global_Precision,global_FMeasure,global_Accuracy,results_each_uri,filename_out_html,hm_ML)
         print filename_out_html
     
     if Train_evaluation == False:
@@ -422,7 +422,7 @@ def evaluate(path_user_lexicon,Train_evaluation,path_goldstandard, number_of_uri
     
             
 
-def create_html_file(global_Recall,global_Precision,global_FMeasure,global_Accuracy,results_each_uri,filename):
+def create_html_file(global_Recall,global_Precision,global_FMeasure,global_Accuracy,results_each_uri,filename,hm_ML):
     start_table= "<!doctype html> <html> <head> <title>Evaluation</title></head> <body> <p>Evaluation</p>"
     space="<p></p><p></p><p></p><p></p><p></p>"
     tabelle1="<table class=\"eval\" border=\"1\"><tr><th>Counter</th><th>URI</th><th>Recall</th><th>Precision</th><th>F-Measure</th><th>Accuracy</th></tr>"
@@ -433,10 +433,19 @@ def create_html_file(global_Recall,global_Precision,global_FMeasure,global_Accur
     ende="</body> </html>"
     string=""
     
+    
+    
     #results_each_uri.appen([uri_to_compare_with,Recall,Precision,FMeasure,Accuracy])
     counter = 0
     for uri,recall,precision,fmeasure,accuracy in results_each_uri:
         counter += 1
+        
+        string_ml = ""
+        for entry in hm_ML[uri]:
+            string_ml += entry.getPartOfSpeech()+" "+entry.getCanonicalForm().lower()+" "+str(entry.getSense())+" "+str(entry.getSynBehavior_arguments())+"\n"
+        
+        
+        
         #set here uri as reference to htmlfolder and html file
         name = uri.replace("http://dbpedia.org/ontology/","")
         name = name.replace("http://dbpedia.org/property/","")

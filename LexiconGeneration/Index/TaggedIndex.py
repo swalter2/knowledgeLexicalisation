@@ -15,13 +15,12 @@ class LuceneIndex():
     analyzer = None
     searcher = None
 
-    
 #    def __init__(self, path_to_index,sentencefile):
     def __init__(self, path_to_index):
         """
         Initialization
         """
-#        self.index(path_to_index,sentencefile)
+        #self.index(path_to_index,sentencefile)
         global analyzer
         global searcher
         
@@ -37,6 +36,7 @@ class LuceneIndex():
     def searchString(self, string):
         'searches for a string and returns an array of POS-tagged sentences'
         query = ""
+        #print("Input String: ",string)
         try:
             MAX = 100000
             #for dates such as 1931.08.06
@@ -46,20 +46,22 @@ class LuceneIndex():
             string = ""
             for item in array:
                 string+=item
+            #print("Input String2: ",string)
             qp = QueryParser(Version.LUCENE_35, "sentence", analyzer)
             qp.setDefaultOperator(qp.Operator.AND)
             query = qp.parse(string)
-#             print ("query",query)
+            #print ("query",query)
                         
             hits = searcher.search(query, MAX)
-
+            #print len(hits)
             sentence_list = []
             for hit in hits.scoreDocs:
                 doc = searcher.doc(hit.doc)
+                #print doc.get("sentence")
                 sentence_list.append(eval(doc.get("sentence").encode("utf-8")))
             return sentence_list
         except:
-            print("Fail in receiving sentence with term "+string)
+            print("Fail in receiving sentence with term "+string+" in search term")
             print ("query",query)
             print "Unexpected error:", sys.exc_info()[0]
 #            raw_input("wait")
@@ -91,8 +93,8 @@ class LuceneIndex():
             return []
         
 
-    
-    def index(self,path_to_index, sentencearray):
+    #def index(self,path_to_index, sentencearray):
+    def index(self,path_to_index,sentencearray):
         'indexes wikipedia sentences'
         lucene.initVM()
         indexDir = path_to_index
@@ -108,8 +110,14 @@ class LuceneIndex():
             for line in f:
                 counter += 1
                 line = line.replace("\n","")
-                tmp = line.split("\t")
+                if "\t" in line:
+                    tmp = line.split("\t")
+                else:
+                    tmp = [line,"0"]
                 doc = Document()
+                print("sentence", tmp[0])
+                print ("key", tmp[1])
+                print
                 doc.add(Field("sentence", tmp[0], Field.Store.YES, Field.Index.ANALYZED))
                 doc.add(Field("key", tmp[1], Field.Store.YES, Field.Index.ANALYZED))
     #            doc.add(IntField("key", tmp[1], Field.Store.YES, Field.Index.ANALYZED))

@@ -29,12 +29,13 @@ class Parser():
             x = x.encode('ascii', 'ignore')
             counter += 1
             write_string += x +"\n"
-            if counter % 20 == 0:
-                print "Starting with parsing 20 sentences!"
+            if counter % 500 == 0:
+                print "Starting with parsing 500 sentences!"
                 f_out = open("/tmp/parzu_input","w")
                 f_out.write(write_string)
                 f_out.close()
-                cmd = self.path_to_parser+"/parzu -i plain -l -o conll < /tmp/parzu_input >"+path_to_save_output
+                #cmd = self.path_to_parser+"/parzu -i plain -l -o conll < /tmp/parzu_input >"+path_to_save_output
+                cmd = self.path_to_parser+"/parzu -i tagged -l -o conll < /tmp/parzu_input >"+path_to_save_output
                 os.system(cmd)
                 write_string = ""
                 f_in = open(path_to_save_output,"r")
@@ -47,7 +48,8 @@ class Parser():
         f_out = open("/tmp/parzu_input","w")
         f_out.write(write_string)
         f_out.close()
-        cmd = self.path_to_parser+"/parzu -i plain -l -o conll < /tmp/parzu_input >"+path_to_save_output
+        #cmd = self.path_to_parser+"/parzu -i plain -l -o conll < /tmp/parzu_input >"+path_to_save_output
+        cmd = self.path_to_parser+"/parzu -i tagged -l -o conll < /tmp/parzu_input >"+path_to_save_output
         os.system(cmd)
         f_in = open(path_to_save_output,"r")
         for line in f_in:
