@@ -118,7 +118,8 @@ def createPatternFile(uri, path, name, hm):
     for key, value in hm.iteritems():  
               
 #         We want to igrnore alle patterns, whcih occour only once in the corpus
-        if value > 1:
+        #if value > 1:
+        if value > 0:
             different_pattern += 1
             hm_new[key] = value
             
