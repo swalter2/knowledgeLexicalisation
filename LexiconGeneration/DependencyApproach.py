@@ -339,16 +339,25 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
         PropertyEntities = []
         path_to_resource = config.get("index", "resource_folder")
         tmp_path = path_to_resource+"/"+uri.replace("http://dbpedia.org/ontology/","")
-        print "Look in path "+tmp_path
-        try:
-            with open(tmp_path,"r"):
-                print "Get entities for "+uri+" from resource folder"
-                PropertyEntities = getEntities(tmp_path)
-
-        except IOError:
-            print "Get entities for "+uri+" from the SPARQL endpoint"
-            PropertyEntities = sparql.getPairsOfGivenProperties(uri,tmp_path)
+        if language == "English":
+            print "Look in path "+tmp_path
+            try:
+                with open(tmp_path,"r"):
+                    print "Get entities for "+uri+" from resource folder"
+                    PropertyEntities = getEntities(tmp_path)
     
+            except IOError:
+                print "Get entities for "+uri+" from the SPARQL endpoint"
+                PropertyEntities = sparql.getPairsOfGivenProperties(uri,tmp_path)
+        elif language == "German":
+            tmp_path = path_to_resource+"/de/"+uri.replace("http://dbpedia.org/ontology/","")
+            PropertyEntities = getEntities(tmp_path)
+            print "returned "+str(len(PropertyEntities))+" entities."
+            
+        elif language == "Spanish":
+            tmp_path = path_to_resource+"/es/"+uri.replace("http://dbpedia.org/ontology/","")
+            PropertyEntities = getEntities(tmp_path)
+        
 #         PropertyEntities = ["Barack Obama", "Michelle Obama"]
         print str(len(PropertyEntities)/2)+" number of entity pairs found"
         if sparql.askObjectProperty(uri) == True:
@@ -363,6 +372,7 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
             term_list = createTermsForDataTypeProperty(uri,PropertyEntities,anchor_index)
             print ("number of terms",len(term_list))
             Lookup.lookupSortAndParse(term_list,index,live_index,flag,uri)
+        
 
 
     x_y_array = live_index.searchForXY(uri)
