@@ -25,11 +25,14 @@ class Parser():
         counter = 0
         parsed_sentences = ""
         for x in list_of_sentences:
-#            print ("x",x)
-            x = x.encode('ascii', 'ignore')
+#             print ("x",x)
+#             x = x.encode('ascii', 'ignore')
             counter += 1
-            write_string += x +"\n"
-            if counter % 500 == 0:
+            for tmp1,tmp2 in x:
+                write_string += tmp1+" "+tmp2 +"\n"
+            write_string += "\n"
+            #print ("write_string",write_string)
+            if counter % 50 == 0:
                 print "Starting with parsing 500 sentences!"
                 f_out = open("/tmp/parzu_input","w")
                 f_out.write(write_string)
