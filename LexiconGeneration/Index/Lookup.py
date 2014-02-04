@@ -74,7 +74,7 @@ def load_file_return_list_of_sentences(file_path):
     f.close()
     return sentence_list
 
-def simpleCombineNNP(array,x_variable,y_variable):
+def simpleCombineNNP_German(array,x_variable,y_variable):
     print "In German case - only consider 'double names' such as Barack Obama"
     sentence = str(array)
     foundx = False
@@ -112,10 +112,55 @@ def simpleCombineNNP(array,x_variable,y_variable):
     else:
         return array,False , False
     
+    
+    
+def simpleCombineNNP_Spanish(array,x_variable,y_variable):
+    print "In Spanish case"
+    sentence = str(array)
+    foundx = False
+    foundy = False
+    print ("x_variable",x_variable)
+    print ("y_variable",y_variable)
+    if len(x_variable.split(" "))>1 and len(y_variable.split(" "))>1:
+        for i in range(0,len(array)-1):
+            tmp = array[i]
+            tmp1 = array[i+1]
+            x = x_variable.split(" ")
+            y = y_variable.split(" ")
+            if tmp[0] in x[0] and  tmp1[0] in x[1]:
+                toReplace = "('"+tmp[0]+"', '"+tmp[1]+"'), ('"+tmp1[0]+"', '"+tmp1[1]+"')"
+                replaceWith = "('"+tmp[0]+tmp1[0]+"', 'NP')"
+                sentence = sentence.replace(toReplace,replaceWith)
+                foundx = True
+                print ("sentence after x",sentence)
+                print ("foundx",foundx)
+                
+            if tmp[0] in y[0] and  tmp1[0] in y[1]:
+                toReplace = "('"+tmp[0]+"', '"+tmp[1]+"'), ('"+tmp1[0]+"', '"+tmp1[1]+"')"
+                replaceWith = "('"+tmp[0]+tmp1[0]+"', 'NP')"
+                sentence = sentence.replace(toReplace,replaceWith)
+                foundy = True
+                print ("sentence after y",sentence)
+                print ("foundy",foundy)
+                
+                
+        if foundx == True and foundy == True:
+            print ("final sentence",sentence)
+            return eval(sentence),True,True
+        else:
+            return array,False,False
+            
+            
+    else:
+        return array,False , False
+    
 def combineNNP(array,x_variable,y_variable,language):
     print ("in combine NNP",language)
     if language=="German":
-        return simpleCombineNNP(array,x_variable,y_variable)
+        return simpleCombineNNP_German(array,x_variable,y_variable)
+    elif language=="Spanish":
+        return simpleCombineNNP_Spanish(array,x_variable,y_variable)
+    
     
     # 1. Combine all NNP
     cluster = []

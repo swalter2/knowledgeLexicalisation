@@ -44,5 +44,8 @@ class Sentence_Parser():
             self.malt_parser.parses_list_of_sentences(sentence_list, path_to_save)
         if self.language == "German":
             self.parzu_parser.parse(sentence_list, path_to_save)
+        if self.language == "Spanish":
+            self.malt_parser.parses_list_of_sentences(sentence_list, path_to_save)    
+        
     
     
