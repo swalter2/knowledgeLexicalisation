@@ -225,6 +225,24 @@ def germanMapping(pattern,uri):
         
         
 def spanishMapping(pattern,uri):
+    array = pattern.split("  ")
+    
+    if len(array) == 3:
+        if " nc nc " in array[1]:
+            marker = ""
+            term = array[1]
+            if " x " not in term and " y " not in term:
+                 term = term.split(" ")[1]
+            return [NounPPFrame(term,uri,marker)]
+    if len(array) == 4:
+        if " nc nc " in array[1] and " fs fs " in array[2]:
+            marker = ""
+            term = array[1]
+            if " x " not in term and " y " not in term:
+                 term = term.split(" ")[1]
+            return [NounPPFrame(term,uri,marker)]
+        
+    
     return []
         
         

@@ -93,10 +93,10 @@ def getResources(language,path_to_property_file):
 
 
 def main():
-    path_to_property_file = "train"
-    path_to_property_file = "LargeScaleTest_NEW"
-    getResources("de",path_to_property_file)
+    path_to_property_file = "train_qald3"
+    #path_to_property_file = "LargeScaleTest_NEW"
     getResources("es",path_to_property_file)
+    #getResources("es",path_to_property_file)
 
 
 if __name__ == "__main__":

@@ -278,7 +278,7 @@ def main():
             print "Bye Bye!"
             exit(1)
         elif input == "train":
-             run_and_evaluate("Datasets/train_qald3","Datasets/dbpedia-train_de.rdf",path,parse_flag,"DEPEND")
+             run_and_evaluate("Datasets/test","Datasets/dbpedia-train_de.rdf",path,parse_flag,"DEPEND")
         else:
             start_time= time()
             try:
