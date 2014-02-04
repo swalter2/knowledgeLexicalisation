@@ -84,7 +84,7 @@ def _init_():
     global index
     global parsed_sentence_index
     global en_de_lexicon
-    #en_de_lexicon = generateEnDeLexicon()
+    en_de_lexicon = generateEnDeLexicon()
     
     config = ConfigParser.ConfigParser()
     config.read('config.conf')
@@ -106,6 +106,10 @@ def _init_():
     elif config.get('system_language', 'language') == "German":
         path_to_index = config.get('index', 'wikipedia_index_german');
         path_to_parsed_sentences_index = config.get('index', 'wikipedia_live_index_german')
+        
+    elif config.get('system_language', 'language') == "Spanish":
+        path_to_index = config.get('index', 'wikipedia_index_spanish');
+        path_to_parsed_sentences_index = config.get('index', 'wikipedia_live_index_spanish')
         
     #create Indexes
     print ("path_to_parsed_sentences_index",path_to_parsed_sentences_index)
@@ -274,7 +278,7 @@ def main():
             print "Bye Bye!"
             exit(1)
         elif input == "train":
-             run_and_evaluate("Datasets/test","Datasets/dbpedia_en.rdf",path,parse_flag,"BOTH")
+             run_and_evaluate("Datasets/train_qald3","Datasets/dbpedia-train_de.rdf",path,parse_flag,"DEPEND")
         else:
             start_time= time()
             try:

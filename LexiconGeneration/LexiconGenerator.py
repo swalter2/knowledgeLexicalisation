@@ -156,33 +156,100 @@ def englishMapping(pattern,uri):
 
 
         
-
 def germanMapping(pattern,uri):
-    marker = {}
-    term = ""
-    print pattern
-    for item in pattern.split("  "):
-        item = item.lower()
-        if (item.split(" ")[7] == "pp" or item.split(" ")[1]=="von" or item.split(" ")[1]=="mit")and item.split(" ")[1]!="x" and item.split(" ")[1]!="y":
-            marker[item.split(" ")[1]]=""
-            
-        elif item.split(" ")[1]!="x" and item.split(" ")[1]!="y" and item.split(" ")[1]!="und" and  item.split(" ")[1]!="war" and item.split(" ")[1]!="sein" and  item.split(" ")[1]!="waren":
-                term += item+"  "
-    if term.endswith("  "):
-        term = term[:-2]
-                
-
-    entry_term = ""
-    if "  " in term:
-        for x in term.split("  "):
-            entry_term += x.split(" ")[1]+" "
-        if entry_term.endswith(" "):
-            entry_term = entry_term[:-1]
-    else:
-        entry_term = term.split(" ")[1]
+    array = pattern.split("  ")
+    from nltk.stem.snowball import GermanStemmer
+    stemmer = GermanStemmer()
     
-    #in order to achieve a high recall, create for all 
-    return [AdjectivePredicateFrame(entry_term,uri, marker),TransitiveFrame(entry_term, uri,marker),NounPossisiveFrame(entry_term,uri),NounPPFrame(entry_term,uri,marker)]
+    if len(array)== 3:
+        if " n nn " in array[1]:
+            marker = ""
+            term = array[1]
+            if " x " not in term and " y " not in term:
+                 term = term.split(" ")[1]
+            return [NounPPFrame(term,uri,marker)]
+        
+        if " v vvfin " in array[1]:
+            marker = ""
+            term = array[1]
+            if " x " not in term and " y " not in term:
+                 term = term.split(" ")[1]
+            #return [TransitiveFrame(term, uri,marker)]
+            return [TransitiveFrame(term, uri,marker),TransitiveFrame(stemmer.stem(term), uri,marker)]
+        
+        if " v vvpp " in array[1]:
+            marker = ""
+            term = array[1]
+            if " x " not in term and " y " not in term:
+                 term = term.split(" ")[1]
+            return [AdjectivePredicateFrameMit(term,uri)]
+        
+    
+    if len(array)==4:
+        if " n nn " in array[1] and " prep appr " in array[2]:
+            marker = array[2]
+            if " x " not in marker and " y " not in marker:
+                 marker = marker.split(" ")[1]
+            term = array[1]
+            if " x " not in term and " y " not in term:
+                 term = term.split(" ")[1]
+            return [NounPPFrame(term,uri,marker)]
+        
+        if " v vvfin " in array[1] and " n nn " in array[2]:
+            marker = ""
+            term = array[1]
+            if " x " not in term and " y " not in term:
+                 term = term.split(" ")[1]
+            return [TransitiveFrame(term, uri,marker),TransitiveFrame(stemmer.stem(term), uri,marker)]
+            #return [TransitiveFrame(term, uri,marker)]
+        
+        if " v vvpp " in array[1] and " prep appr " in array[2]:
+            marker = array[2]
+            if " x " not in marker and " y " not in marker:
+                 marker = marker.split(" ")[1]
+            term = array[1]
+            if " x " not in term and " y " not in term:
+                 term = term.split(" ")[1]
+            return [AdjectivePredicateFrameMarker(term,uri,marker)]
+        
+    if len(array) == 5:
+        if " v vvpp " in array[1] and " prep appr " in array[2]:
+            marker = array[2]
+            if " x " not in marker and " y " not in marker:
+                 marker = marker.split(" ")[1]
+            term = array[1]
+            if " x " not in term and " y " not in term:
+                 term = term.split(" ")[1]
+            return [AdjectivePredicateFrameMarker(term,uri,marker)]
+    
+    
+# def germanMapping(pattern,uri):
+#     print "In german mapping"
+#     marker = {}
+#     term = ""
+#     print pattern
+#     for item in pattern.split("  "):
+#         item = item.lower()
+#         if (item.split(" ")[7] == "pp" or item.split(" ")[1]=="von" or item.split(" ")[1]=="mit")and item.split(" ")[1]!="x" and item.split(" ")[1]!="y":
+#             marker[item.split(" ")[1]]=""
+#             
+#         elif item.split(" ")[1]!="x" and item.split(" ")[1]!="y" and item.split(" ")[1]!="und" and  item.split(" ")[1]!="war" and item.split(" ")[1]!="sein" and  item.split(" ")[1]!="waren":
+#                 term += item+"  "
+#     if term.endswith("  "):
+#         term = term[:-2]
+#                 
+# 
+#     entry_term = ""
+#     if "  " in term:
+#         for x in term.split("  "):
+#             entry_term += x.split(" ")[1]+" "
+#         if entry_term.endswith(" "):
+#             entry_term = entry_term[:-1]
+#     else:
+#         entry_term = term.split(" ")[1]
+#     
+#     #in order to achieve a high recall, create for all 
+#     return [AdjectivePredicateFrame(entry_term,uri, marker),TransitiveFrame(entry_term, uri,marker),NounPossisiveFrame(entry_term,uri),NounPPFrame(entry_term,uri,marker)]
 
         
         
@@ -280,6 +347,17 @@ def AdjectivePredicateFrame(term, reference, marker=None):
 
     term = term.replace(";","")
     entry = "RelationalAdjective(\""+term+"\",<"+reference+">,relationalArg = PrepositionalObject(\"to\"))"
+    return entry
+
+
+def AdjectivePredicateFrameMit(term, reference, marker=None):
+    """
+    Creates an AdjectivePredicateFrame entry for a given label, reference and marker
+    """
+#     reference = reference.replace("http://dbpedia.org/ontology/","dbpedia:")
+
+    term = term.replace(";","")
+    entry = "RelationalAdjective(\""+term+"\",<"+reference+">,relationalArg = PrepositionalObject(\"mit\"))"
     return entry
 
 def AdjectivePredicateFrameMarker(term, reference, marker):
