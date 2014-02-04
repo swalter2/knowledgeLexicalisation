@@ -288,6 +288,12 @@ def getEntities(path):
         try:
             x = tmp[0]
             y = tmp[1]
+            if " (" in x:
+                tmp = x.split(" (")
+                x = tmp[0]
+            if " (" in y:
+                tmp = y.split(" (")
+                y = tmp[0]
             array.append(x)
             array.append(y)
         except:
@@ -320,6 +326,8 @@ def creatingLexiconEntry_for_singleURI(debug, uri, flag, path, index,live_index,
         language = "English"
     elif config.get('system_language', 'language') == "German":
         language = "German"
+    elif config.get('system_language', 'language') == "Spanish":
+        language = "Spanish"
         
     hm={}
     hm_res_sentences = {}

@@ -82,7 +82,10 @@ class LuceneIndex():
             sentence_list = []
             for hit in hits.scoreDocs:
                 doc = searcher.doc(hit.doc)
-                sentence_list.append(eval(doc.get("sentence").encode("utf-8")))
+                try:
+                    sentence_list.append(eval(doc.get("sentence").encode("utf-8")))
+                except:
+                    print doc.get("sentence")
             return sentence_list
         except:
             print("Fail in receiving sentence with term "+key)
@@ -115,14 +118,14 @@ class LuceneIndex():
                 else:
                     tmp = [line,"0"]
                 doc = Document()
-                print("sentence", tmp[0])
-                print ("key", tmp[1])
-                print
+                #print("sentence", tmp[0])
+                #print ("key", tmp[1])
+                #print
                 doc.add(Field("sentence", tmp[0], Field.Store.YES, Field.Index.ANALYZED))
                 doc.add(Field("key", tmp[1], Field.Store.YES, Field.Index.ANALYZED))
     #            doc.add(IntField("key", tmp[1], Field.Store.YES, Field.Index.ANALYZED))
                 writer.addDocument(doc)
-                if counter%2000000 == 0:
+                if counter%1000000 == 0:
                     writer.optimize()
                     print counter
             writer.optimize()

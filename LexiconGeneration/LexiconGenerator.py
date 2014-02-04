@@ -221,37 +221,11 @@ def germanMapping(pattern,uri):
             if " x " not in term and " y " not in term:
                  term = term.split(" ")[1]
             return [AdjectivePredicateFrameMarker(term,uri,marker)]
-    
-    
-# def germanMapping(pattern,uri):
-#     print "In german mapping"
-#     marker = {}
-#     term = ""
-#     print pattern
-#     for item in pattern.split("  "):
-#         item = item.lower()
-#         if (item.split(" ")[7] == "pp" or item.split(" ")[1]=="von" or item.split(" ")[1]=="mit")and item.split(" ")[1]!="x" and item.split(" ")[1]!="y":
-#             marker[item.split(" ")[1]]=""
-#             
-#         elif item.split(" ")[1]!="x" and item.split(" ")[1]!="y" and item.split(" ")[1]!="und" and  item.split(" ")[1]!="war" and item.split(" ")[1]!="sein" and  item.split(" ")[1]!="waren":
-#                 term += item+"  "
-#     if term.endswith("  "):
-#         term = term[:-2]
-#                 
-# 
-#     entry_term = ""
-#     if "  " in term:
-#         for x in term.split("  "):
-#             entry_term += x.split(" ")[1]+" "
-#         if entry_term.endswith(" "):
-#             entry_term = entry_term[:-1]
-#     else:
-#         entry_term = term.split(" ")[1]
-#     
-#     #in order to achieve a high recall, create for all 
-#     return [AdjectivePredicateFrame(entry_term,uri, marker),TransitiveFrame(entry_term, uri,marker),NounPossisiveFrame(entry_term,uri),NounPPFrame(entry_term,uri,marker)]
-
         
+        
+        
+def spanishMapping(pattern,uri):
+    return []
         
         
 def createLexiconEntry(pattern,uri,Wiktionary, term = None):
@@ -276,6 +250,9 @@ def createLexiconEntry(pattern,uri,Wiktionary, term = None):
     elif config.get('system_language', 'language') == "German":
         language = "German"
         return germanMapping(pattern,uri)
+    elif config.get('system_language', 'language') == "Spanish":
+        language = "Spanish"
+        return spanishMapping(pattern,uri)
     else:
         return []
         
