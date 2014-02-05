@@ -57,7 +57,9 @@ def create_lexico_array(hm,uri,NumberOfPatterns, en_de_lexicon):
                     else:
                         mapping_pattern_entry[entry]=[[key,value_pattern]]
                 except:
+                    #print "pattern: "+entry
                     print "Unexpected error in mapping pattern to entry:", sys.exc_info()[0]
+                    print "pattern: "+entry
                     print
                                                       
                 
