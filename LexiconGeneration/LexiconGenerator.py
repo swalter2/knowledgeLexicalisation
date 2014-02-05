@@ -167,22 +167,21 @@ def germanMapping(pattern,uri):
             term = array[1]
             if " x " not in term and " y " not in term:
                  term = term.split(" ")[1]
-            return [NounPPFrame(term,uri,marker)]
+                 return [NounPPFrame(term,uri,marker)]
         
         if " v vvfin " in array[1]:
             marker = ""
             term = array[1]
             if " x " not in term and " y " not in term:
                  term = term.split(" ")[1]
-            #return [TransitiveFrame(term, uri,marker)]
-            return [TransitiveFrame(term, uri,marker),TransitiveFrame(stemmer.stem(term), uri,marker)]
+                 return [TransitiveFrame(term, uri,marker),TransitiveFrame(stemmer.stem(term), uri,marker)]
         
         if " v vvpp " in array[1]:
             marker = ""
             term = array[1]
             if " x " not in term and " y " not in term:
                  term = term.split(" ")[1]
-            return [AdjectivePredicateFrameMit(term,uri)]
+                 return [AdjectivePredicateFrameMit(term,uri)]
         
     
     if len(array)==4:
@@ -193,14 +192,14 @@ def germanMapping(pattern,uri):
             term = array[1]
             if " x " not in term and " y " not in term:
                  term = term.split(" ")[1]
-            return [NounPPFrame(term,uri,marker)]
+                 return [NounPPFrame(term,uri,marker)]
         
         if " v vvfin " in array[1] and " n nn " in array[2]:
             marker = ""
             term = array[1]
             if " x " not in term and " y " not in term:
                  term = term.split(" ")[1]
-            return [TransitiveFrame(term, uri,marker),TransitiveFrame(stemmer.stem(term), uri,marker)]
+                 return [TransitiveFrame(term, uri,marker),TransitiveFrame(stemmer.stem(term), uri,marker)]
             #return [TransitiveFrame(term, uri,marker)]
         
         if " v vvpp " in array[1] and " prep appr " in array[2]:
@@ -210,7 +209,7 @@ def germanMapping(pattern,uri):
             term = array[1]
             if " x " not in term and " y " not in term:
                  term = term.split(" ")[1]
-            return [AdjectivePredicateFrameMarker(term,uri,marker)]
+                 return [AdjectivePredicateFrameMarker(term,uri,marker)]
         
     if len(array) == 5:
         if " v vvpp " in array[1] and " prep appr " in array[2]:
@@ -220,7 +219,7 @@ def germanMapping(pattern,uri):
             term = array[1]
             if " x " not in term and " y " not in term:
                  term = term.split(" ")[1]
-            return [AdjectivePredicateFrameMarker(term,uri,marker)]
+                 return [AdjectivePredicateFrameMarker(term,uri,marker)]
         
         
         
@@ -233,14 +232,89 @@ def spanishMapping(pattern,uri):
             term = array[1]
             if " x " not in term and " y " not in term:
                  term = term.split(" ")[1]
-            return [NounPPFrame(term,uri,marker)]
+                 return [NounPPFrame(term,uri,marker)]
+             
+        if " np np " in array[1]:
+            marker = ""
+            term = array[1]
+            if " x " not in term and " y " not in term:
+                 term = term.split(" ")[1]
+                 return [NounPPFrame(term,uri,marker)]
+        
+        if " vladj vladj " in array[1]:
+            marker = ""
+            term = array[1]
+            if " x " not in term and " y " not in term:
+                 term = term.split(" ")[1]
+                 return [AdjectivePredicateFrameCon(term,uri,marker)]
+        
+         
+        
+        
+        
     if len(array) == 4:
+        
+        
+        if " vladj vladj " in array[1]:
+            marker = array[2]
+            term = array[1]
+            if " x " not in marker and " y " not in marker:
+                marker = marker.split(" ")[1]
+            if " x " not in term and " y " not in term:
+                 term = term.split(" ")[1]
+                 return [AdjectivePredicateFrameMarker(term,uri,marker)]
+             
+             
         if " nc nc " in array[1] and " fs fs " in array[2]:
             marker = ""
             term = array[1]
             if " x " not in term and " y " not in term:
                  term = term.split(" ")[1]
-            return [NounPPFrame(term,uri,marker)]
+                 return [NounPPFrame(term,uri,marker)]
+        
+        if " nc nc " in array[1] and " prep prep  " in array[2]:
+            marker = ""
+            term = array[1]
+            if " x " not in term and " y " not in term:
+                 term = term.split(" ")[1]
+                 return [NounPPFrame(term,uri,marker)]
+        
+        if " np np " in array[1] and " prep prep  " in array[2]:
+            marker = ""
+            term = array[1]
+            if " x " not in term and " y " not in term:
+                 term = term.split(" ")[1]
+                 return [NounPPFrame(term,uri,marker)]
+             
+        if " adj adj " in array[1] and " prep prep  " in array[2]:
+            marker = ""
+            marker = array[2]
+            if " x " not in marker and " y " not in marker:
+                 marker = marker.split(" ")[1]
+            term = array[1]
+            if " x " not in term and " y " not in term:
+                 term = term.split(" ")[1]
+                 return [AdjectivePredicateFrameMarker(term,uri,marker)]  
+             
+             
+        if " adj adj " in array[1]:
+            marker = ""
+            marker = array[2]
+            if " x " not in marker and " y " not in marker:
+                 marker = marker.split(" ")[1]
+            term = array[1]
+            if " x " not in term and " y " not in term:
+                 term = term.split(" ")[1]
+                 return [AdjectivePredicateFrameMarker(term,uri,marker)]  
+             
+
+         
+        if " np np " in array[1]:
+            marker = ""
+            term = array[1]
+            if " x " not in term and " y " not in term:
+                 term = term.split(" ")[1]
+                 return [NounPPFrame(term,uri,marker)]
         
     
     return []
@@ -266,11 +340,21 @@ def createLexiconEntry(pattern,uri,Wiktionary, term = None):
         language = "English"
         return englishMapping(pattern,uri)
     elif config.get('system_language', 'language') == "German":
-        language = "German"
-        return germanMapping(pattern,uri)
+        try:
+            language = "German"
+            return germanMapping(pattern,uri)
+        except:
+            print "error in German mapping with pattern "+pattern
+            print "Unexpected error:", sys.exc_info()[0]
+            raw_input("error")
     elif config.get('system_language', 'language') == "Spanish":
-        language = "Spanish"
-        return spanishMapping(pattern,uri)
+        try:
+            language = "Spanish"
+            return spanishMapping(pattern,uri)
+        except:
+            print "error in Spanish mapping with pattern "+pattern
+            print "Unexpected error:", sys.exc_info()[0]
+            raw_input("error")
     else:
         return []
         
@@ -334,6 +418,10 @@ def TransitiveFrame(term, reference,marker):
     return entry
 
 
+
+
+
+
 def AdjectivePredicateFrame(term, reference, marker=None):
     """
     Creates an AdjectivePredicateFrame entry for a given label, reference and marker
@@ -353,6 +441,17 @@ def AdjectivePredicateFrameMit(term, reference, marker=None):
 
     term = term.replace(";","")
     entry = "RelationalAdjective(\""+term+"\",<"+reference+">,relationalArg = PrepositionalObject(\"mit\"))"
+    return entry
+
+
+def AdjectivePredicateFrameCon(term, reference, marker=None):
+    """
+    Creates an AdjectivePredicateFrame entry for a given label, reference and marker
+    """
+#     reference = reference.replace("http://dbpedia.org/ontology/","dbpedia:")
+
+    term = term.replace(";","")
+    entry = "RelationalAdjective(\""+term+"\",<"+reference+">,relationalArg = PrepositionalObject(\"con\"))"
     return entry
 
 def AdjectivePredicateFrameMarker(term, reference, marker):
