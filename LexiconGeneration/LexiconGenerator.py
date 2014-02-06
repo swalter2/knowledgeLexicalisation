@@ -89,7 +89,7 @@ def englishMapping(pattern,uri):
             if len(term)<3:
                 return []
             if term != "x" and term != "y":
-                entry = NounPPFrame(term,uri,{})
+                entry = NounPPFrame(term,uri,"")
                 return [entry]
             
         elif (" nn" in array[1]) and ("dep" in array[1] or " null" in array[1]): 
@@ -128,16 +128,14 @@ def englishMapping(pattern,uri):
             
         elif (" nn" in array[1]) and ("sub" in array[1] or "obj" in array[1] or " null" in array[1]): 
             marker = array[2]
-            hm = {}
             if " x " not in marker and " y " not in marker:
                  marker = marker.split(" ")[1]
-                 hm[marker] = ""
             term = array[1]
             term = term.split(" ")[1]
             if len(term)<3:
                 return []
             if term != "x" and term != "y":
-                entry = NounPPFrame(term,uri,hm)
+                entry = NounPPFrame(term,uri,marker)
                 return [entry]
             
         elif (" nn" in array[1]) and ("dep" in array[1] or " null" in array[1]): 
@@ -225,7 +223,7 @@ def germanMapping(pattern,uri):
         
 def spanishMapping(pattern,uri):
     array = pattern.split("  ")
-    
+
     if len(array) == 3:
         if " nc nc " in array[1]:
             marker = ""
@@ -272,21 +270,21 @@ def spanishMapping(pattern,uri):
                  term = term.split(" ")[1]
                  return [NounPPFrame(term,uri,marker)]
         
-        if " nc nc " in array[1] and " prep prep  " in array[2]:
+        if " nc nc " in array[1] and " prep prep " in array[2]:
             marker = ""
             term = array[1]
             if " x " not in term and " y " not in term:
                  term = term.split(" ")[1]
                  return [NounPPFrame(term,uri,marker)]
         
-        if " np np " in array[1] and " prep prep  " in array[2]:
+        if " np np " in array[1] and " prep prep " in array[2]:
             marker = ""
             term = array[1]
             if " x " not in term and " y " not in term:
                  term = term.split(" ")[1]
                  return [NounPPFrame(term,uri,marker)]
              
-        if " adj adj " in array[1] and " prep prep  " in array[2]:
+        if " adj adj " in array[1] and " prep prep " in array[2]:
             marker = ""
             marker = array[2]
             if " x " not in marker and " y " not in marker:
@@ -316,7 +314,21 @@ def spanishMapping(pattern,uri):
                  term = term.split(" ")[1]
                  return [NounPPFrame(term,uri,marker)]
         
-    
+        
+        
+    if len(array) == 5:
+        
+        if " vsfin " in array[1] and  " nc nc " in array[2] and " prep prep " in array[3]:
+            marker = ""
+            marker = array[3]
+            if " x " not in marker and " y " not in marker:
+                marker = marker.split(" ")[1]
+            term = array[2]
+            if " x " not in term and " y " not in term:
+                 term = term.split(" ")[1]
+                 #print ("term",term)
+                 return [NounPPFrame(term,uri,marker)]
+             
     return []
         
         
@@ -342,6 +354,7 @@ def createLexiconEntry(pattern,uri,Wiktionary, term = None):
     elif config.get('system_language', 'language') == "German":
         try:
             language = "German"
+            #print language
             return germanMapping(pattern,uri)
         except:
             print "error in German mapping with pattern "+pattern
@@ -350,6 +363,7 @@ def createLexiconEntry(pattern,uri,Wiktionary, term = None):
     elif config.get('system_language', 'language') == "Spanish":
         try:
             language = "Spanish"
+            #print language
             return spanishMapping(pattern,uri)
         except:
             print "error in Spanish mapping with pattern "+pattern
@@ -484,11 +498,7 @@ def NounPPFrame(term,reference,marker):
     """
     Creates an NounPPFrame entry for a given label, reference and marker
     """
-#     reference = reference.replace("http://dbpedia.org/ontology/","dbpedia:")
 
-    marker_a = []
-    for key in marker:
-        marker_a.append(key)
     term = term.replace(";","")
     entry = ""
     #beim generieren der Pattern wird entschieden, was fuer ein frame gegeben ist, abhaengig dvon, ob eine praeposition gegeben ist oder nicht
@@ -496,7 +506,7 @@ def NounPPFrame(term,reference,marker):
         entry = "RelationalNoun(\""+term+"\",<"+reference+">, propSubj = PossessiveAdjunct, propObj  = CopulativeArg)"
         return entry
     else:
-        entry = "RelationalNoun(\""+term+"\",<"+reference+">, propSubj = PrepositionalObject(\""+marker_a[0]+"\"), propObj  = CopulativeArg)"
+        entry = "RelationalNoun(\""+term+"\",<"+reference+">, propSubj = PrepositionalObject(\""+marker+"\"), propObj  = CopulativeArg)"
         return entry
 
 
