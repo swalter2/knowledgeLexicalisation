@@ -218,118 +218,203 @@ def germanMapping(pattern,uri):
             if " x " not in term and " y " not in term:
                  term = term.split(" ")[1]
                  return [AdjectivePredicateFrameMarker(term,uri,marker)]
-        
-        
-        
-def spanishMapping(pattern,uri):
-    array = pattern.split("  ")
-
-    if len(array) == 3:
-        if " nc nc " in array[1]:
-            marker = ""
-            term = array[1]
-            if " x " not in term and " y " not in term:
-                 term = term.split(" ")[1]
-                 return [NounPPFrame(term,uri,marker)]
              
-        if " np np " in array[1]:
-            marker = ""
-            term = array[1]
-            if " x " not in term and " y " not in term:
-                 term = term.split(" ")[1]
-                 return [NounPPFrame(term,uri,marker)]
-        
-        if " vladj vladj " in array[1]:
-            marker = ""
-            term = array[1]
-            if " x " not in term and " y " not in term:
-                 term = term.split(" ")[1]
-                 return [AdjectivePredicateFrameCon(term,uri,marker)]
-        
-         
-        
-        
-        
-    if len(array) == 4:
-        
-        
-        if " vladj vladj " in array[1]:
-            marker = array[2]
-            term = array[1]
-            if " x " not in marker and " y " not in marker:
-                marker = marker.split(" ")[1]
-            if " x " not in term and " y " not in term:
-                 term = term.split(" ")[1]
-                 return [AdjectivePredicateFrameMarker(term,uri,marker)]
-             
-             
-        if " nc nc " in array[1] and " fs fs " in array[2]:
-            marker = ""
-            term = array[1]
-            if " x " not in term and " y " not in term:
-                 term = term.split(" ")[1]
-                 return [NounPPFrame(term,uri,marker)]
-        
-        if " nc nc " in array[1] and " prep prep " in array[2]:
-            marker = ""
-            term = array[1]
-            if " x " not in term and " y " not in term:
-                 term = term.split(" ")[1]
-                 return [NounPPFrame(term,uri,marker)]
-        
-        if " np np " in array[1] and " prep prep " in array[2]:
-            marker = ""
-            term = array[1]
-            if " x " not in term and " y " not in term:
-                 term = term.split(" ")[1]
-                 return [NounPPFrame(term,uri,marker)]
-             
-        if " adj adj " in array[1] and " prep prep " in array[2]:
-            marker = ""
-            marker = array[2]
-            if " x " not in marker and " y " not in marker:
-                 marker = marker.split(" ")[1]
-            term = array[1]
-            if " x " not in term and " y " not in term:
-                 term = term.split(" ")[1]
-                 return [AdjectivePredicateFrameMarker(term,uri,marker)]  
-             
-             
-        if " adj adj " in array[1]:
-            marker = ""
-            marker = array[2]
-            if " x " not in marker and " y " not in marker:
-                 marker = marker.split(" ")[1]
-            term = array[1]
-            if " x " not in term and " y " not in term:
-                 term = term.split(" ")[1]
-                 return [AdjectivePredicateFrameMarker(term,uri,marker)]  
-             
-
-         
-        if " np np " in array[1]:
-            marker = ""
-            term = array[1]
-            if " x " not in term and " y " not in term:
-                 term = term.split(" ")[1]
-                 return [NounPPFrame(term,uri,marker)]
-        
-        
-        
-    if len(array) == 5:
-        
-        if " vsfin " in array[1] and  " nc nc " in array[2] and " prep prep " in array[3]:
-            marker = ""
+        if " nn " in array[2] and " prep " in array[3]:
             marker = array[3]
             if " x " not in marker and " y " not in marker:
-                marker = marker.split(" ")[1]
+                 marker = marker.split(" ")[1]
             term = array[2]
             if " x " not in term and " y " not in term:
                  term = term.split(" ")[1]
-                 #print ("term",term)
                  return [NounPPFrame(term,uri,marker)]
-             
+        
     return []
+        
+def spanishMapping(pattern,uri):
+    array = pattern.split("  ")
+    
+    if len(array)==3:
+        if " principal " in array[1]:
+                marker = ""
+                term = array[1]
+                if " x " not in term and " y " not in term :                           
+                    term = term.split(" ")[1]
+                    if len(term)> 2:
+                        return [TransitiveFrame(term,uri,marker)]    
+                
+    if len(array)== 4:
+        if " calificativo " in array[1] and " preposicion " in array[2]:
+            marker = array[2]
+            term = array[1]
+            if " x " not in marker and " y " not in marker:
+                marker = marker.split(" ")[1]
+            if " x " not in term and " y " not in term:
+                term = term.split(" ")[1]
+                if len(term)> 2:
+                    return [NounPPFrame(term,uri,marker)]
+            
+        if " comun " in array[1] and (" preposicion " in array[2] or " ordinal "in array[2]):
+            marker = array[2]
+            term = array[1]
+            if " x " not in marker and " y " not in marker:
+                marker = marker.split(" ")[1]
+            if " x " not in term and " y " not in term:
+                term = term.split(" ")[1]
+                if len(term)> 2:
+                    if marker == "con":
+                        return [AdjectivePredicateFrameMarker(term,uri,marker)]
+                    else:
+                        return [NounPPFrame(term,uri,marker)]
+            
+            
+            
+    if len(array)== 5:
+        if " calificativo " in array[1] and " preposicion " in array[2]:
+            marker = array[2]
+            term = array[1]
+            if " x " not in marker and " y " not in marker:
+                marker = marker.split(" ")[1]
+            if " x " not in term and " y " not in term:
+                term = term.split(" ")[1]
+                if len(term)> 2:
+                    return [NounPPFrame(term,uri,marker)]
+                
+                
+        if " calificativo " in array[2] and " preposicion " in array[3]:
+            marker = array[3]
+            term = array[2]
+            if " x " not in marker and " y " not in marker:
+                marker = marker.split(" ")[1]
+            if " x " not in term and " y " not in term:
+                term = term.split(" ")[1]
+                if len(term)> 2:
+                    return [NounPPFrame(term,uri,marker)]
+                
+                
+        if " comun " in array[2] and (" preposicion " in array[3] or " ordinal "in array[2]):
+            marker = array[3]
+            term = array[2]
+            if " x " not in marker and " y " not in marker:
+                marker = marker.split(" ")[1]
+            if " x " not in term and " y " not in term:
+                term = term.split(" ")[1]
+                if len(term)> 2:
+                    if marker == "con":
+                        return [AdjectivePredicateFrameMarker(term,uri,marker)]
+                    else:
+                        return [NounPPFrame(term,uri,marker)]
+            
+    return []
+            
+# def spanishMapping(pattern,uri):
+#     array = pattern.split("  ")
+# 
+#     if len(array) == 3:
+#         if " nc nc " in array[1]:
+#             marker = ""
+#             term = array[1]
+#             if " x " not in term and " y " not in term:
+#                  term = term.split(" ")[1]
+#                  return [NounPPFrame(term,uri,marker)]
+#              
+#         if " np np " in array[1]:
+#             marker = ""
+#             term = array[1]
+#             if " x " not in term and " y " not in term:
+#                  term = term.split(" ")[1]
+#                  return [NounPPFrame(term,uri,marker)]
+#         
+#         if " vladj vladj " in array[1]:
+#             marker = ""
+#             term = array[1]
+#             if " x " not in term and " y " not in term:
+#                  term = term.split(" ")[1]
+#                  return [AdjectivePredicateFrameCon(term,uri,marker)]
+#         
+#          
+#         
+#         
+#         
+#     if len(array) == 4:
+#         
+#         
+#         if " vladj vladj " in array[1]:
+#             marker = array[2]
+#             term = array[1]
+#             if " x " not in marker and " y " not in marker:
+#                 marker = marker.split(" ")[1]
+#             if " x " not in term and " y " not in term:
+#                  term = term.split(" ")[1]
+#                  return [AdjectivePredicateFrameMarker(term,uri,marker)]
+#              
+#              
+#         if " nc nc " in array[1] and " fs fs " in array[2]:
+#             marker = ""
+#             term = array[1]
+#             if " x " not in term and " y " not in term:
+#                  term = term.split(" ")[1]
+#                  return [NounPPFrame(term,uri,marker)]
+#         
+#         if " nc nc " in array[1] and " prep prep " in array[2]:
+#             marker = ""
+#             term = array[1]
+#             if " x " not in term and " y " not in term:
+#                  term = term.split(" ")[1]
+#                  return [NounPPFrame(term,uri,marker)]
+#         
+#         if " np np " in array[1] and " prep prep " in array[2]:
+#             marker = ""
+#             term = array[1]
+#             if " x " not in term and " y " not in term:
+#                  term = term.split(" ")[1]
+#                  return [NounPPFrame(term,uri,marker)]
+#              
+#         if " adj adj " in array[1] and " prep prep " in array[2]:
+#             marker = ""
+#             marker = array[2]
+#             if " x " not in marker and " y " not in marker:
+#                  marker = marker.split(" ")[1]
+#             term = array[1]
+#             if " x " not in term and " y " not in term:
+#                  term = term.split(" ")[1]
+#                  return [AdjectivePredicateFrameMarker(term,uri,marker)]  
+#              
+#              
+#         if " adj adj " in array[1]:
+#             marker = ""
+#             marker = array[2]
+#             if " x " not in marker and " y " not in marker:
+#                  marker = marker.split(" ")[1]
+#             term = array[1]
+#             if " x " not in term and " y " not in term:
+#                  term = term.split(" ")[1]
+#                  return [AdjectivePredicateFrameMarker(term,uri,marker)]  
+#              
+# 
+#          
+#         if " np np " in array[1]:
+#             marker = ""
+#             term = array[1]
+#             if " x " not in term and " y " not in term:
+#                  term = term.split(" ")[1]
+#                  return [NounPPFrame(term,uri,marker)]
+#         
+#         
+#         
+#     if len(array) == 5:
+#         
+#         if " vsfin " in array[1] and  " nc nc " in array[2] and " prep prep " in array[3]:
+#             marker = ""
+#             marker = array[3]
+#             if " x " not in marker and " y " not in marker:
+#                 marker = marker.split(" ")[1]
+#             term = array[2]
+#             if " x " not in term and " y " not in term:
+#                  term = term.split(" ")[1]
+#                  #print ("term",term)
+#                  return [NounPPFrame(term,uri,marker)]
+#              
+#     return []
         
         
 def createLexiconEntry(pattern,uri,Wiktionary, term = None):
@@ -359,7 +444,7 @@ def createLexiconEntry(pattern,uri,Wiktionary, term = None):
         except:
             print "error in German mapping with pattern "+pattern
             print "Unexpected error:", sys.exc_info()[0]
-            raw_input("error")
+        #raw_input("error")
     elif config.get('system_language', 'language') == "Spanish":
         try:
             language = "Spanish"
@@ -368,7 +453,7 @@ def createLexiconEntry(pattern,uri,Wiktionary, term = None):
         except:
             print "error in Spanish mapping with pattern "+pattern
             print "Unexpected error:", sys.exc_info()[0]
-            raw_input("error")
+            #raw_input("error")
     else:
         return []
         

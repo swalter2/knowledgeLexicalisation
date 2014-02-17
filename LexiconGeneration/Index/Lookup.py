@@ -129,7 +129,7 @@ def simpleCombineNNP_Spanish(array,x_variable,y_variable):
             y = y_variable.split(" ")
             if tmp[0] in x[0] and  tmp1[0] in x[1]:
                 toReplace = "('"+tmp[0]+"', '"+tmp[1]+"'), ('"+tmp1[0]+"', '"+tmp1[1]+"')"
-                replaceWith = "('"+tmp[0]+tmp1[0]+"', 'NP')"
+                replaceWith = "('"+tmp[0]+tmp1[0]+"', 'Propio')"
                 sentence = sentence.replace(toReplace,replaceWith)
                 foundx = True
                 print ("sentence after x",sentence)
@@ -137,7 +137,7 @@ def simpleCombineNNP_Spanish(array,x_variable,y_variable):
                 
             if tmp[0] in y[0] and  tmp1[0] in y[1]:
                 toReplace = "('"+tmp[0]+"', '"+tmp[1]+"'), ('"+tmp1[0]+"', '"+tmp1[1]+"')"
-                replaceWith = "('"+tmp[0]+tmp1[0]+"', 'NP')"
+                replaceWith = "('"+tmp[0]+tmp1[0]+"', 'Propio')"
                 sentence = sentence.replace(toReplace,replaceWith)
                 foundy = True
                 print ("sentence after y",sentence)
