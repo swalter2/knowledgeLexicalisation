@@ -306,6 +306,8 @@ def spanishMapping(pattern,uri):
             
     return []
             
+            
+            
 # def spanishMapping(pattern,uri):
 #     array = pattern.split("  ")
 # 

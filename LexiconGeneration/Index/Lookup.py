@@ -223,14 +223,7 @@ def combineNNP(array,x_variable,y_variable,language):
     
     if foundx == False or foundy == False:
         tmp_array = []
-#         print ("y_variable",y_variable)
-#         print ("x_variable",x_variable)
-#         print ("array",array)
-#         print ("new_array",new_array)
-#         print ("foundx",foundx)
-#         print ("foundy",foundy)
-#         print
-#         print
+
         
         for e in new_array:
             
