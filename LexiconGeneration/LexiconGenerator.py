@@ -269,6 +269,19 @@ def spanishMapping(pattern,uri):
             
             
     if len(array)== 5:
+        
+        
+        if " semiauxiliar " in array[1] and " calificativo " in array[2] and " preposicion " in array[3]:
+            marker = array[3]
+            term = array[2]
+            if " x " not in marker and " y " not in marker:
+                marker = marker.split(" ")[1]
+            if " x " not in term and " y " not in term:
+                term = term.split(" ")[1]
+                if len(term)> 2:
+                    return [AdjectivePredicateFrameMarker(term,uri,marker)]
+                
+                
         if " calificativo " in array[1] and " preposicion " in array[2]:
             marker = array[2]
             term = array[1]
