@@ -7,4 +7,4 @@ tool to create lemon lexicons out of natural language sentences, using a top-dow
 Information
 =======================
 This is my private development repository, a nice clean, Java-based service will be up soon.
-For mor questions, please contact me: swalter at techfak.uni-bielefeld.de
+For more questions, please contact me: swalter at techfak.uni-bielefeld.de
